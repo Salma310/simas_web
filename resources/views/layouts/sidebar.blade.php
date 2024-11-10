@@ -13,7 +13,7 @@
             <!-- Data Event Section -->
             <li class="nav-header">Data Event</li>
             <li class="nav-item">
-                <a href="{{ url('/event') }}" class="nav-link">
+                <a href="{{ url('/event') }}" class="nav-link {{ $activeMenu == 'event' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>

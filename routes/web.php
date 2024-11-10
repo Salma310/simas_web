@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 
 /*
@@ -15,3 +16,6 @@ use App\Http\Controllers\WelcomeController;
 */
 
 Route::get('/', [WelcomeController::class, 'index']);
+
+
+Route::get('/event', [EventController::class, 'index']);
