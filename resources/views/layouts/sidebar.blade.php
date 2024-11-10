@@ -73,6 +73,6 @@
         color: #4894FE !important;
     }
     .nav-item.logout{
-        margin-top:270px;
+        margin-top:250px;
     }
 </style>
