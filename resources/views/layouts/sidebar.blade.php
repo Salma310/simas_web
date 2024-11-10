@@ -53,7 +53,7 @@
                 </a>
             </li>
             <!-- Button Logout -->
-            <li class="nav-item-logout">
+            <li class="nav-item logout">
                 <a href="{{ url('/logout') }}" class="nav-link"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-power-off"></i>
@@ -72,7 +72,7 @@
         background-color: #E0E0E0 !important;
         color: #4894FE !important;
     }
-    .nav-item-logout{
-        margin-top:250px;
+    .nav-item.logout{
+        margin-top:270px;
     }
 </style>
