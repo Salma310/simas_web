@@ -154,7 +154,7 @@
     <thead>
      <tr>
       <th>
-       Event ID
+       No
       </th>
       <th>
        Event Name
@@ -466,8 +466,7 @@
         </i>
        </button>
        <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
+        <i class="fas fa-trash"></i>
        </button>
       </td>
      </tr>
