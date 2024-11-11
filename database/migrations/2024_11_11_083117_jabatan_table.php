@@ -5,16 +5,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('m_role', function (Blueprint $table) {
-            $table->id('role_id');
-            $table->string('role_name');
-            $table->string('role_code')->unique();
+        Schema::create('m_jabatan', function (Blueprint $table) {
+            $table->id('jabatan_id');
+            $table->string('jabatan_name');
+            $table->string('jabatan_code')->unique();
+            $table->float('point');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
     public function down() {
-        Schema::dropIfExists('m_role');
+        Schema::dropIfExists('m_jabatan');
     }
 };

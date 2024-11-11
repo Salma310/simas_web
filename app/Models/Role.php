@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RoleModel extends Model
+class Role extends Model
 {
     use HasFactory;
 
@@ -18,9 +18,9 @@ class RoleModel extends Model
 
     protected $fillable = ['role_id', 'role_kode', 'role_nama'];
 
-    public function user()
+    public function users()
     {
-        return $this->hasMany(UserModel::class, 'role_id', 'role_id');
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id');
     }
 
 }
