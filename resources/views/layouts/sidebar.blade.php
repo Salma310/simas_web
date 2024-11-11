@@ -19,7 +19,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/jenis') }}" class="nav-link">
+                <a href="{{ url('/jenis') }}" class="nav-link {{ $activeMenu == 'jenis event' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-table"></i>
                     <p>Jenis Event</p>
                 </a>
@@ -30,7 +30,7 @@
             <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
-                    <p>User</p>
+                    <p>List User</p>
                 </a>
             </li>
             <li class="nav-item border-bottom border-light">
@@ -53,6 +53,7 @@
                 </a>
             </li>
             <!-- Button Logout -->
+            <li class="nav-header">Log Out</li>
             <li class="nav-item logout">
                 <a href="{{ url('/logout') }}" class="nav-link"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -71,8 +72,5 @@
     .nav-sidebar .nav-link.active {
         background-color: #E0E0E0 !important;
         color: #4894FE !important;
-    }
-    .nav-item.logout{
-        margin-top:250px;
     }
 </style>

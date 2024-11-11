@@ -22,7 +22,7 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <h4 class="mt-1 font-weight-bold">{{ ucfirst($activeMenu) }}</h4>
+      <h4 class="mt-1 font-weight-bold">{{ ucwords($activeMenu) }}</h4>
     </ul>
 
     <!-- Right navbar links -->

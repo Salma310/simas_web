@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\JenisEventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,4 @@ Route::get('/', [WelcomeController::class, 'index']);
 
 
 Route::get('/event', [EventController::class, 'index']);
+Route::get('/jenis', [JenisEventController::class, 'index']);

@@ -11,20 +11,19 @@
    body {
             background-color: #f5f5f7;
         }
-        .container {
-            margin: 20px auto;
-            max-width: 1200px;
+        .card {
+            /* margin: 20px auto; */
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .btn {
+        .btn-first {
             display: inline-block;
             padding: 10px 20px;
             margin-right: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
         }
@@ -41,9 +40,7 @@
             background-color: #f8f9fa;
             color: #6c757d;
             border: 1px solid #dee2e6;
-        }
-        .btn i {
-            margin-right: 5px;
+            border-radius: 15px;
         }
         .search-bar {
             display: flex;
@@ -127,16 +124,16 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        .header .btn-group {
+        .header .btn-first{
             display: flex;
             gap: 10px;
         }
   </style>
  </head>
  <body>
-  <div class="container">
+  <div class="card">
    <div class="header">
-    <div class="btn-group">
+    <div class="btn-group btn-first">
      <button class="btn btn-outline-secondary">
       <span>&#x1F50D;</span>
       Filters
@@ -193,18 +190,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -226,18 +225,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -259,18 +260,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -292,18 +295,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -325,18 +330,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -358,18 +365,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -391,18 +400,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -424,18 +435,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash">
-        </i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
      <tr>
@@ -457,17 +470,20 @@
        </span>
       </td>
       <td>
-       <button class="btn btn-light">
-        <i class="fas fa-qrcode">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-edit">
-        </i>
-       </button>
-       <button class="btn btn-light">
-        <i class="fas fa-trash"></i>
-       </button>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
       </td>
      </tr>
     </tbody>
