@@ -15,7 +15,7 @@ class ProfileModel extends Model
     public $timestamps =true;
     public $incrementing = true;
 
-    protected $fillable = ['profile_id', 'user_id', 'name', 'nidn','phone', 'picture'];
+    protected $fillable = ['profile_id', 'user_id', 'name', 'nidn','phone', 'avatar'];
 
     public function user()
     {
