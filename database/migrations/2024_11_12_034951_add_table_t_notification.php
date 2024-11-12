@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('t_notification', function (Blueprint $table) {
             $table->id('notification_id');
-            $table->unsignedBigInteger('user_id');
+            // Menghapus kolom 'user_id' dan 'agenda_id'
             $table->unsignedBigInteger('event_id')->nullable();
-            $table->unsignedBigInteger('agenda_id')->nullable();
             $table->string('title');
             $table->text('message');
             $table->string('type');
@@ -23,9 +22,8 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('user_id')->references('user_id')->on('m_user');
+            // Menambahkan foreign key hanya untuk 'event_id'
             $table->foreign('event_id')->references('event_id')->on('m_event');
-            $table->foreign('agenda_id')->references('agenda_id')->on('t_agenda');
         });
     }
 
