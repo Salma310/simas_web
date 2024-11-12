@@ -30,10 +30,11 @@ class User extends Model
         return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
     }
 
-    public function profile()
-    {
-        return $this->hasOne(Profile::class);
-    }
+    public function profil()
+{
+    return $this->hasOne(Profil::class);
+}
+
 
     public function notifications()
     {
