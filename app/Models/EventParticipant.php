@@ -10,11 +10,12 @@ class EventParticipant extends Model
     use HasFactory;
 
     protected $table = 'event_participants';
+    protected $primaryKey = 'participant_id';
     protected $fillable = ['event_id', 'user_id', 'jabatan_id'];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function position()
@@ -24,6 +25,6 @@ class EventParticipant extends Model
 
     public function event()
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     }
 }

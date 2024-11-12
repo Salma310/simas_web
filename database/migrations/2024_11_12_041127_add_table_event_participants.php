@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('agenda_assignee', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('agenda_id');
+        Schema::create('event_participants', function (Blueprint $table) {
+            $table->id('participant_id');
+            $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('jabatan_id');
-            $table->string('document_progress');
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
-            $table->foreign('agenda_id')->references('agenda_id')->on('t_agenda');
+            $table->foreign('event_id')->references('event_id')->on('m_event');
             $table->foreign('user_id')->references('user_id')->on('m_user');
             $table->foreign('jabatan_id')->references('jabatan_id')->on('m_jabatan');
         });
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('agenda_assignee');
+        Schema::dropIfExists('event_participants');
     }
 };

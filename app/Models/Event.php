@@ -15,17 +15,17 @@ class Event extends Model
 
     public function eventParticipants()
     {
-        return $this->hasMany(EventParticipant::class);
+        return $this->hasMany(EventParticipant::class, 'participant_id');
     }
 
     public function agenda()
     {
-        return $this->hasMany(Agenda::class);
+        return $this->hasMany(Agenda::class, 'agenda_id');
     }
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class, 'notification_id');
     }
 
     public function eventType()
