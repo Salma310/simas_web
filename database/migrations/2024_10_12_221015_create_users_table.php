@@ -10,11 +10,12 @@ return new class extends Migration {
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('auth_token');
-            $table->string('device_token');
             $table->string('name');
+            $table->string('nidn');
             $table->string('phone');
             $table->string('picture');
+            $table->string('auth_token');
+            $table->string('device_token');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
