@@ -21,6 +21,8 @@ class UserSeeder extends Seeder
                 'role_id' => 1,
                 'username' => 'admin',
                 'email' => 'admin@example.com',
+                'name' => 'Saya Admin',
+                'phone' => '085678942314',
                 'password' => Hash::make('12345'), // class untuk mengenkripsi/hash password
             ],
             [
@@ -28,12 +30,16 @@ class UserSeeder extends Seeder
                 'role_id' => 2,
                 'username' => 'pimpinan',
                 'email' => 'pimpinan@example.com',
+                'name' => 'Saya Admin',
+                'phone' => '085678942314',
                 'password' => Hash::make('12345'), 
             ],
             [
                 'user_id' => 3,
                 'role_id' => 3,
                 'username' => 'dosen',
+                'name' => 'Saya Admin',
+                'phone' => '085678942314',
                 'email' => 'dosen@example.com',
                 'password' => Hash::make('12345'), 
             ],
