@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('event_id')->nullable();
             $table->string('title');
             $table->text('message');
-            $table->string('type');
             $table->boolean('is_read')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
