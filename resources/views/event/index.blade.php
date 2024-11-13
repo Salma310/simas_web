@@ -15,9 +15,20 @@
             /* margin: 20px auto; */
             padding: 20px;
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
         .btn-first {
             display: inline-block;
             padding: 10px 20px;
@@ -42,17 +53,28 @@
             border: 1px solid #dee2e6;
             border-radius: 15px;
         }
-        .search-bar {
+        .header .search-box {
             display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
+            align-items: center;
+            position: relative;
         }
-        .search-bar input {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
+        .header .search-box input {
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            width: 250px;
+            transition: all 0.3s ease;
         }
+        .header .search-box input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .header .search-box i {
+            position: absolute;
+            right: 15px;
+            color: #aaa;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -67,6 +89,9 @@
         }
         th {
             background-color: #f8f9fa;
+        }
+        tr:hover td{
+            background-color: #f1f1f1;
         }
         .status-completed {
             background-color: #c3f7e2;
@@ -131,7 +156,6 @@
   </style>
  </head>
  <body>
-  <div class="card">
    <div class="header">
     <div class="btn-group btn-first">
      <button class="btn btn-outline-secondary">
@@ -143,11 +167,14 @@
       Add Event
      </button>
     </div>
+    <div class="search-box">
+     <input id="searchInput" onkeyup="searchTable()" placeholder="Search" type="text"/>
+     <i class="fas fa-search">
+     </i>
+    </div>
    </div>
-   <div class="search-bar">
-    <input class="form-control" placeholder="Search" type="text"/>
-   </div>
-   <table class="table table-bordered">
+   <div class="card">
+   <table class="table table-bordered" id="eventTable">
     <thead>
      <tr>
       <th>
@@ -508,7 +535,29 @@
     </nav>
    </div>
   </div>
+  <script>
+    function searchTable() {
+             var input, filter, table, tr, td, i, j, txtValue;
+             input = document.getElementById("searchInput");
+             filter = input.value.toUpperCase();
+             table = document.getElementById("eventTable");
+             tr = table.getElementsByTagName("tr");
+
+             for (i = 1; i < tr.length; i++) {
+                 tr[i].style.display = "none";
+                 td = tr[i].getElementsByTagName("td");
+                 for (j = 0; j < td.length; j++) {
+                     if (td[j]) {
+                         txtValue = td[j].textContent || td[j].innerText;
+                         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                             tr[i].style.display = "";
+                             break;
+                         }
+                     }
+                 }
+             }
+         }
+   </script>
  </body>
 </html>
-
 @endsection
