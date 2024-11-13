@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\APIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,9 @@ Route::post('events', [App\Http\Controllers\Api\EventController::class, 'store']
 Route::get('events/{event}', [App\Http\Controllers\Api\EventController::class, 'show']);
 Route::put('events/{event}', [App\Http\Controllers\Api\EventController::class, 'update']);
 Route::delete('events/{event}', [App\Http\Controllers\Api\EventController::class, 'destroy']);
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post("/all_data", [APIController::class, "index"]);
