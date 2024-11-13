@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>PORTAL SIMAS</title>
+    <title>PORTAL SIMAS - Forgot Password</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -39,8 +38,7 @@
             color: black;
         }
 
-
-        .login-container {
+        .forgot-password-container {
             position: absolute;
             top: 50%;
             right: 10%;
@@ -52,19 +50,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .welcome-text {
-            margin-bottom: 30px;
-        }
-
-        .welcome-text h2 {
-            color: #333;
+        .form-title {
             font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .welcome-text .simas-text {
-            color: #2196F3;
-            font-weight: bold;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
         .form-control {
@@ -77,20 +67,10 @@
         .form-label {
             color: #666;
             margin-bottom: 8px;
-        }
-
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
-        .forgot-password a {
-            color: #2196F3;
-            text-decoration: none;
             font-size: 0.9em;
         }
 
-        .btn-signin {
+        .btn-confirm {
             background: #2196F3;
             color: white;
             width: 100%;
@@ -101,26 +81,26 @@
             margin-top: 10px;
         }
 
-        .btn-signin:hover {
+        .btn-confirm:hover {
             background: #1976D2;
             color: white;
         }
+
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
-
+<body>
 <body>
     <div class="logo">
         <img src="{{ asset('images/jti.png') }}" alt="Logo">
         <div class="logo-text">PORTAL SIMAS</div>
     </div>
 
-
-
-    <div class="login-container">
-        <div class="welcome-text">
-            <p>Welcome to <span class="simas-text">SIMAS</span></p>
-            <h2>Sign in</h2>
-        </div>
+    <div class="forgot-password-container">
+        <h2 class="form-title">Forgot Password</h2>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -132,26 +112,31 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('password.reset') }}">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Enter your username or email address</label>
-                <input type="email" class="form-control" name="email" placeholder="Username or email address" required>
+                <label class="form-label">Enter your email address</label>
+                <input type="email" class="form-control" name="email" placeholder="Email address" required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Enter your Password</label>
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <input type="password" class="form-control" name="password" placeholder="New password" required>
             </div>
 
-            <div class="forgot-password">
-                <a href="{{ route('password.request') }}">Forgot Password?</a>
+            <div class="mb-3">
+                <label class="form-label">Enter your Confirm Password</label>
+                <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm new password" required>
             </div>
 
-
-            <button type="submit" class="btn btn-signin">Sign in</button>
+            <button type="submit" class="btn btn-confirm">Confirm</button>
         </form>
     </div>
 </body>
-
 </html>
