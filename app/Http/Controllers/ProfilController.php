@@ -15,7 +15,7 @@ class ProfilController extends Controller
     public function index()
 {
     // Dapatkan profil dari model atau contoh data (tidak terkait dengan pengguna yang login)
-    $profil = Profil::first(); // Misalnya mengambil profil pertama
+    $profil = User::first(); // Misalnya mengambil profil pertama
 
     // Jika profil terkait dengan user tertentu, bisa diatur seperti ini
     // $profil = Profil::where('user_id', 1)->first(); // Sesuaikan ID-nya

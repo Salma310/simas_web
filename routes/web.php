@@ -5,7 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JenisEventController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +31,30 @@ Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/event', [EventController::class, 'index']);
 Route::get('/jenis', [JenisEventController::class, 'index']);
+
 Route::get('jenis/jEvents', [JenisEventController::class, 'getEvents'])->name('jEvents');
 Route::get('jenis/create', [JenisEventController::class, 'create']);
-Route::post('/ajax', [LevelController:: class, 'store' ])->name('jenis.store');
+// Route::post('/ajax', [LevelController:: class, 'store' ])->name('jenis.store');
+
+
+Route::group(['prefix' => 'event'], function () {
+    Route::get('/', [EventController::class, 'index']);              
+    Route::post('/list', [EventController::class, 'list']);          
+    Route::get('/create', [EventController::class, 'create']);      
+    Route::post('/', [EventController::class, 'store']);            
+    Route::get('/create_ajax', [EventController::class, 'create_ajax']); 
+    Route::post('/ajax', [EventController::class, 'store_ajax']); 
+    Route::get('/{id}', [EventController::class, 'show']);           
+    Route::get('/{id}/edit', [EventController::class, 'edit']);     
+    Route::put('/{id}', [EventController::class, 'update']);         
+    Route::get('/{id}/edit_ajax', [EventController::class, 'edit_ajax']); 
+    Route::put('/{id}/update_ajax', [EventController::class, 'update_ajax']); 
+    Route::get('/{id}/delete_ajax', [EventController::class, 'confirm_ajax']); 
+    Route::delete('/{id}/delete_ajax', [EventController::class, 'delete_ajax']); 
+    Route::delete('/{id}', [EventController::class, 'destroy']); 
+});
+
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
+
+    
+

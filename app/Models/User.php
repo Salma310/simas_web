@@ -22,7 +22,7 @@ class User extends Model
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
     protected $fillable = [
-        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'picture',
+        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'picture', 'nidn'
     ];
 
     public function roles()
