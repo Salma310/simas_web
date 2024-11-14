@@ -38,4 +38,3 @@ Route::post('/profile/update', [ProfileController::class, 'updateAvatar']);
 Route::post('/profile/update_data_diri', [ProfileController::class, 'updateDataDiri']); 
 Route::post('/profile/update_password', [ProfileController::class, 'updatePassword']);
 
-    

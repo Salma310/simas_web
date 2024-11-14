@@ -14,7 +14,7 @@
                     <img src="{{ asset('default-avatar.jpeg') }}" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;" alt="Avatar" id="avatarPreview">
                     
                     <!-- Static user data -->
-                    <h3 class="profile-username">Nama Pengguna Statis</h3>
+                    <h3 class="profile-username">Nama Pengguna</h3>
                     <p class="text-muted">Level Pengguna</p>
 
                     <!-- Form for uploading new avatar -->
