@@ -1,29 +1,26 @@
 @extends('layouts.template')
 @section('content')
 <div class="container-fluid">
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+    <!-- Static success or error messages -->
+    <!-- <div class="alert alert-success">Profile berhasil diperbarui!</div>
+    <div class="alert alert-danger">Terjadi kesalahan. Coba lagi nanti.</div> -->
 
     <div class="row">
         <div class="col-md-3">
             <!-- Profile Image -->
             <div class="card card-primary card-outline text-center">
                 <div class="card-body box-profile">
-                    <img src="{{ auth()->user()->avatar ? asset('storage/avatars/' . auth()->user()->avatar) : asset('default-avatar.jpeg') }}"
-                        class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;" alt="Avatar">
-                    <h3 class="profile-username">{{ auth()->user()->nama }}</h3>
-                    <p class="text-muted">{{ auth()->user()->level->level_nama }}</p>
-                    <form action="{{ url('/profil/update') }}" method="POST" enctype="multipart/form-data">
+                    <!-- Static profile picture -->
+                    <img src="{{ asset('default-avatar.jpeg') }}" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px;" alt="Avatar" id="avatarPreview">
+                    
+                    <!-- Static user data -->
+                    <h3 class="profile-username">Nama Pengguna Statis</h3>
+                    <p class="text-muted">Level Pengguna</p>
+
+                    <!-- Form for uploading new avatar -->
+                    <form action="{{ url('/profile/update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="file" name="avatar" id="avatar" class="form-control mb-2" required>
+                        <input type="file" name="avatar" id="avatar" class="form-control mb-2" onchange="previewAvatar()" required>
                         <button type="submit" class="btn btn-primary btn-block">Ganti Foto Profil</button>
                     </form>
                 </div>
@@ -41,34 +38,35 @@
                 
                 <div class="card-body">
                     <div class="tab-content">
+                        <!-- Edit Profile Data Form -->
                         <div class="active tab-pane" id="editdatadiri">
-                            <form action="{{ url('/profil/update_data_diri') }}" method="POST">
+                            <form action="{{ url('/profile/update_data_diri') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Username</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="43527********" disabled>
+                                        <input type="text" class="form-control" value="StaticUsername" readonly>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">NIDN</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="43527********" disabled>
+                                        <input type="text" class="form-control" value="StaticNIDN" readonly>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" value="jason.price@gmail.com" disabled>
+                                        <input type="email" class="form-control" value="static.email@example.com" readonly>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">No Telp</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="no_hp" class="form-control" value="081336292772">
+                                        <input type="text" name="no_hp" class="form-control" value="08123456789" required>
                                     </div>
                                 </div>
 
@@ -80,8 +78,9 @@
                             </form>
                         </div>
 
+                        <!-- Edit Password Form -->
                         <div class="tab-pane" id="editpw">
-                            <form action="{{ url('/profil/update_password') }}" method="POST" class="form-horizontal">
+                            <form action="{{ url('/profile/update_password') }}" method="POST" class="form-horizontal">
                                 @csrf
                                 <div class="form-group row">
                                     <label for="oldPassword" class="col-sm-3 col-form-label">Password Lama</label>
@@ -117,4 +116,17 @@
         </div>
     </div>
 </div>
+
+<script>
+    function previewAvatar() {
+        const avatar = document.getElementById("avatar").files[0];
+        if (avatar) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById("avatarPreview").src = e.target.result;
+            };
+            reader.readAsDataURL(avatar);
+        }
+    }
+</script>
 @endsection
