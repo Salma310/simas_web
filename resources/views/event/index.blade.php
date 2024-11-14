@@ -162,7 +162,7 @@
       <span>&#x1F50D;</span>
       Filters
      </button>
-     <button class="btn btn-primary">
+     <button class="btn btn-primary" onclick="window.location.href='{{ url('event/create') }}'">
       <span>&#x2795;</span>
       Add Event
      </button>

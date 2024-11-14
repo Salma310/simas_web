@@ -5,7 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JenisEventController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +31,7 @@ Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/event', [EventController::class, 'index']);
 Route::get('/jenis', [JenisEventController::class, 'index']);
+
 Route::get('jenis/jEvents', [JenisEventController::class, 'getEvents'])->name('jEvents');
 Route::get('jenis/create', [JenisEventController::class, 'create']);
-Route::post('/store', [JenisEventController:: class, 'store' ])->name('jenis.store');
+Route::post('/ajax', [LevelController:: class, 'store' ])->name('jenis.store');
