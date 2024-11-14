@@ -33,4 +33,4 @@ Route::get('/event', [EventController::class, 'index']);
 Route::get('/jenis', [JenisEventController::class, 'index']);
 Route::get('jenis/jEvents', [JenisEventController::class, 'getEvents'])->name('jEvents');
 Route::get('jenis/create', [JenisEventController::class, 'create']);
-Route::post('/ajax', [LevelController:: class, 'store' ])->name('jenis.store');
+Route::post('/store', [JenisEventController:: class, 'store' ])->name('jenis.store');

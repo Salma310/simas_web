@@ -92,6 +92,7 @@
 <body>
     <!-- Modal -->
     <form action="{{ route('jenis.store') }}" method="POST" id="form-tambah">
+        @csrf
         <div id="modal-master" class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -101,12 +102,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="mb-3 form-group">
                         <label for="jenis_event_code" class="form-label">Kode Jenis</label>
                         <input type="text" name="jenis_event_code" id="jenis_event_code" class="form-control" required>
                         <small id="error-jenis_event_code" class="error-text form-text text-danger"></small>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 form-group">
                         <label for="jenis_event_name" class="form-label">Nama Jenis</label>
                         <input type="text" name="jenis_event_name" id="jenis_event_name" class="form-control" required>
                         <small id="error-jenis_event_name" class="error-text form-text text-danger"></small>
@@ -114,13 +115,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-yellow" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-blue" id="submit-btn">Tambah</button>
+                    <button type="submit" class="btn btn-blue" id="submit-btn">Tambah</button>
                 </div>
             </div>
         </div>
     </form>
     <script>
         $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             // Inisialisasi validasi pada form dengan ID "form-tambah"
             $("#form-tambah").validate({
                 // Aturan validasi untuk setiap input
@@ -134,7 +140,7 @@
                     // Mengirim data form ke server menggunakan AJAX
                     $.ajax({
                         url: form.action,               // URL tujuan pengiriman data
-                        type: form.method,              // Metode pengiriman data (POST atau GET)
+                        type: 'POST',              // Metode pengiriman data (POST atau GET)
                         data: $(form).serialize(),      // Mengonversi data form ke format URL-encoded
                         success: function(response) {   // Fungsi callback ketika respons diterima
                             if (response.status) {      // Jika status respons berhasil
@@ -144,7 +150,7 @@
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataUser.ajax.reload();     // Memuat ulang tabel dataUser
+                                tableBody.ajax.reload();     // Memuat ulang tabel dataUser
                             } else {                        // Jika terdapat kesalahan
                                 $('.error-text').text('');  // Mengosongkan pesan error sebelumnya
                                 $.each(response.msgField, function(prefix, val) {
