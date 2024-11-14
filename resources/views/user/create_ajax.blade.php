@@ -10,14 +10,14 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Level Pengguna</label>
-                    <select name="level_id" id="level_id" class="form-control" required>
-                        <option value="">- Pilih Level -</option>
-                        @foreach($level as $l)
-                            <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                    <label>Role Pengguna</label>
+                    <select name="role_id" id="role_id" class="form-control" required>
+                        <option value="">- Pilih Role -</option>
+                        @foreach($role as $r)
+                            <option value="{{ $r->role_id }}">{{ $r->role_nama }}</option>
                         @endforeach
                     </select>
-                    <small id="error-level_id" class="error-text form-text text-danger"></small>
+                    <small id="error-role_id" class="error-text form-text text-danger"></small>
                 </div>
                 
                 <div class="form-group">
@@ -28,7 +28,7 @@
                 
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" name="nama" id="nama" class="form-control" required>
+                    <input type="text" name="name" id="name" class="form-control" required>
                     <small id="error-nama" class="error-text form-text text-danger"></small>
                 </div>
                 
@@ -51,9 +51,9 @@
 $(document).ready(function() {
     $("#form-tambah").validate({
         rules: {
-            level_id: { required: true, number: true },
+            role_id: { required: true, number: true },
             username: { required: true, minlength: 3, maxlength: 20 },
-            nama: { required: true, minlength: 3, maxlength: 100 },
+            name: { required: true, minlength: 3, maxlength: 200 },
             password: { required: true, minlength: 6, maxlength: 20 }
         },
         submitHandler: function(form) {

@@ -20,20 +20,28 @@
                 <td>{{ $user->user_id }}</td>
             </tr>
             <tr>
-                <th>Level</th>
-                <td>{{ $user->level->level_nama }}</td>
+                <th>Role</th>
+                <td>{{ $user->role->role_nama }}</td>
             </tr>
             <tr>
                 <th>Username</th>
                 <td>{{ $user->username }}</td>   
             </tr>
             <tr>
-                <th>Nama</th>
-                <td>{{ $user->nama }}</td>
+                <th>Email</th>
+                <td>{{ $user->email }}</td>   
             </tr>
             <tr>
                 <th>Password</th>
                 <td>********</td>
+            </tr>
+            <tr>
+                <th>Nama</th>
+                <td>{{ $user->name }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ $user->phone }}</td>
             </tr>
         </table>
         @endempty
