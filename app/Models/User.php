@@ -26,12 +26,17 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'm_user';
     protected $primaryKey = 'user_id';
+<<<<<<< HEAD
     protected $keyType = 'int';
     public $timestamps =true;
     public $incrementing = true;
     protected $fillable = 
     [
         'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'avatar', 'role_id'
+=======
+    protected $fillable = [
+        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'picture',
+>>>>>>> 9fb78d9d87da19757baaec3b85941a53d681352a
     ];
 
     protected $hidden = ['password']; //jangan ditampilkan saat select

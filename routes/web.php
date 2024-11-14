@@ -5,9 +5,13 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JenisEventController;
 use App\Http\Controllers\AuthController;
+<<<<<<< HEAD
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\UserController;
 
+=======
+use App\Http\Controllers\ProfileController;
+>>>>>>> 9fb78d9d87da19757baaec3b85941a53d681352a
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +38,8 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/event', [EventController::class, 'index']);
 Route::get('/jenis', [JenisEventController::class, 'index']);
 
-Route::get('jenis/jEvents', [JenisEventController::class, 'getEvents'])->name('jEvents');
-Route::get('jenis/create', [JenisEventController::class, 'create']);
-Route::post('/ajax', [JenisEventController:: class, 'store' ])->name('jenis.store');
 
+<<<<<<< HEAD
 
 Route::group(['prefix' => 'event'], function () {
     Route::get('/', [EventController::class, 'index']);              
@@ -75,3 +77,10 @@ Route::group(['prefix' => 'user'], function(){
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
     Route::delete('/{id}', [UserController::class, 'destroy']); 
 });
+=======
+Route::get('/profile', [ProfileController::class, 'profile']); 
+Route::post('/profile/update', [ProfileController::class, 'updateAvatar']); 
+Route::post('/profile/update_data_diri', [ProfileController::class, 'updateDataDiri']); 
+Route::post('/profile/update_password', [ProfileController::class, 'updatePassword']);
+
+>>>>>>> 9fb78d9d87da19757baaec3b85941a53d681352a
