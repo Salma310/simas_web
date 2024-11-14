@@ -70,29 +70,26 @@
                         @enderror
                     </div>
                 </div>
-
+                
                 <!-- Partisipan dan Jabatan -->
-                <div class="form-group row mb-5">
+                <div class="form-group row">
                     <label class="col-2 control-label col-form-label">Partisipan</label>
                     <div class="col-10" id="participant-fields">
                         <div class="form-row mb-2">
                             <div class="col-5">
                                 <select name="jabatan[]" class="form-control" required>
                                     <option value="">Pilih Jabatan</option>
-                                    <option value="PIC">Ketua Pelaksana (PIC)</option>
-                                    <option value="Pembina">Pembina</option>
-                                    <option value="Sekretaris">Sekretaris</option>
-                                    <option value="Anggota">Anggota</option>
+                                    @foreach ($jabatan as $j)
+                                        <option value="{{ $j->jabatan_id }}">{{ $j->jabatan_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-5">
                                 <select name="dosen[]" class="form-control" required>
                                     <option value="">Pilih Dosen</option>
-                                    <option value="1">Farid Angga Pribadi,S.Kom</option>
-                                    <option value="2">Prima Putra,S.Kom</option>
-                                    <option value="3">Budi Harijanto,S.Tr</option>
-                                    <option value="4">Solehudin Dian,S.Tr</option>
-                                    <option value="5">Hartono Salim,S.Tr</option>
+                                    @foreach ($user as $dosen)
+                                        <option value="{{ $dosen->user_id }}">{{ $dosen->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-2">
@@ -102,7 +99,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row mt-lg-5">
+                <div class="form-group row">
                     <label class="col-10 control-label col-form-label"></label>
                     <div class="col-2">
                         <a href="{{ url('event') }}" class="btn btn-sm btn-default ml-1">Kembali</a>
@@ -115,27 +112,24 @@
 @endsection
 
 @push('scripts')
-    <script>
-        function addParticipantField() {
-            const fieldHTML = `
+<script>
+    function addParticipantField() {
+        const fieldHTML = `
             <div class="form-row mb-2">
                 <div class="col-5">
                     <select name="jabatan[]" class="form-control" required>
                         <option value="">Pilih Jabatan</option>
-                        <option value="PIC">Ketua Pelaksana (PIC)</option>
-                        <option value="Pembina">Pembina</option>
-                        <option value="Sekretaris">Sekretaris</option>
-                        <option value="Anggota">Anggota</option>
+                        @foreach ($jabatan as $j)
+                            <option value="{{ $j->jabatan_id }}">{{ $j->jabatan_name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-5">
                     <select name="dosen[]" class="form-control" required>
                         <option value="">Pilih Dosen</option>
-                        <option value="1">Farid Angga Pribadi,S.Kom</option>
-                        <option value="2">Prima Putra,S.Kom</option>
-                        <option value="3">Budi Harijanto,S.Tr</option>
-                        <option value="4">Solehudin Dian,S.Tr</option>
-                        <option value="5">Hartono Salim,S.Tr</option>
+                        @foreach ($user as $dosen)
+                            <option value="{{ $dosen->user_id }}">{{ $dosen->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-2">
@@ -143,11 +137,12 @@
                 </div>
             </div>
         `;
-            $('#participant-fields').append(fieldHTML);
-        }
+        $('#participant-fields').append(fieldHTML);
+    }
 
-        function removeParticipantField(element) {
-            $(element).closest('.form-row').remove();
-        }
-    </script>
+    function removeParticipantField(element) {
+        $(element).closest('.form-row').remove();
+    }
+</script>
 @endpush
+
