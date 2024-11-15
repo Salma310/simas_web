@@ -37,7 +37,6 @@
         .logo-text {
             font-size: 1em;
             color: black;
-            font-weight: bold;
         }
 
 

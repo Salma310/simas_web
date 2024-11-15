@@ -13,16 +13,16 @@ class AuthorizeUser
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role = ''): Response
-    {
-        $user = $request->user(); //ambil data user yg login
-                                  //fungsi user() diambil dari UserModel.php
-        if ($user->hasRole($role)) {  //cek apakah user memiliki role nya
-            return $next($request);
-        }
-        //jika tidak punya role, tampilkan eror 403
-        abort(403, 'Forbidden. Kamu tidak punya akses ke halaman ini');
-    }
+    // public function handle(Request $request, Closure $next, $role = ''): Response
+    // {
+    //     $user = $request->user(); //ambil data user yg login
+    //                               //fungsi user() diambil dari UserModel.php
+    //     if ($user->hasRole($role)) {  //cek apakah user memiliki role nya
+    //         return $next($request);
+    //     }
+    //     //jika tidak punya role, tampilkan eror 403
+    //     abort(403, 'Forbidden. Kamu tidak punya akses ke halaman ini');
+    // }
     // public function handle(Request $request, Closure $next): Response
     // {
     //     $user_role = $request->user()->getRole(); //ambil data level_kode dari user yg login
@@ -32,4 +32,14 @@ class AuthorizeUser
     //     //jika tidak punya role, tampilkan eror 403
     //     abort(403, 'Forbidden. Kamu tidak punya akses ke halaman ini');   
     // }
+
+    public function handle(Request $request, Closure $next, ... $roles): Response
+    {
+        $user_role = $request->user()->getRole(); //mengambil data user yang login
+        if(in_array($user_role, $roles)) {
+            return $next($request);
+        }
+        //jika tidak punya role, maka tampilkan error 403
+        abort(403, 'Forbidden. Kamu tidak punya akses ke halaman ini');
+    }
 }

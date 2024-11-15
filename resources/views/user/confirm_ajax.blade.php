@@ -35,16 +35,20 @@
                     </div>
                     <table class="table table-sm table-bordered table-striped">
                         <tr>
-                            <th class="text-right col-3">Level Pengguna :</th>
-                            <td class="col-9">{{ $user->level->level_nama }}</td>
+                            <th class="text-right col-3">Role Pengguna :</th>
+                            <td class="col-9">{{ $user->role->role_nama }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Username :</th>
                             <td class="col-9">{{ $user->username }}</td>
                         </tr>
                         <tr>
+                            <th class="text-right col-3">Email :</th>
+                            <td class="col-9">{{ $user->email }}</td>
+                        </tr>
+                        <tr>
                             <th class="text-right col-3">Nama :</th>
-                            <td class="col-9">{{ $user->nama }}</td>
+                            <td class="col-9">{{ $user->name }}</td>
                         </tr>
                     </table>
                 </div>
