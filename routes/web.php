@@ -32,6 +32,10 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/event', [EventController::class, 'index']);
 Route::get('/jenis', [JenisEventController::class, 'index']);
 
-Route::get('jenis/jEvents', [JenisEventController::class, 'getEvents'])->name('jEvents');
+Route::post('jenis/list', [JenisEventController::class, 'list'])->name('jenis.list');
 Route::get('jenis/create', [JenisEventController::class, 'create']);
-Route::post('/ajax', [LevelController:: class, 'store' ])->name('jenis.store');
+Route::post('/store', [JenisEventController::class, 'store' ])->name('jenis.store');
+Route::get('jenis/{id}/edit', [JenisEventController::class, 'edit' ]);
+Route::put('jenis/{id}/update', [JenisEventController::class, 'update' ])->name('jenis.update');
+Route::get('jenis/{id}/delete', [JenisEventController::class, 'confirm' ]);
+Route::delete('jenis/{id}/delete', [JenisEventController:: class, 'delete' ]);

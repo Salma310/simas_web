@@ -117,7 +117,7 @@
     </div>
    </div>
    <div class="table-container mt-4">
-    <table class="table" id="eventTable">
+    <table class="table" id="jenisTable">
      <thead>
       <tr>
        <th>
@@ -141,39 +141,57 @@
    </div>
   </div>
   <div class="modal fade show" id="jenisModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
+
+  @push('js')
   <script>
+    var jenisEvents;
+
     function modalAction(url = ''){
         $('#jenisModal').load(url,function(){
             $('#jenisModal').modal('show');
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-            fetch('{{ route('jEvents') }}')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.querySelector('#eventTable tbody');
-                    data.forEach((event, index) => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${event.jenis_event_name}</td>
-                            <td>${event.jenis_event_code}</td>
-                            <td>
-                                <button class="btn btn-light"><i class="fas fa-edit"></i></button>
-                                <button class="btn btn-light text-danger"><i class="fas fa-trash"></i></button>
-                            </td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                });
+    $(document).ready(function() {
+            jenisEvent = $('#jenisTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                "url": "{{ route('jenis.list') }}",
+                "type": "POST",
+                "data": function(d) {
+                    d._token = "{{ csrf_token() }}";
+                }
+            },
+            columns:[
+                {
+                    data: "DT_RowIndex",
+                    name: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "jenis_event_name",
+                    name: "jenis_event_name",
+                },
+                {
+                    data: "jenis_event_code",
+                    name: "jenis_event_code"
+                },
+                {
+                    data: "aksi",
+                    name: "aksi",
+                    orderable: false,
+                    searchable: false
+                }
+            ]
         });
-
+    });
    function searchTable() {
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            table = document.getElementById("eventTable");
+            table = document.getElementById("jenisTable");
             tr = table.getElementsByTagName("tr");
 
             for (i = 1; i < tr.length; i++) {
@@ -193,4 +211,5 @@
   </script>
  </body>
 </html>
+@endpush
 @endsection
