@@ -28,7 +28,7 @@
             <!-- Data User Section -->
             <li class="nav-header">Data User</li>
             <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link">
+                <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'list user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>List User</p>
                 </a>

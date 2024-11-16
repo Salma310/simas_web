@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 
 
 
@@ -24,7 +24,7 @@ class UserController extends Controller
             'title' => 'Daftar user yang terdaftar dalam sistem'
         ];
 
-        $activeMenu = 'user';
+        $activeMenu = 'list user';
 
         $role = Role::all();
 
@@ -40,18 +40,17 @@ class UserController extends Controller
         if ($request->role_id){
             $users->where('role_id', $request->role_id);
         }
-        
+
         return DataTables::of($users)
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-            ->addColumn('aksi', function ($user) { // menambahkan kolom aksi               
-                $btn = '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">';
-                $btn = '<a href="'.url('/user/' . $user->user_id).'" class="btn btn-light"><i class="fas fa-qrcode"></i></a> ';
-                // $btn = '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/show') . '\')" class="btn btn btn-light"> <i class="fas fa-qrcode"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/edit_ajax') . '\')" class="btn btn btn-light"><i class="fas fa-edit"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/user/' . $user->user_id . '/delete_ajax') . '\')" class="btn btn btn-light"> <i class="fas fa-trash"></i></button> ';
-                $btn .= '</div>';
-                
-                return $btn;  
+            ->addColumn('role_nama', function ($user) {
+                return $user->role ? $user->role->role_name : '-';
+            })
+            ->addColumn('aksi', function ($user) { // menambahkan kolom aksi
+                $btn = '<button onclick="modalAction(\'' . url("user/$user->user_id/show_ajax") . '\')" class="btn btn-info btn-sm">Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url("user/$user->user_id/edit_ajax") . '\')" class="btn btn-warning btn-sm">Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url("user/$user->user_id/delete_ajax").'\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah HTML
             ->make(true);
@@ -75,7 +74,7 @@ class UserController extends Controller
     }
 
     public function create_ajax(){
-        $role =  Role::select('role_id', 'role_nama')->get();
+        $role =  Role::select('role_id', 'role_name')->get();
 
         return view('user.create_ajax')
                     ->with('role', $role);
@@ -85,7 +84,7 @@ class UserController extends Controller
         //cek apsakah request berupa ajax
         if($request->ajax() || $request->wantsJson()){
             $rules = [
-                'role_id' => 'required|integer', 
+                'role_id' => 'required|integer',
                 'username' => 'required|string|min:3|max:20|unique:m_user,username',
                 'password'=> 'required|min:6',
                 'name' => 'required|string|max:200'
@@ -99,8 +98,8 @@ class UserController extends Controller
                 'message' => 'Validasi Gagal',
                 'msgField' => $validator->errors(), // pesan error validasi
                 ]);
-            }  
-            
+            }
+
             User::create($request->all());
             return response()->json([
                 'status' => true,
@@ -112,7 +111,7 @@ class UserController extends Controller
 
     public function edit_ajax(string $id){
         $user = User::find($id);
-        $role = Role::select('role_id', 'role_nama' )->get();
+        $role = Role::select('role_id', 'role_name' )->get();
 
         return view('user.edit_ajax', ['user' => $user, 'role' => $role]);
     }
@@ -121,16 +120,16 @@ class UserController extends Controller
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
-                'role_id' => 'required|integer', 
-                'username' => 'required|max:20|unique:m_user,username' . $id . ',user_id',
+                'role_id' => 'required|integer',
+                'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
                 'email' => 'required|max:200',
                 'password'=> 'nullable|min:6|max:20',
                 'name' => 'required|max:200',
                 'phone' => 'required|max:100',
             ];
-    
+
             $validator = Validator::make($request->all(), $rules);
-            
+
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false, // respon json, true: berhasil, false: gagal
@@ -138,14 +137,14 @@ class UserController extends Controller
                     'msgField' => $validator->errors() // menunjukkan field mana yang error
                 ]);
             }
-    
+
             $check = User::find($id);
-            
+
             if ($check) {
                 if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('password');
                 }
-    
+
                 $check->update($request->all());
                 return response()->json([
                     'status' => true,
@@ -158,7 +157,7 @@ class UserController extends Controller
                 ]);
             }
         }
-        
+
         return redirect('/');
     }
 
@@ -206,10 +205,4 @@ class UserController extends Controller
         return view('user.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
-=======
-
-class UserController extends Controller
-{
-    //
->>>>>>> 9fb78d9d87da19757baaec3b85941a53d681352a
 }

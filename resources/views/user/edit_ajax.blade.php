@@ -34,8 +34,8 @@
                         <select name="role_id" id="role_id" class="form-control" required>
                             <option value="">- Pilih Role -</option>
                             @foreach($role as $r)
-                                <option {{ ($r->role_id == $user->role_id) ? 'selected' : '' }} 
-                                value="{{ $r->role_id }}">{{ $r->role_nama }}</option>
+                                <option {{ ($r->role_id == $user->role_id) ? 'selected' : '' }}
+                                value="{{ $r->role_id }}">{{ $r->role_name }}</option>
                             @endforeach
                         </select>
                         <small id="error-level_id" class="error-text form-text text-danger"></small>

@@ -5,13 +5,9 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JenisEventController;
 use App\Http\Controllers\AuthController;
-<<<<<<< HEAD
-use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\UserController;
 
-=======
 use App\Http\Controllers\ProfileController;
->>>>>>> 9fb78d9d87da19757baaec3b85941a53d681352a
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +42,6 @@ Route::put('jenis/{id}/update', [JenisEventController::class, 'update' ])->name(
 Route::get('jenis/{id}/delete', [JenisEventController::class, 'confirm' ]);
 Route::delete('jenis/{id}/delete', [JenisEventController:: class, 'delete' ]);
 
-<<<<<<< HEAD
 
 Route::group(['prefix' => 'event'], function () {
     Route::get('/', [EventController::class, 'index']);
@@ -71,11 +66,10 @@ Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
 Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);
-    Route::get('/create', [UserController::class, 'create']);
     Route::post('/', [UserController::class, 'store']);
     Route::get('/create_ajax', [UserController::class, 'create_ajax']);
     Route::post('/ajax', [UserController::class, 'store_ajax']);
-    Route::get('/{id}', [UserController::class, 'show']);
+    Route::get('/{id}/show_ajax', [UserController::class, 'show']);
     Route::get('/{id}/edit', [UserController::class, 'edit']);
     Route::put('/{id}', [UserController::class, 'update']);
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
@@ -84,10 +78,8 @@ Route::group(['prefix' => 'user'], function(){
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
-=======
 Route::get('/profile', [ProfileController::class, 'profile']);
 Route::post('/profile/update', [ProfileController::class, 'updateAvatar']);
 Route::post('/profile/update_data_diri', [ProfileController::class, 'updateDataDiri']);
 Route::post('/profile/update_password', [ProfileController::class, 'updatePassword']);
 
->>>>>>> 9fb78d9d87da19757baaec3b85941a53d681352a

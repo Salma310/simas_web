@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\EventType;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;

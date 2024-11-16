@@ -59,6 +59,7 @@
         }
         .content .table-container {
             background-color: white;
+            height: 100%;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -116,30 +117,30 @@
      </i>
     </div>
    </div>
-   <div class="table-container mt-4">
-    <table class="table" id="jenisTable">
-     <thead>
-      <tr>
-       <th>
-        NO
-       </th>
-       <th>
-        Nama Jenis Event
-       </th>
-       <th>
-        Kode Jenis Event
-       </th>
-       <th>
-        Action
-       </th>
-      </tr>
-     </thead>
-     <tbody>
+        <div class="table-container mt-4">
+            <table class="table" id="jenisTable">
+            <thead>
+            <tr>
+            <th>
+                NO
+            </th>
+            <th>
+                Nama Jenis Event
+            </th>
+            <th>
+                Kode Jenis Event
+            </th>
+            <th>
+                Action
+            </th>
+            </tr>
+            </thead>
+            <tbody>
 
-     </tbody>
-    </table>
-   </div>
-  </div>
+            </tbody>
+            </table>
+        </div>
+</div>
   <div class="modal fade show" id="jenisModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
 
   @push('js')
@@ -156,6 +157,7 @@
             jenisEvent = $('#jenisTable').DataTable({
             processing: true,
             serverSide: true,
+            searching: false,
             ajax: {
                 "url": "{{ route('jenis.list') }}",
                 "type": "POST",

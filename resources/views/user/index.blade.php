@@ -187,7 +187,7 @@
             <button class="btn btn-outline-secondary">
                 <span>&#x1F50D;</span> Filters
             </button>
-            <button class="btn btn-primary" onclick="modalAction('{{ url('/user/create_ajax') }}')">
+            <button class="btn btn-primary" onclick="modalAction('{{ url('user/create_ajax') }}')">
                 <span>&#x2795;</span> Add User
             </button>
         </div>
@@ -204,13 +204,13 @@
                 <button onclick="modalAction('{{ url('/user/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
             </div>
         </div> --}}
-        
+
         <div class="card-body">
             @if (session('success'))
-                <div class="alert alert-success">{{  session('success') }}</div>                                
+                <div class="alert alert-success">{{  session('success') }}</div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger">{{  session('error') }}</div>                                
+                <div class="alert alert-danger">{{  session('error') }}</div>
             @endif
             <div class="row">
                 <div class="col-md-12">
@@ -220,7 +220,7 @@
                             <select class="form-control" id="role_id" name="role_id" required>
                                 <option value="">- Semua -</option>
                                 @foreach ($role as $item)
-                                    <option value="{{ $item->role_id }}">{{ $item->role_nama }}</option>
+                                    <option value="{{ $item->role_id }}">{{ $item->role_name }}</option>
                                 @endforeach
                             </select>
                             <small class="form-text text-muted">Role Pengguna</small>
@@ -290,7 +290,7 @@
                 "data" : function (d){
                     d.role_id = $('#role_id').val();
                 }
-            }, 
+            },
             columns : [
                 {
                     //nomor urut dari laravel datatable addIndexColumn()
@@ -305,27 +305,27 @@
                     orderable: true,
                     searchable: true
                 },{
-                    data: "username", 
+                    data: "username",
                     className: "",
                     // orderable: true, jika ingin kolom ini bisa diurutkan
-                    orderable: true, 
+                    orderable: true,
                     // searchable: true, jika ingin kolom ini bisa dicari
                     searchable: true
                 },{
-                    data: "name", 
+                    data: "name",
                     className: "",
-                    orderable: true, 
+                    orderable: true,
                     searchable: true
                 },{
                     // mengambil data level hasil dari ORM berelasi
-                    data: "role.role_nama", 
+                    data: "role.role_name",
                     className: "",
-                    orderable: false, 
+                    orderable: false,
                     searchable: false
                 },{
-                    data: "aksi", 
+                    data: "aksi",
                     className: "",
-                    orderable: false, 
+                    orderable: false,
                 }
             ]
         });
