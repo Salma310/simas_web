@@ -103,7 +103,7 @@
 <body>
 <div class="content flex-grow-1">
     <div class="header">
-        <button class="btn btn-primary" onclick="modalAction('{{ url('role/create') }}')">
+        <button class="btn btn-primary" onclick="modalAction('{{ url('role/create_ajax') }}')">
             <i class="fas fa-plus"></i> Add Role User
         </button>
         <div class="search-box">
@@ -121,9 +121,6 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Data will be populated here by JavaScript -->
-            </tbody>
         </table>
     </div>
 </div>
@@ -134,94 +131,70 @@
 @endpush
 
 @push('js')
-<script>
-    function searchTable() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("searchRoleInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("table_role");  // Ganti ID tabel menjadi "table_role"
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 1; i < tr.length; i++) {  // Mulai dari 1 untuk melewatkan header
-            tr[i].style.display = "none";  // Sembunyikan baris
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {  // Cari berdasarkan teks
-                        tr[i].style.display = "";  // Tampilkan baris jika ada kecocokan
-                        break;  // Keluar dari loop jika sudah ditemukan
-                    }
-                }
-            }
-        }
-    }
-
-    function modalAction(url = '') {
-        $('#roleModal').load(url, function() {
-            $('#roleModal').modal('show');
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('{{ url('/role/getAll') }}')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#roleTable tbody');
-                tableBody.innerHTML = ''; // Kosongkan isi tabel
-                data.forEach((role, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${role.role_name}</td>
-                        <td>${role.role_code}</td>
-                        <td>
-                            <button class="btn btn-light" onclick="modalAction('/role/edit/${role.role_id}')"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-light text-danger" onclick="deleteRole(${role.role_id})"><i class="fas fa-trash"></i></button>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
+    <script>
+        function modalAction(url = '') {
+            $('#roleModal').load(url, function() {
+                $('#roleModal').modal('show');
             });
-    });
-
-    function deleteRole(id) {
-        if(confirm('Are you sure you want to delete this role?')) {
-            fetch(/role/delete/${id}, { method: 'DELETE' })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Role deleted successfully!');
-                        location.reload();
-                    } else {
-                        alert('Failed to delete role!');
-                    }
-                });
         }
-    }
 
-    function searchTable() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("roleTable");
-        tr = table.getElementsByTagName("tr");
+        var dataRole;
+        $(document).ready(function() {
+            dataRole = $('#roleTable').DataTable({
+                serverSide: true,
+                Processing: true,
+                ajax: {
+                    "url": "{{ url('role/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "role_name",
+                        className: "role_name",
+                    },
+                    {
+                        data: "role_code",
+                        className: "role_code",
+                    },
+                    {
+                        data: "aksi",
+                        className: "",
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+        });
 
-        for (i = 1; i < tr.length; i++) {
-            tr[i].style.display = "none";
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        break;
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("jenisTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
                     }
                 }
             }
         }
-    }
-</script>
+    </script>
 </body>
 </html>
 @endpush

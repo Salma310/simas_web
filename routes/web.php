@@ -84,12 +84,16 @@ Route::post('/profile/update', [ProfileController::class, 'updateAvatar']);
 Route::post('/profile/update_data_diri', [ProfileController::class, 'updateDataDiri']);
 Route::post('/profile/update_password', [ProfileController::class, 'updatePassword']);
 
-
-Route::prefix('role')->group(function () {
-    Route::get('/', [RoleUserController::class, 'index'])->name('role.index');
-    Route::get('/getAll', [RoleUserController::class, 'getRoles'])->name('role.getAll');
-    Route::get('/create', [RoleUserController::class, 'create'])->name('role.create');
-    Route::post('/ajax', [RoleUserController::class, 'store'])->name('role.store');
-    Route::get('/edit/{id}', [RoleUserController::class, 'show'])->name('role.edit');
-    Route::delete('/delete/{id}', [RoleUserController::class, 'delete'])->name('role.delete');
+Route::group(['prefix' => 'role'], function () {
+    Route::get('/', [RoleUserController::class, 'index']);
+    Route::post('/list', [RoleUserController::class, 'list']);
+    Route::get('/create_ajax', [RoleUserController::class, 'create_ajax']);
+    Route::post('/store_ajax', [RoleUserController::class, 'store_ajax']);
+    Route::get('/{id}/show_ajax', [RoleUserController::class, 'show_ajax']);
+    Route::get('/{id}/edit_ajax', [RoleUserController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [RoleUserController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [RoleUserController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [RoleUserController::class, 'delete_ajax']);
+    Route::get('/export_pdf', [RoleUserController::class, 'export_pdf']);
+    Route::delete('/{id}', [RoleUserController::class, 'destroy']);   
 });
