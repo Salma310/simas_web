@@ -5,9 +5,10 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JenisEventController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleUserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -83,3 +84,12 @@ Route::post('/profile/update', [ProfileController::class, 'updateAvatar']);
 Route::post('/profile/update_data_diri', [ProfileController::class, 'updateDataDiri']);
 Route::post('/profile/update_password', [ProfileController::class, 'updatePassword']);
 
+
+Route::prefix('role')->group(function () {
+    Route::get('/', [RoleUserController::class, 'index'])->name('role.index');
+    Route::get('/getAll', [RoleUserController::class, 'getRoles'])->name('role.getAll');
+    Route::get('/create', [RoleUserController::class, 'create'])->name('role.create');
+    Route::post('/ajax', [RoleUserController::class, 'store'])->name('role.store');
+    Route::get('/edit/{id}', [RoleUserController::class, 'show'])->name('role.edit');
+    Route::delete('/delete/{id}', [RoleUserController::class, 'delete'])->name('role.delete');
+});
