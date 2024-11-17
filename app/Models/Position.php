@@ -13,7 +13,7 @@ class Position extends Model
     protected $primaryKey = 'jabatan_id';
     protected $fillable = ['jabatan_name', 'jabatan_code'];
 
-    public function eventParticipants()
+    public function eventParticipant()
     {
         return $this->hasMany(EventParticipant::class);
     }

@@ -41,9 +41,9 @@ class User extends Model
         return $this->hasMany(Notification::class);
     }
 
-    public function eventParticipants()
+    public function eventParticipant()
     {
-        return $this->hasMany(EventParticipant::class);
+        return $this->hasMany(EventParticipant::class, 'user_id', 'user_id');
     }
 
     public function agendaAssignees()

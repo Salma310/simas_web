@@ -26,10 +26,10 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::get('forgot', [AuthController::class, 'showForgot'])->name('password.request');
 Route::post('forgot', [AuthController::class, 'forgot'])->name('password.email');
 Route::post('reset', [AuthController::class, 'resetPassword'])->name('password.reset');
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/dashboard', [WelcomeController::class, 'index']);
 
 
-Route::get('/event', [EventController::class, 'index']);
+
 Route::get('/jenis', [JenisEventController::class, 'index']);
 
 Route::get('jenis/jEvents', [JenisEventController::class, 'getEvents'])->name('jEvents');
