@@ -164,7 +164,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('{{ url('/role/getAll') }}')
+        fetch('{{ route('role.getAll') }}')
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.querySelector('#roleTable tbody');
@@ -187,7 +187,7 @@
 
     function deleteRole(id) {
         if(confirm('Are you sure you want to delete this role?')) {
-            fetch(/role/delete/${id}, { method: 'DELETE' })
+            fetch('{{ route('role.getAll') }}', { method: 'DELETE' })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {

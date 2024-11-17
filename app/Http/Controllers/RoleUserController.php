@@ -49,7 +49,7 @@ class RoleUserController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             // Validation rules for role user
             $rules = [
-                'role_code' => 'required|string|min:3|unique:role_users,role_code',
+                'role_code' => 'required|string|min:3|unique:m_role,role_code',
                 'role_name' => 'required|string|max:100',
             ];
 
