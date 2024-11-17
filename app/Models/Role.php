@@ -16,11 +16,11 @@ class Role extends Model
     public $timestamps =true;
     public $incrementing = true;
 
-    protected $fillable = [ 'role_code', 'role_name'];
+    protected $fillable = ['role_id', 'role_name', 'role_code'];
 
     public function users()
     {
-        return $this->hasMany(User::class, 'role_id', 'role_id');
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id');
     }
 
 }
