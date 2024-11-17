@@ -28,26 +28,26 @@
             <!-- Data User Section -->
             <li class="nav-header">Data User</li>
             <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
+                <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'list user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
                     <p>List User</p>
                 </a>
             </li>
             <li class="nav-item border-bottom border-light">
-                <a href="{{ url('/role') }}" class="nav-link {{ $activeMenu == 'role' ? 'active' : '' }}">
+                <a href="{{ url('/role') }}" class="nav-link">
                     <i class="nav-icon far fa-list-alt"></i>
                     <p>Role User</p>
                 </a>
             </li>
 
             <li class="nav-item mt-2">
-                <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
+                <a href="{{ url('/statistik') }}" class="nav-link">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profil') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/profile') }}" class="nav-link">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>

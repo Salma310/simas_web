@@ -16,7 +16,7 @@ class Role extends Model
     public $timestamps =true;
     public $incrementing = true;
 
-    protected $fillable = ['role_id', 'role_kode', 'role_nama'];
+    protected $fillable = ['role_id', 'role_name', 'role_code'];
 
     public function users()
     {

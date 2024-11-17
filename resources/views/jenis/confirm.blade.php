@@ -90,43 +90,73 @@
     </style>
 </head>
 <body>
+    @empty($jenis)
+    <div id="modal-master" class="modal-dialog modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roleModalLabel">Kesalahan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
+                    Data yang Anda cari tidak ditemukan
+                </div>
+                <a href="{{ url('/jenis') }}" class="btn btn-warning">Kembali</a>
+            </div>
+        </div>
+    </div>
+    @else
     <!-- Modal -->
-    <form action="{{ route('jenis.store') }}" method="POST" id="form-tambah">
+    <form action="{{ url('/jenis/' . $jenis->jenis_event_id . '/delete') }}" method="POST" id="form-delete">
         @csrf
+        @method('DELETE')
         <div id="modal-master" class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="roleModalLabel">Tambah Data Jenis</h5>
+                    <h5 class="modal-title" id="roleModalLabel">Edit Data Jenis</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3 form-group">
-                        <label for="jenis_event_code" class="form-label">Kode Jenis</label>
-                        <input type="text" name="jenis_event_code" id="jenis_event_code" class="form-control" required>
-                        <small id="error-jenis_event_code" class="error-text form-text text-danger"></small>
+                    <div class="alert alert-warning">
+                        <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
+                        Apakah Anda ingin menghapus data seperti di bawah ini?
                     </div>
-                    <div class="mb-3 form-group">
-                        <label for="jenis_event_name" class="form-label">Nama Jenis</label>
-                        <input type="text" name="jenis_event_name" id="jenis_event_name" class="form-control" required>
-                        <small id="error-jenis_event_name" class="error-text form-text text-danger"></small>
-                    </div>
+                    <table class="table table-sm table-bordered table-striped">
+                        <tr>
+                            <th class="text-right col-3">Kode Jenis:</th>
+                            <td class="col-9">{{ $jenis->jenis_event_code }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Nama Jenis:</th>
+                            <td class="col-9">{{ $jenis->jenis_event_name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Tanggal Dibuat:</th>
+                            <td class="col-9">{{ \Carbon\Carbon::parse($jenis->created_at)->format('d-m-Y H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-right col-3">Terakhir Diupdate:</th>
+                            <td class="col-9">{{ \Carbon\Carbon::parse($jenis->updated_at)->format('d-m-Y H:i:s') }}</td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-yellow" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-blue" id="submit-btn">Tambah</button>
+                    <button type="submit" class="btn btn-blue" id="submit-btn">Ya, Hapus</button>
                 </div>
             </div>
         </div>
     </form>
     <script>
         $(document).ready(function() {
-        $("#form-tambah").validate({
+        $("#form-delete").validate({
             rules: {
-                jenis_event_code: { required: true, minlength: 3, maxlength: 10 },
-                jenis_event_name: { required: true, minlength: 3, maxlength: 100 },
-            },
+                },
             submitHandler: function(form) {
                 $.ajaxSetup({
                     headers: {
@@ -136,7 +166,7 @@
 
                 $.ajax({
                     url: $(form).attr('action'),
-                    type: 'POST',
+                    type: form.method,
                     data: $(form).serialize(),
                     dataType: 'json',
                     beforeSend: function() {
@@ -199,5 +229,6 @@
         });
     });
     </script>
+    @endempty
 </body>
 </html>

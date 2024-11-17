@@ -11,7 +11,7 @@ class Position extends Model
 
     protected $table = 'm_jabatan';
     protected $primaryKey = 'jabatan_id';
-    protected $fillable = ['jabatan_name', 'jabatan_code'];
+    protected $fillable = ['jabatan_name', 'jabatan_code', 'point'];
 
     public function eventParticipant()
     {

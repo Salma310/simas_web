@@ -1,69 +1,67 @@
-@empty($user)
-    <div id="modal-master" class="modal-dialog modal-lg" role="document">
+@empty($role)
+    <div id="modal-role" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
-                    Data yang anda cari tidak ditemukan
+                    Data yang Anda cari tidak ditemukan
                 </div>
-                <a href="{{ url('/user') }}" class="btn btn-warning">Kembali</a>
+                <a href="{{ url('/role') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
 @else
-    <form action="{{ url('/user/' . $user->user_id . '/delete_ajax') }}" method="POST" id="form-delete">
+    <form action="{{ url('/role/' . $role->id . '/update_ajax') }}" method="POST" id="form-edit-role">
         @csrf
-        @method('DELETE')
-        <div id="modal-master" class="modal-dialog modal-lg" role="document">
+        @method('PUT')
+        <div id="modal-role" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Data Role</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-warning">
-                        <h5><i class="icon fas fa-ban"></i> Konfirmasi !!!</h5>
-                        Apakah Anda ingin menghapus data seperti di bawah ini?
+                    <div class="form-group">
+                        <label>Nama Role</label>
+                        <input value="{{ $role->role_name }}" type="text" name="role_name" id="role_name" class="form-control"
+                            required>
+                        <small id="error-role_name" class="error-text form-text text-danger"></small>
                     </div>
-                    <table class="table table-sm table-bordered table-striped">
-                        <tr>
-                            <th class="text-right col-3">Role Pengguna :</th>
-                            <td class="col-9">{{ $user->role->role_name }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Username :</th>
-                            <td class="col-9">{{ $user->username }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Email :</th>
-                            <td class="col-9">{{ $user->email }}</td>
-                        </tr>
-                        <tr>
-                            <th class="text-right col-3">Nama :</th>
-                            <td class="col-9">{{ $user->name }}</td>
-                        </tr>
-                    </table>
+                    <div class="form-group">
+                        <label>Kode Role</label>
+                        <input value="{{ $role->role_code }}" type="text" name="role_code" id="role_code"
+                            class="form-control" required>
+                        <small id="error-role_code" class="error-text form-text text-danger"></small>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                    <button type="submit" class="btn btn-primary">Ya, Hapus</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>
     </form>
-
     <script>
         $(document).ready(function() {
-            $("#form-delete").validate({
-                rules: {},
+            $("#form-edit-role").validate({
+                rules: {
+                    role_name: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 100
+                    },
+                    role_code: {
+                        required: true,
+                        minlength: 3,
+                        maxlength: 10
+                    },
+                },
                 submitHandler: function(form) {
                     $.ajax({
                         url: form.action,
@@ -71,13 +69,13 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#myModal').modal('hide');
+                                $('#roleModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',
                                     text: response.message
                                 });
-                                dataUser.ajax.reload();
+                                dataRole.ajax.reload();
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {

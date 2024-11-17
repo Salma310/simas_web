@@ -10,6 +10,7 @@
    body {
             background-color: #f5f5f5;
         }
+<<<<<<< HEAD
         .content .header {
             display: flex;
             justify-content: space-between;
@@ -21,10 +22,45 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .content .header .search-box {
-            display: flex;
-            align-items: center;
-            position: relative;
+=======
+        .card {
+            /* margin: 20px auto; */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .btn-first {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-outline-secondary {
+            background-color: #fff;
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-light {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            border-radius: 15px;
+        }
+        .search-bar {
+>>>>>>> b74c308c61163dcaaa6cce92da4e2252b1b550f7
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+<<<<<<< HEAD
         .content .header .search-box input {
             border-radius: 20px;
             border: 1px solid #ccc;
@@ -64,6 +100,15 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .content .table-container table {
+=======
+        .search-bar input {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        table {
+>>>>>>> b74c308c61163dcaaa6cce92da4e2252b1b550f7
             width: 100%;
             border-collapse: collapse;
         }
@@ -78,6 +123,7 @@
             font-weight: bold;
             color: #333;
         }
+<<<<<<< HEAD
         .content .table-container table td {
             color: #555;
         }
@@ -87,6 +133,11 @@
         .content .table-container table td .btn {
             margin-right: 5px;
             border-radius: 5px;
+=======
+        .status-completed {
+            background-color: #c3f7e2;
+            color: #00b894;
+>>>>>>> b74c308c61163dcaaa6cce92da4e2252b1b550f7
             padding: 5px 10px;
             transition: all 0.3s ease;
         }
@@ -103,6 +154,7 @@
   </style>
  </head>
  <body>
+<<<<<<< HEAD
   <div class="content flex-grow-1">
    <div class="header">
     <button class="btn btn-primary" onclick="modalAction('{{ url('event/create_ajax') }}')">
@@ -232,3 +284,386 @@
 </html>
 @endpush
 @endsection
+=======
+  <div class="card">
+   <div class="header">
+    <div class="btn-group btn-first">
+     <button class="btn btn-outline-secondary">
+      <span>&#x1F50D;</span>
+      Filters
+     </button>
+     <button class="btn btn-primary">
+      <span>&#x2795;</span>
+      Add Event
+     </button>
+    </div>
+   </div>
+   <div class="search-bar">
+    <input class="form-control" placeholder="Search" type="text"/>
+   </div>
+   <table class="table table-bordered">
+    <thead>
+     <tr>
+      <th>
+       No
+      </th>
+      <th>
+       Event Name
+      </th>
+      <th>
+       PIC
+      </th>
+      <th>
+       Event Date
+      </th>
+      <th>
+       STATUS
+      </th>
+      <th>
+       Action
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       00001
+      </td>
+      <td>
+       Pelatihan IT
+      </td>
+      <td>
+       Nasywa Salma
+      </td>
+      <td>
+       04 Sep 2024
+      </td>
+      <td>
+       <span class="status-completed">
+        Completed
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00002
+      </td>
+      <td>
+       Seminar Masyarakat
+      </td>
+      <td>
+       Nabilah Rahmah
+      </td>
+      <td>
+       28 May 2024
+      </td>
+      <td>
+       <span class="status-processing">
+        Processing
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00003
+      </td>
+      <td>
+       Nortis Goes to Campus
+      </td>
+      <td>
+       M Wildan
+      </td>
+      <td>
+       23 Nov 2024
+      </td>
+      <td>
+       <span class="status-rejected">
+        Rejected
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00004
+      </td>
+      <td>
+       IGDX Bootcamp
+      </td>
+      <td>
+       Adam Safrila
+      </td>
+      <td>
+       05 Feb 2024
+      </td>
+      <td>
+       <span class="status-completed">
+        Completed
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00005
+      </td>
+      <td>
+       Internal Competition
+      </td>
+      <td>
+       A Faqih
+      </td>
+      <td>
+       29 Jul 2024
+      </td>
+      <td>
+       <span class="status-processing">
+        Processing
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00006
+      </td>
+      <td>
+       Hacktoberfest
+      </td>
+      <td>
+       Syava Aprilia
+      </td>
+      <td>
+       15 Aug 2024
+      </td>
+      <td>
+       <span class="status-completed">
+        Completed
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00007
+      </td>
+      <td>
+       Play IT
+      </td>
+      <td>
+       Fida Cahya
+      </td>
+      <td>
+       21 Dec 2024
+      </td>
+      <td>
+       <span class="status-processing">
+        Processing
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00008
+      </td>
+      <td>
+       Level Up Softskill
+      </td>
+      <td>
+       Siti Faiqoh
+      </td>
+      <td>
+       30 Apr 2024
+      </td>
+      <td>
+       <span class="status-on-hold">
+        On Hold
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00009
+      </td>
+      <td>
+       Workshop
+      </td>
+      <td>
+       Faridiyani Y
+      </td>
+      <td>
+       09 Jan 2024
+      </td>
+      <td>
+       <span class="status-in-transit">
+        In Transit
+       </span>
+      </td>
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-light">
+             <i class="fas fa-qrcode">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-edit">
+             </i>
+            </button>
+            <button class="btn btn-light">
+             <i class="fas fa-trash">
+             </i>
+            </button>
+        </div>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <div class="d-flex justify-content-between">
+    <p>
+     Showing 1-09 of 78
+    </p>
+    <nav>
+     <ul class="pagination">
+      <li class="page-item">
+       <a class="page-link" href="#">
+        <span>&#x276E;</span>
+       </a>
+      </li>
+      <li class="page-item">
+       <a class="page-link" href="#">
+        <span>&#x276F;</span>
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </div>
+ </body>
+</html>
+
+@endsection
+>>>>>>> b74c308c61163dcaaa6cce92da4e2252b1b550f7

@@ -90,13 +90,33 @@
     </style>
 </head>
 <body>
+    @empty($jenis)
+    <div id="modal-master" class="modal-dialog modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roleModalLabel">Kesalahan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
+                    Data yang Anda cari tidak ditemukan
+                </div>
+                <a href="{{ url('/jenis') }}" class="btn btn-warning">Kembali</a>
+            </div>
+        </div>
+    </div>
+    @else
     <!-- Modal -->
-    <form action="{{ route('jenis.store') }}" method="POST" id="form-tambah">
+    <form action="{{ url('/jenis/' . $jenis->jenis_event_id . '/update') }}" method="POST" id="form-edit">
         @csrf
+        @method('PUT')
         <div id="modal-master" class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="roleModalLabel">Tambah Data Jenis</h5>
+                    <h5 class="modal-title" id="roleModalLabel">Edit Data Jenis</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
@@ -104,25 +124,25 @@
                 <div class="modal-body">
                     <div class="mb-3 form-group">
                         <label for="jenis_event_code" class="form-label">Kode Jenis</label>
-                        <input type="text" name="jenis_event_code" id="jenis_event_code" class="form-control" required>
+                        <input type="text" name="jenis_event_code" id="jenis_event_code" class="form-control" value="{{ $jenis->jenis_event_code }}" required>
                         <small id="error-jenis_event_code" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="mb-3 form-group">
                         <label for="jenis_event_name" class="form-label">Nama Jenis</label>
-                        <input type="text" name="jenis_event_name" id="jenis_event_name" class="form-control" required>
+                        <input type="text" name="jenis_event_name" id="jenis_event_name" class="form-control" value="{{ $jenis->jenis_event_name }}" required>
                         <small id="error-jenis_event_name" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-yellow" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-blue" id="submit-btn">Tambah</button>
+                    <button type="submit" class="btn btn-blue" id="submit-btn">Simpan</button>
                 </div>
             </div>
         </div>
     </form>
     <script>
         $(document).ready(function() {
-        $("#form-tambah").validate({
+        $("#form-edit").validate({
             rules: {
                 jenis_event_code: { required: true, minlength: 3, maxlength: 10 },
                 jenis_event_name: { required: true, minlength: 3, maxlength: 100 },
@@ -136,7 +156,7 @@
 
                 $.ajax({
                     url: $(form).attr('action'),
-                    type: 'POST',
+                    type: 'PUT',
                     data: $(form).serialize(),
                     dataType: 'json',
                     beforeSend: function() {
@@ -199,5 +219,6 @@
         });
     });
     </script>
+    @endempty
 </body>
 </html>

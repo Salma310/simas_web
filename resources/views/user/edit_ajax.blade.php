@@ -30,12 +30,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Level Pengguna</label>
-                        <select name="level_id" id="level_id" class="form-control" required>
-                            <option value="">- Pilih Level -</option>
-                            @foreach($level as $l)
-                                <option {{ ($l->level_id == $user->level_id) ? 'selected' : '' }} 
-                                value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                        <label>Role Pengguna</label>
+                        <select name="role_id" id="role_id" class="form-control" required>
+                            <option value="">- Pilih Role -</option>
+                            @foreach($role as $r)
+                                <option {{ ($r->role_id == $user->role_id) ? 'selected' : '' }}
+                                value="{{ $r->role_id }}">{{ $r->role_name }}</option>
                             @endforeach
                         </select>
                         <small id="error-level_id" class="error-text form-text text-danger"></small>
@@ -46,15 +46,25 @@
                         <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
-                        <label>Nama</label>
-                        <input value="{{ $user->nama }}" type="text" name="nama" id="nama" class="form-control" required>
-                        <small id="error-nama" class="error-text form-text text-danger"></small>
+                        <label>Email</label>
+                        <input value="{{ $user->email }}" type="email" name="email" id="email" class="form-control" required>
+                        <small id="error-email" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
                         <input value="" type="password" name="password" id="password" class="form-control">
                         <small class="form-text text-muted">Abaikan jika tidak ingin ubah password</small>
                         <small id="error-password" class="error-text form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input value="{{ $user->name }}" type="text" name="name" id="name" class="form-control" required>
+                        <small id="error-name" class="error-text form-text text-danger"></small>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input value="{{ $user->phone }}" type="text" name="phone" id="phone" class="form-control" required>
+                        <small id="error-phone" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -69,10 +79,12 @@
         $(document).ready(function() {
             $("#form-edit").validate({
                 rules: {
-                    level_id: { required: true, number: true },
+                    role_id: { required: true, number: true },
                     username: { required: true, minlength: 3, maxlength: 20 },
-                    nama: { required: true, minlength: 3, maxlength: 100 },
-                    password: { minlength: 6, maxlength: 20 }
+                    email: { required: true, maxlength: 20 },
+                    password: { minlength: 6, maxlength: 20 },
+                    name: { required: true, minlength: 3, maxlength: 200 },
+                    phone: { required: true, minlength: 3, maxlength: 100 },
                 },
                 submitHandler: function(form) {
                     $.ajax({

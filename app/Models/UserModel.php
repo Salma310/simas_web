@@ -13,6 +13,7 @@ class UserModel extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
+
     public function getJWTIdentifier(){
         return $this->getKey();
     }
@@ -35,7 +36,7 @@ class UserModel extends Authenticatable implements JWTSubject
 
     public function role() 
     {
-        return $this->belongsTo(RoleModel::class, 'role_id', 'role_id');
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
     } 
     
     public function avatar() : Attribute
@@ -55,6 +56,31 @@ class UserModel extends Authenticatable implements JWTSubject
         return $this->level->level_nama;
     }
 
+    
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function eventParticipants()
+    {
+        return $this->hasMany(EventParticipant::class);
+    }
+
+    public function agendaAssignees()
+    {
+        return $this->hasMany(AgendaAssignee::class);
+    }
+
+    public function workloads()
+    {
+        return $this->hasMany(Workload::class);
+    }
+
+    public function profil()
+    {
+        return $this->hasOne(Profil::class);
+    }
     // public function profile()
     // {
     //     return $this->hasOne(ProfileModel::class, 'user_id', 'user_id');

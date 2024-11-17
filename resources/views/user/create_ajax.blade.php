@@ -1,4 +1,4 @@
-<form action="{{ url('/user/ajax') }}" method="POST" id="form-tambah">
+<form action="{{ url('user/ajax') }}" method="POST" id="form-tambah">
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -10,35 +10,35 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Level Pengguna</label>
-                    <select name="level_id" id="level_id" class="form-control" required>
-                        <option value="">- Pilih Level -</option>
-                        @foreach($level as $l)
-                            <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                    <label>Role Pengguna</label>
+                    <select name="role_id" id="role_id" class="form-control" required>
+                        <option value="">- Pilih Role -</option>
+                        @foreach($role as $r)
+                            <option value="{{ $r->role_id }}">{{ $r->role_name }}</option>
                         @endforeach
                     </select>
-                    <small id="error-level_id" class="error-text form-text text-danger"></small>
+                    <small id="error-role_id" class="error-text form-text text-danger"></small>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" name="username" id="username" class="form-control" required>
                     <small id="error-username" class="error-text form-text text-danger"></small>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Nama</label>
-                    <input type="text" name="nama" id="nama" class="form-control" required>
+                    <input type="text" name="name" id="name" class="form-control" required>
                     <small id="error-nama" class="error-text form-text text-danger"></small>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" name="password" id="password" class="form-control" required>
                     <small id="error-password" class="error-text form-text text-danger"></small>
                 </div>
             </div>
-            
+
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -51,15 +51,21 @@
 $(document).ready(function() {
     $("#form-tambah").validate({
         rules: {
-            level_id: { required: true, number: true },
+            role_id: { required: true, number: true },
             username: { required: true, minlength: 3, maxlength: 20 },
-            nama: { required: true, minlength: 3, maxlength: 100 },
+            name: { required: true, minlength: 3, maxlength: 200 },
             password: { required: true, minlength: 6, maxlength: 20 }
         },
         submitHandler: function(form) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $.ajax({
                 url: form.action,
-                type: form.method,
+                type: 'POST',
                 data: $(form).serialize(),
                 success: function(response) {
                     if(response.status){

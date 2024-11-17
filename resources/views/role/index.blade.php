@@ -2,12 +2,10 @@
 
 @section('content')
 <html>
- <head>
-  <title>
-   Jenis Event
-  </title>
-  <style>
-   body {
+<head>
+    <title>Role User</title>
+    <style>
+        body {
             background-color: #f5f5f5;
         }
         .content .header {
@@ -59,7 +57,6 @@
         }
         .content .table-container {
             background-color: white;
-            height: 100%;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -101,95 +98,82 @@
         .content .table-container table td .btn-light.text-danger:hover {
             background-color: #f8d7da;
         }
-  </style>
- </head>
- <body>
-  <div class="content flex-grow-1">
-   <div class="header">
-    <button class="btn btn-primary" onclick="modalAction('{{ url('jenis/create') }}')">
-     <i class="fas fa-plus">
-     </i>
-     Add Jenis Event
-    </button>
-    <div class="search-box">
-     <input id="searchInput" onkeyup="searchTable()" placeholder="Search" type="text"/>
-     <i class="fas fa-search">
-     </i>
-    </div>
-   </div>
-        <div class="table-container mt-4">
-            <table class="table" id="jenisTable">
-            <thead>
-            <tr>
-            <th>
-                NO
-            </th>
-            <th>
-                Nama Jenis Event
-            </th>
-            <th>
-                Kode Jenis Event
-            </th>
-            <th>
-                Action
-            </th>
-            </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-            </table>
+    </style>
+</head>
+<body>
+<div class="content flex-grow-1">
+    <div class="header">
+        <button class="btn btn-primary" onclick="modalAction('{{ url('role/create_ajax') }}')">
+            <i class="fas fa-plus"></i> Add Role User
+        </button>
+        <div class="search-box">
+            <input id="searchInput" onkeyup="searchTable()" placeholder="Search" type="text"/>
+            <i class="fas fa-search"></i>
         </div>
+    </div>
+    <div class="table-container mt-4">
+        <table class="table" id="roleTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Role</th>
+                    <th>Kode Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
-  <div class="modal fade show" id="jenisModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
+<div class="modal fade show" id="roleModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
+@endsection
 
-  @push('js')
-  <script>
-    var jenisEvents;
+@push('css')
+@endpush
 
-    function modalAction(url = ''){
-        $('#jenisModal').load(url,function(){
-            $('#jenisModal').modal('show');
+@push('js')
+    <script>
+        function modalAction(url = '') {
+            $('#roleModal').load(url, function() {
+                $('#roleModal').modal('show');
+            });
+        }
+
+        var dataRole;
+        $(document).ready(function() {
+            dataRole = $('#roleTable').DataTable({
+                serverSide: true,
+                Processing: true,
+                ajax: {
+                    "url": "{{ url('role/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "role_name",
+                        className: "role_name",
+                    },
+                    {
+                        data: "role_code",
+                        className: "role_code",
+                    },
+                    {
+                        data: "aksi",
+                        className: "",
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
         });
-    }
 
-    $(document).ready(function() {
-            jenisEvent = $('#jenisTable').DataTable({
-            processing: true,
-            serverSide: true,
-            searching: false,
-            ajax: {
-                "url": "{{ route('jenis.list') }}",
-                "type": "POST",
-                "data": function(d) {
-                    d._token = "{{ csrf_token() }}";
-                }
-            },
-            columns:[
-                {
-                    data: "DT_RowIndex",
-                    name: "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: "jenis_event_name",
-                    name: "jenis_event_name",
-                },
-                {
-                    data: "jenis_event_code",
-                    name: "jenis_event_code"
-                },
-                {
-                    data: "aksi",
-                    name: "aksi",
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
-    });
-   function searchTable() {
+        function searchTable() {
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
@@ -210,8 +194,7 @@
                 }
             }
         }
-  </script>
- </body>
+    </script>
+</body>
 </html>
 @endpush
-@endsection
