@@ -24,7 +24,7 @@ use App\Http\Controllers\RoleUserController;
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login', [AuthController::class, 'postlogin']);
-Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::get('forgot', [AuthController::class, 'showForgot'])->name('password.request');
 Route::post('forgot', [AuthController::class, 'forgot'])->name('password.email');
@@ -95,5 +95,5 @@ Route::group(['prefix' => 'role'], function () {
     Route::get('/{id}/delete_ajax', [RoleUserController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [RoleUserController::class, 'delete_ajax']);
     Route::get('/export_pdf', [RoleUserController::class, 'export_pdf']);
-    Route::delete('/{id}', [RoleUserController::class, 'destroy']);   
+    Route::delete('/{id}', [RoleUserController::class, 'destroy']);
 });

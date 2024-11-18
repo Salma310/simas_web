@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->string('device_token')->default('');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('role_id')->index(); //indexing untuk foreignkey
         });
     }
 

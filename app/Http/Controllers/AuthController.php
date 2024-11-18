@@ -14,7 +14,7 @@ class AuthController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect('/');
+            return redirect('/dashboard');
         }
         return view('auth.login');
     }
@@ -27,7 +27,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Login Berhasil',
-                    'redirect' => url('/')
+                    'redirect' => url('/dashboard')
                 ]);
             }
             return response()->json([
@@ -49,24 +49,24 @@ class AuthController extends Controller
     {
         return view('auth.forgot');
     }
-    
+
     public function forgot(Request $request)
     {
         $request->validate([
             'email' => 'required|email|exists:users',
             'password' => 'required|min:8|confirmed',
         ]);
-    
+
         $user = User::where('email', $request->email)->first();
-        
+
         if ($user) {
             $user->password = Hash::make($request->password);
             $user->save();
-            
+
             return redirect()->route('login')
                 ->with('status', 'Password berhasil direset. Silakan login dengan password baru.');
         }
-    
+
         return back()->withErrors([
             'email' => 'Email tidak ditemukan.',
         ]);
