@@ -22,7 +22,6 @@ class RoleUserController extends Controller
         ];
 
         $activeMenu = 'role user';
-
         return view('role.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
