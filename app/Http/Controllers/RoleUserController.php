@@ -207,10 +207,6 @@ class RoleUserController extends Controller
         }
         return redirect('/');
     }
-<<<<<<< HEAD
-}
-=======
-
     public function confirm_ajax(string $id)
     {
         $role = Role::find($id);
