@@ -6,13 +6,8 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
-
-
->>>>>>> b74c308c61163dcaaa6cce92da4e2252b1b550f7
 
 class UserController extends Controller
 {

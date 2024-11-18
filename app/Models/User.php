@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
     public $incrementing = true;
     protected $fillable =
     [
-        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'avatar', 'role_id'
+        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'avatar'
     ];
 
     protected $hidden = ['password']; //jangan ditampilkan saat select
