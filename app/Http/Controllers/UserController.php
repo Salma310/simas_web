@@ -9,8 +9,6 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 
-
-
 class UserController extends Controller
 {
     public function index(){

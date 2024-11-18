@@ -51,7 +51,7 @@ class RoleUserController extends Controller
             'title' => 'Tambah Role Baru'
         ];
 
-        $activeMenu = 'role';
+        $activeMenu = 'role user';
 
         return view('role.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
@@ -231,18 +231,6 @@ class RoleUserController extends Controller
             }
         }
         return redirect('/');
-    }
-
-    public function export_pdf()
-    {
-        $level = Role::select('role_name', 'role_code')->get();
-
-        $pdf = Pdf::loadView('level.export_pdf', ['level' => $level]);
-        $pdf->setPaper('a4', 'portrait');
-        $pdf->setOption('isRemoteEnabled', true);
-        $pdf->render();
-
-        return $pdf->stream('Data Level' . date('Y-m-d H:i:s') . '.pdf');
     }
 }
 ?>

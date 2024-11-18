@@ -29,12 +29,12 @@
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item pt-2">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" href="#">
           <i class="far fa-bell"></i>
         </a>
       </li>
       <li class="nav-item pb-3">
-        <a class="nav-link" href="{{ url('/') }}" role="button">
+        <a class="nav-link" href="{{ url('/profile') }}" role="button">
           <img src="{{ asset('adminlte/dist/img/avatar5.png') }}" alt="Profile Image" class="img-circle" style="width: 35px; height: 35px; object-fit: cover;">
         </a>
       </li>

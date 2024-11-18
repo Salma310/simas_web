@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
     public $incrementing = true;
     protected $fillable =
     [
-        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'avatar', 'role_id'
+        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'avatar'
     ];
 
     protected $hidden = ['password']; //jangan ditampilkan saat select
@@ -61,9 +61,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Notification::class);
     }
 
-    public function eventParticipants()
+    public function eventParticipant()
     {
-        return $this->hasMany(EventParticipant::class);
+        return $this->hasMany(EventParticipant::class, 'user_id', 'user_id');
     }
 
     public function agendaAssignees()

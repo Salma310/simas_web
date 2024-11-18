@@ -4,7 +4,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Dashboard -->
             <li class="nav-item">
-                <a href="{{ url('/') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
+                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
@@ -34,20 +34,20 @@
                 </a>
             </li>
             <li class="nav-item border-bottom border-light">
-                <a href="{{ url('/role') }}" class="nav-link">
+                <a href="{{ url('/role') }}" class="nav-link {{ $activeMenu == 'role user' ? 'active' : '' }}">
                     <i class="nav-icon far fa-list-alt"></i>
                     <p>Role User</p>
                 </a>
             </li>
 
             <li class="nav-item mt-2">
-                <a href="{{ url('/statistik') }}" class="nav-link">
+                <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile') }}" class="nav-link">
+                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>

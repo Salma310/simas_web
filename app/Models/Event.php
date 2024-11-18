@@ -11,11 +11,11 @@ class Event extends Model
 
     protected $table = 'm_event';
     protected $primaryKey = 'event_id';
-    protected $fillable = ['event_name', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id'];
+    protected $fillable = ['event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id'];
 
-    public function eventParticipants()
+    public function eventParticipant()
     {
-        return $this->hasMany(EventParticipant::class, 'participant_id');
+        return $this->hasMany(EventParticipant::class, 'event_id', 'event_id');
     }
 
     public function agenda()
@@ -28,7 +28,7 @@ class Event extends Model
         return $this->hasMany(Notification::class, 'notification_id');
     }
 
-    public function eventType()
+    public function jenisEvent()
     {
         return $this->belongsTo(EventType::class, 'jenis_event_id');
     }
