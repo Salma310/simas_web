@@ -2,7 +2,7 @@
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content" style="border-radius:15px;">
-            <div class="modal-header">
+            <div class="modal-header -primary">
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -174,7 +174,7 @@
                     data: $(form).serialize(),
                     success: function(response) {
                         if (response.status) {
-                            $('#myModal').modal('hide');
+                            $('#eventModal').modal('hide');
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Berhasil',

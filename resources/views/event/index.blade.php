@@ -162,6 +162,7 @@
             dataEvent = $('#eventTable').DataTable({
             processing: true,
             serverSide: true,
+            searching: false,
             ajax: {
                 "url": "{{ url('event/list') }}",
                 "datatypes": "json",
