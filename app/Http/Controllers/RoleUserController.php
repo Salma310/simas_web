@@ -16,13 +16,19 @@ class RoleUserController extends Controller
             'title' => 'Daftar Role User',
             'list' => ['Home', 'Role User']
         ];
-    
+
         $page = (object) [
             'title' => 'Daftar role yang terdaftar dalam sistem'
         ];
+<<<<<<< HEAD
     
         $activeMenu = 'role user';
     
+=======
+
+        $activeMenu = 'role';
+
+>>>>>>> 6cfb3dad2f45939848ce40006b569fd3af74bace
         return view('role.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
@@ -52,7 +58,7 @@ class RoleUserController extends Controller
         ];
 
         $activeMenu = 'role user';
-        
+
         return view('role.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
@@ -99,7 +105,7 @@ class RoleUserController extends Controller
             'title' => 'Edit Role User'
         ];
 
-        $activeMenu = 'role'; 
+        $activeMenu = 'role';
 
         return view('role.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'role' => $role, 'activeMenu' => $activeMenu]);
     }
@@ -120,12 +126,12 @@ class RoleUserController extends Controller
 
     public function destroy(string $id) {
         $check = Role::find($id);
-        if(!$check) { 
+        if(!$check) {
             return redirect('/role')->with('error', 'Data role tidak ditemukan');
         }
 
         try {
-            Role::destroy($id); 
+            Role::destroy($id);
             return redirect('/role')->with('success', 'Data role berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/role')->with('error', 'Data role gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
@@ -207,7 +213,6 @@ class RoleUserController extends Controller
         }
         return redirect('/');
     }
-
     public function confirm_ajax(string $id)
     {
         $role = Role::find($id);
