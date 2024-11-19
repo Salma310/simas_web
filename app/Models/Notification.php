@@ -11,20 +11,10 @@ class Notification extends Model
 
     protected $table = 't_notification';
     protected $primaryKey = 'notification_id';
-    protected $fillable = ['user_id', 'event_id', 'agenda_id', 'title', 'message', 'type', 'is_read'];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['event_id', 'title', 'message', 'is_read', 'created_at'];
 
     public function event()
     {
-        return $this->belongsTo(Event::class);
-    }
-
-    public function agenda()
-    {
-        return $this->belongsTo(Agenda::class);
+        return $this->belongsTo(Event::class, 'event_id', 'event_id');
     }
 }

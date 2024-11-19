@@ -55,7 +55,7 @@
 
             <li class="nav-header">Menu Pimpinan</li>
             <li class="nav-item">
-                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
+                <a href="{{ url('/dashboard_pimpinan') }}" class="nav-link {{ $activeMenu == 'dashboard pimpinan' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>

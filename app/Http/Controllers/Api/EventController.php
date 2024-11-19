@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\EventModel;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $events = EventModel::all();
+        $events = Event::all();
 
         if ($events->isEmpty()) {
             return response()->json([
@@ -24,7 +24,7 @@ class EventController extends Controller
             'status' => 'success',
             'data' => $events,
     ]);
-        // $events = EventModel::all(); // Mengambil semua data dari tabel m_event
+        // $events = Event::all(); // Mengambil semua data dari tabel m_event
         // return response()->json($events); // Mengembalikan data dalam format JSON
     }
 
@@ -32,22 +32,22 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        $event = EventModel::create($request->all());
+        $event = Event::create($request->all());
         return response()->json($event, 201);
     }
 
-    public function show(EventModel $event)
+    public function show(Event $event)
     {
-        return EventModel::find($event);
+        return Event::find($event);
     }
 
-    public function update(Request $request, EventModel $event)
+    public function update(Request $request, Event $event)
     {
         $event->update($request->all());
-        return EventModel::find($event);
+        return Event::find($event);
     }
 
-    public function destroy(EventModel $event)
+    public function destroy(Event $event)
     {
         $event->delete();
 

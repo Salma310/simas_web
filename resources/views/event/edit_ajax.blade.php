@@ -75,7 +75,7 @@
                                         {{ $j->jabatan_id == $participant->jabatan_id ? 'selected' : '' }}>
                                         {{ $j->jabatan_name }}
                                     </option>
-                                    @endforeachf
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-5">

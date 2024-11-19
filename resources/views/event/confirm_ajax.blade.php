@@ -44,10 +44,6 @@
                             <td class="col-9">{{ $event->jenisEvent->jenis_event_name }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">PIC :</th>
-                            <td class="col-9">{{ $event->eventParticipant->user->name }}</td>
-                        </tr>
-                        <tr>
                             <th class="text-right col-3">Tanggal Mulai :</th>
                             <td class="col-9">{{ $event->start_date }}</td>
                         </tr>

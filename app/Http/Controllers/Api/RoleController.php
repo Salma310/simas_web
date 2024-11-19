@@ -3,34 +3,34 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\RoleModel;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
     public function index()
     {
-        return RoleModel::all();
+        return Role::all();
     }
 
     public function store(Request $request)
     {
-        $role = RoleModel::create($request->all());
+        $role = Role::create($request->all());
         return response()->json($role, 201);
     }
 
-    public function show(RoleModel $role)
+    public function show(Role $role)
     {
-        return RoleModel::find($role);
+        return Role::find($role);
     }
 
-    public function update(Request $request, RoleModel $role)
+    public function update(Request $request, Role $role)
     {
         $role->update($request->all());
-        return RoleModel::find($role);
+        return Role::find($role);
     }
 
-    public function destroy(RoleModel $role)
+    public function destroy(Role $role)
     {
         $role->delete();
 
