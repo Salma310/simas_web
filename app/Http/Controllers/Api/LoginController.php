@@ -29,7 +29,7 @@ class LoginController extends Controller
 
         // Cek user berdasarkan username atau email
         $user = UserModel::where('username', $request->username)
-            ->orWhere('email', $request->username)
+            // ->orWhere('email', $request->username)
             ->first();
 
         if (!$user) {
@@ -57,7 +57,7 @@ class LoginController extends Controller
             'user' => [
                 'id' => $user->id,
                 'username' => $user->username,
-                'email' => $user->email,
+                // 'email' => $user->email,
                 'role_kode' => $user->role->role_kode, // Asumsikan role relasi sudah diatur
             ],
             'token' => $token,

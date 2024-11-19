@@ -2,8 +2,19 @@
 <html>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PORTAL SIMAS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <style>
         body {
             background-image: url(https://ppid.polinema.ac.id/wp-content/uploads/2024/02/GRAHA-POLINEMA1-slider-01.webp);
@@ -132,11 +143,11 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" id="form-login">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Enter your username or email address</label>
-                <input type="email" class="form-control" name="email" placeholder="Username or email address" required>
+                <label class="form-label">Enter your username</label>
+                <input type="text" class="form-control" name="username" placeholder="Username" required>
             </div>
 
             <div class="mb-3">
@@ -152,6 +163,75 @@
             <button type="submit" class="btn btn-signin">Sign in</button>
         </form>
     </div>
-</body>
 
+    <!-- jQuery -->
+    <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- jquery-validation -->
+    <script src="adminlte/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="adminlte/plugins/jquery-validation/additional-methods.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="adminlte/dist/js/adminlte.min.js"></script>
+
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $(document).ready(function() {
+            $("#form-login").validate({
+            rules: {
+                username: {required: true, minlength: 4, maxlength: 20},
+                password: {required: true, minlength: 5, maxlength: 20}
+            },
+            submitHandler: function(form) { // ketika valid, maka bagian yg akan dijalankan
+                $.ajax({
+                url: form.action,
+                type: "POST",
+                data: $(form).serialize(),
+                success: function(response) {
+                    if(response.status){ // jika sukses
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: response.message,
+                    }).then(function() {
+                        window.location = response.redirect;
+                    });
+                    }else{ // jika error
+                    $('.error-text').text('');
+                    $.each(response.msgField, function(prefix, val) {
+                        $('#error-'+prefix).text(val[0]);
+                    });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan',
+                        text: response.message
+                    });
+                    }
+                }
+                });
+                return false;
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.input-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+            });
+        });
+      </script>
+</body>
 </html>

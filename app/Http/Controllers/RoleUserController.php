@@ -20,7 +20,7 @@ class RoleUserController extends Controller
         $page = (object) [
             'title' => 'Daftar role yang terdaftar dalam sistem'
         ];
-    
+
         $activeMenu = 'role user';
         return view('role.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }

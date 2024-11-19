@@ -11,6 +11,8 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+        // $events = EventModel::all();
+        $events = Event::with(['jenisEvent', 'eventParticipant.user'])->get();
 
         if ($events->isEmpty()) {
             return response()->json([
@@ -28,17 +30,22 @@ class EventController extends Controller
         // return response()->json($events); // Mengembalikan data dalam format JSON
     }
 
-
-
     public function store(Request $request)
     {
         $event = Event::create($request->all());
         return response()->json($event, 201);
     }
-
+    
     public function show(Event $event)
     {
-        return Event::find($event);
+        // return EventModel::find($event);
+        // Muat data relasi
+        $event->load(['jenisEvent', 'participants']);
+
+        return response()->json([
+            'success' => true,
+            'data' => $event,
+        ]);
     }
 
     public function update(Request $request, Event $event)

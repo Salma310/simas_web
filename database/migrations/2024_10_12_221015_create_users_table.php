@@ -7,6 +7,7 @@ return new class extends Migration {
     public function up() {
         Schema::create('m_user', function (Blueprint $table) {
             $table->id('user_id');
+            $table->unsignedBigInteger('role_id');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
@@ -17,7 +18,9 @@ return new class extends Migration {
             $table->string('device_token')->default('');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('role_id')->index(); //indexing untuk foreignkey
+
+        $table->foreign('role_id')->references('role_id')->on('m_role');
+        
         });
     }
 
