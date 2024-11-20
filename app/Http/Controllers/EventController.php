@@ -326,4 +326,87 @@ class EventController extends Controller
         }
         return redirect('/');
     }
+
+    //BUAT NON-JTI
+    public function indexNonJTI()
+    {
+        $events = Event::where('category', 'Non-JTI')->get();
+        return view('events.non_jti.index', compact('events'));
+    }
+
+    public function createNonJTI()
+    {
+        return view('events.non_jti.create');
+    }
+
+    public function storeNonJTI(Request $request)
+    {
+        $request->validate([
+            'event_name' => 'required|min:3|max:100',
+            'event_code' => 'required|min:3|max:10|unique:events,event_code',
+            'pic' => 'required|min:3|max:100',
+            'event_date' => 'required|date',
+            'event_description' => 'required|min:5',
+            'assignment_letter' => 'required|file|mimes:jpg,png,pdf|max:10240',
+        ]);
+
+        // Simpan data ke database
+        $event = new Event();
+        $event->event_name = $request->event_name;
+        $event->event_code = $request->event_code;
+        $event->pic = $request->pic;
+        $event->start_date = $request->event_date;
+        $event->event_description = $request->event_description;
+
+        if ($request->hasFile('assignment_letter')) {
+            $path = $request->file('assignment_letter')->store('assignment_letters');
+            $event->assignment_letter = $path;
+        }
+
+        $event->category = 'Non-JTI';
+        $event->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Event Non-JTI berhasil ditambahkan!',
+        ]);
+    }
+
+    public function editNonJTI($id)
+    {
+        $event = Event::findOrFail($id);
+        return view('events.non_jti.edit', compact('event'));
+    }
+
+    public function updateNonJTI(Request $request, $id)
+    {
+        $request->validate([
+            'event_name' => 'required|min:3|max:100',
+            'event_code' => 'required|min:3|max:10|unique:events,event_code,' . $id,
+            'pic' => 'required|min:3|max:100',
+            'event_date' => 'required|date',
+            'event_description' => 'required|min:5',
+            'assignment_letter' => 'nullable|file|mimes:jpg,png,pdf|max:10240',
+        ]);
+
+        $event = Event::findOrFail($id);
+        $event->event_name = $request->event_name;
+        $event->event_code = $request->event_code;
+        $event->pic = $request->pic;
+        $event->start_date = $request->event_date;
+        $event->event_description = $request->event_description;
+
+        if ($request->hasFile('assignment_letter')) {
+            $path = $request->file('assignment_letter')->store('assignment_letters');
+            $event->assignment_letter = $path;
+        }
+
+        $event->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Event Non-JTI berhasil diperbarui!',
+        ]);
+    }
+
 }
