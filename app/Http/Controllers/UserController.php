@@ -45,9 +45,9 @@ class UserController extends Controller
                 return $user->role ? $user->role->role_name : '-';
             })
             ->addColumn('aksi', function ($user) { // menambahkan kolom aksi
-                $btn = '<button onclick="modalAction(\'' . url("user/$user->user_id/show_ajax") . '\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\'' . url("user/$user->user_id/edit_ajax") . '\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url("user/$user->user_id/delete_ajax").'\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn = '<button onclick="modalAction(\'' . url("user/$user->user_id/show_ajax") . '\')" class="btn btn-light"><i class="fas fa-qrcode"></i></button> ';
+                $btn .= '<button onclick="modalAction(\'' . url("user/$user->user_id/edit_ajax") . '\')" class="btn btn-light"><i class="fas fa-edit"></i></button> ';
+                $btn .= '<button onclick="modalAction(\''.url("user/$user->user_id/delete_ajax").'\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button> ';
                 return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah HTML
