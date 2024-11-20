@@ -71,7 +71,7 @@
                         data: $(form).serialize(),
                         success: function(response) {
                             if (response.status) {
-                                $('#myModal').modal('hide');
+                                $('#eventModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Berhasil',

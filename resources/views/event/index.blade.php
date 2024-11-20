@@ -116,7 +116,7 @@
      </i>
     </div>
    </div>
-   <div class="table-container mt-4">
+   <div class="table-container table-responsive mt-4">
     <table class="table" id="eventTable">
      <thead>
       <tr>
