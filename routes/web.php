@@ -98,3 +98,12 @@ Route::group(['prefix' => 'role'], function () {
     Route::get('/export_pdf', [RoleUserController::class, 'export_pdf']);
     Route::delete('/{id}', [RoleUserController::class, 'destroy']);
 });
+
+Route::group(['prefix' => 'event_non_jti'], function () {
+    // Rute untuk Event Non-JTI
+    Route::get('/non-jti', [EventController::class, 'indexNonJTI'])->name('event.non-jti.index'); // Daftar event Non-JTI
+    Route::get('/non-jti/add', [EventController::class, 'createNonJTI'])->name('event.non-jti.create'); // Form tambah Non-JTI
+    Route::post('/non-jti/add', [EventController::class, 'storeNonJTI'])->name('event.non-jti.store'); // Proses tambah Non-JTI
+    Route::get('/non-jti/{id}/edit', [EventController::class, 'editNonJTI'])->name('event.non-jti.edit'); // Form edit Non-JTI
+    Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
+});

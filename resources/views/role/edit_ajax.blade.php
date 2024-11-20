@@ -21,7 +21,7 @@
         @method('PUT')
         <div id="modal-role" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background-color: #007bff">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Data Role</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
