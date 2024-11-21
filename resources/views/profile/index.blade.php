@@ -117,6 +117,8 @@
     </div>
 </div>
 
+<div class="modal fade show" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
+
 <script>
     function previewAvatar() {
         const avatar = document.getElementById("avatar").files[0];
@@ -127,6 +129,12 @@
             };
             reader.readAsDataURL(avatar);
         }
+    }
+
+    function modalAction(url = ''){
+        $('#myModal').load(url,function(){
+            $('#myModal').modal('show');
+        });
     }
 </script>
 @endsection

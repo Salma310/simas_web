@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JenisEventController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleUserController;
@@ -31,6 +32,7 @@ Route::post('forgot', [AuthController::class, 'forgot'])->name('password.email')
 Route::post('reset', [AuthController::class, 'resetPassword'])->name('password.reset');
 Route::get('/dashboard', [WelcomeController::class, 'index']);
 
+Route::get('/notifikasi', [NotifikasiController::class, 'index']);
 
 
 Route::get('/jenis', [JenisEventController::class, 'index']);

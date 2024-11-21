@@ -116,6 +116,7 @@
         </div>
     </div>
 </div>
+<div class="modal fade show" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
 
 <!-- Include Chart.js atau library lainnya untuk rendering chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -222,6 +223,12 @@
             afterDraw: chart => addCenterText(chart, '81%'),
         }],
     });
+
+    function modalAction(url = ''){
+        $('#myModal').load(url,function(){
+            $('#myModal').modal('show');
+        });
+    }
 </script>
 
 @endsection
