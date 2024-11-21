@@ -104,7 +104,6 @@
 
     .notification-category {
         font-weight: bold;
-        margin-top: 10px;
         color: #555;
     }
 
