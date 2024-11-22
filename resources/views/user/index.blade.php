@@ -320,7 +320,7 @@
             </div>
             <table class="table-container mt-4" id="table_user">
                 <thead>
-                    <tr><th>No</th><th>ID</th><th>Username</th><th>Nama</th><th>Role</th><th>Aksi</th></tr>
+                    <tr><th>No</th><th>Username</th><th>Nama</th><th>Role</th><th>Aksi</th></tr>
                 </thead>
             </table>
         </div>
@@ -389,12 +389,6 @@
                     className: "text-center",
                     orderable: false,
                     searchable:false
-                },
-                {
-                    data: "user_id",
-                    className: "text-center",
-                    orderable: true,
-                    searchable: true
                 },{
                     data: "username",
                     className: "",
