@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="shortcut icon" href="adminlte/dist/img/logo-jti.png">
     <style>
         body {
             background-image: url(https://ppid.polinema.ac.id/wp-content/uploads/2024/02/GRAHA-POLINEMA1-slider-01.webp);
@@ -122,15 +123,15 @@
 <body>
     <div class="logo">
         <img src="{{ asset('images/jti.png') }}" alt="Logo">
-        <div class="logo-text">PORTAL SIMAS</div>
+        <div class="logo-text text-bold">PORTAL SIMAS</div>
     </div>
 
 
 
     <div class="login-container">
         <div class="welcome-text">
-            <p>Welcome to <span class="simas-text">SIMAS</span></p>
-            <h2>Sign in</h2>
+            <p class="font-weight-normal">Welcome to <span class="simas-text">SIMAS</span></p>
+            <h1>Sign in</h1>
         </div>
 
         @if ($errors->any())

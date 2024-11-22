@@ -29,7 +29,7 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::get('forgot', [AuthController::class, 'showForgot'])->name('password.request');
 Route::post('forgot', [AuthController::class, 'forgot'])->name('password.email');
-Route::post('reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::post('reset', [AuthController::class, 'forgot'])->name('password.reset');
 Route::get('/dashboard', [WelcomeController::class, 'index']);
 
 Route::get('/notifikasi', [NotifikasiController::class, 'index']);

@@ -2,6 +2,7 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            @if (Auth::user()->role->role_name == 'Admin')
             <!-- Dashboard -->
             <li class="nav-item">
                 <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
@@ -52,8 +53,7 @@
                     <p>Profile</p>
                 </a>
             </li>
-
-            <li class="nav-header">Menu Pimpinan</li>
+            @elseif (Auth::user()->role->role_name == 'Pimpinan')
             <li class="nav-item">
                 <a href="{{ url('/dashboard_pimpinan') }}" class="nav-link {{ $activeMenu == 'dashboard pimpinan' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -79,8 +79,8 @@
                     <p>Profile</p>
                 </a>
             </li>
-
-            <li class="nav-header">Menu Dosen</li>
+            
+            @else
             <li class="nav-item">
                 <a href="{{ url('/dashboard_dosen') }}" class="nav-link {{ $activeMenu == 'dashboard dosen' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -88,7 +88,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
+                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event dosen' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
@@ -105,6 +105,7 @@
                     <p>Profile</p>
                 </a>
             </li>
+            @endif
             <!-- Button Logout -->
             <li class="nav-header">Log Out</li>
             <li class="nav-item logout">

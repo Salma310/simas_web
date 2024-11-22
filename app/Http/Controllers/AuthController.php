@@ -53,8 +53,8 @@ class AuthController extends Controller
     public function forgot(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
-            'password' => 'required|min:8|confirmed',
+            'email' => 'required|email|exists:m_user',
+            'password' => 'required|min:6|confirmed',
         ]);
 
         $user = User::where('email', $request->email)->first();
