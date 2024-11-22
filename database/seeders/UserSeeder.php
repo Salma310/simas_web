@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
         $data =[
             [
-                'role_id' => '5',
+                'role_id' => '1',
                 'username' => 'dewilestari',
                 'email' => 'dewilestari@gmail.com',
                 'password' => Hash::make('123456'),
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-13 05:17:44',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '2',
                 'username' => 'aimandestra',
                 'email' => 'aimandestra123@gmail.com',
                 'password' => Hash::make('234567'),
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-13 05:19:43',
             ],
             [
-                'role_id' => '1',
+                'role_id' => '2',
                 'username' => 'rakha123',
                 'email' => 'rakha123@gmail.com',
                 'password' => Hash::make('789090'),
@@ -56,7 +56,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-13 05:19:43',
             ],
             [
-                'role_id' => '4',
+                'role_id' => '3',
                 'username' => 'bagus123',
                 'email' => 'baguschyo@gmail.com',
                 'password' => Hash::make('123456'),
@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:53:49',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'rizki456',
                 'email' => 'rizki@gmail.com',
                 'password' => Hash::make('123456'),
@@ -82,7 +82,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'siti789',
                 'email' => 'siti@gmail.com',
                 'password' => Hash::make('123456'),
@@ -95,7 +95,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'yusuf321',
                 'email' => 'yusuf@gmail.com',
                 'password' => Hash::make('123456'),
@@ -108,7 +108,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'ani654',
                 'email' => 'ani@gmail.com',
                 'password' => Hash::make('123456'),
@@ -121,7 +121,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'budi123',
                 'email' => 'budi@gmail.com',
                 'password' => Hash::make('123456'),
@@ -134,7 +134,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'ina456',
                 'email' => 'ina@gmail.com',
                 'password' => Hash::make('123456'),
@@ -147,7 +147,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'agus789',
                 'email' => 'agus@gmail.com',
                 'password' => Hash::make('123456'),
@@ -160,7 +160,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'dina321',
                 'email' => 'dina@gmail.com',
                 'password' => Hash::make('123456'),
@@ -173,7 +173,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'andi654',
                 'email' => 'andi@gmail.com',
                 'password' => Hash::make('123456'),
@@ -186,7 +186,7 @@ class UserSeeder extends Seeder
                 'updated_at' => '2024-11-16 13:55:26',
             ],
             [
-                'role_id' => '5',
+                'role_id' => '3',
                 'username' => 'linda123',
                 'email' => 'linda@gmail.com',
                 'password' => Hash::make('123456'),
