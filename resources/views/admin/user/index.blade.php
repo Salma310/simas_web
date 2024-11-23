@@ -7,6 +7,96 @@
         body {
             background-color: #f5f5f7;
         }
+        .content .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content .header .search-box {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .content .header .search-box input {
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .content .header .search-box input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .content .header .search-box i {
+            position: absolute;
+            right: 15px;
+            color: #aaa;
+        }
+        .content .header .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .content .header .btn-primary i {
+            margin-right: 10px;
+        }
+        .content .header .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .content .table-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .content .table-container table th, .content .table-container table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background-color 0.3s ease;
+        }
+        .content .table-container table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+        .content .table-container table td {
+            color: #555;
+        }
+        .content .table-container table tr:hover td {
+            background-color: #f1f1f1;
+        }
+        .content .table-container table td .btn {
+            margin-right: 5px;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: all 0.3s ease;
+        }
+        .content .table-container table td .btn-light {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+        .content .table-container table td .btn-light:hover {
+            background-color: #e0e0e0;
+        }
+        .content .table-container table td .btn-light.text-danger:hover {
+            background-color: #f8d7da;
+        }
         .card {
             padding: 20px;
             background-color: #fff;
@@ -160,14 +250,14 @@
         }
 
         /* Action buttons styling */
-        .action-button {
+        /* .action-button {
             display: inline-block;
             margin: 0 2px;
             padding: 8px;
             color: #fff;
             border-radius: 5px;
             font-size: 14px;
-        }
+        } */
 
         .action-detail {
             background-color: #17a2b8;
@@ -184,9 +274,9 @@
     </style>
     <div class="header">
         <div class="btn-group btn-first">
-            <button class="btn btn-outline-secondary">
+            {{-- <button class="btn btn-outline-secondary">
                 <span>&#x1F50D;</span> Filters
-            </button>
+            </button> --}}
             <button class="btn btn-primary" onclick="modalAction('{{ url('user/create_ajax') }}')">
                 <span>&#x2795;</span> Add User
             </button>
@@ -228,9 +318,9 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered table-striped table-hover table-sm" id="table_user">
+            <table class="table-container mt-4" id="table_user">
                 <thead>
-                    <tr><th>No</th><th>ID</th><th>Username</th><th>Nama</th><th>Role</th><th>Aksi</th></tr>
+                    <tr><th>No</th><th>Username</th><th>Nama</th><th>Role</th><th>Aksi</th></tr>
                 </thead>
             </table>
         </div>
@@ -275,8 +365,9 @@
         dataUser = $('#table_user').DataTable({
             //serverSide: true, jika ingin menggunakan server side processing
             serverSide: true,
+            processing: true,
             // Hide search box and entries dropdown
-            filter: false,
+            // filter: false,
             searching: false,
             // info:false
             // lengthChange: false,
@@ -298,12 +389,6 @@
                     className: "text-center",
                     orderable: false,
                     searchable:false
-                },
-                {
-                    data: "user_id",
-                    className: "text-center",
-                    orderable: true,
-                    searchable: true
                 },{
                     data: "username",
                     className: "",

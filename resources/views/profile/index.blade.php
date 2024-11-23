@@ -119,6 +119,8 @@
     </div>
 </div>
 
+<div class="modal fade show" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
+
 <script>
     function previewPicture() {
         const file = document.getElementById('picture').files[0];
@@ -131,6 +133,12 @@
         } else {
             document.getElementById('picturePreview').src = "";
         }
+    }
+
+    function modalAction(url = ''){
+        $('#myModal').load(url,function(){
+            $('#myModal').modal('show');
+        });
     }
 </script>
 @endsection

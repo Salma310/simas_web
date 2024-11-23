@@ -29,9 +29,10 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::get('forgot', [AuthController::class, 'showForgot'])->name('password.request');
 Route::post('forgot', [AuthController::class, 'forgot'])->name('password.email');
-Route::post('reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::post('reset', [AuthController::class, 'forgot'])->name('password.reset');
 Route::get('/dashboard', [WelcomeController::class, 'index']);
 
+Route::get('/notifikasi', [NotifikasiController::class, 'index']);
 
 
 Route::get('/jenis', [JenisEventController::class, 'index']);
@@ -119,4 +120,31 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventpController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'event_pimpinan'], function () {
+    Route::get('/', [EventpController::class, 'index']);
+    Route::post('/list', [EventpController::class, 'list']);
+    Route::get('/create', [EventpController::class, 'create']);
+    Route::post('/', [EventpController::class, 'store']);
+    Route::get('/create_ajax', [EventpController::class, 'create_ajax']);
+    Route::post('/ajax', [EventpController::class, 'store_ajax']);
+    Route::get('/{id}', [EventpController::class, 'show'])->name('event.show');
+    Route::get('/{id}/edit', [EventpController::class, 'edit']);
+    Route::put('/{id}', [EventpController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [EventpController::class, 'edit_ajax']);
+    Route::get('/{id}/show_ajax', [EventpController::class, 'show_ajax']);
+    Route::put('/{id}/update_ajax', [EventpController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
+    Route::delete('/{id}', [EventpController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'event_non_jti'], function () {
+    // Rute untuk Event Non-JTI
+    Route::get('/non-jti', [EventController::class, 'indexNonJTI'])->name('event.non-jti.index'); // Daftar event Non-JTI
+    Route::get('/non-jti/add', [EventController::class, 'createNonJTI'])->name('event.non-jti.create'); // Form tambah Non-JTI
+    Route::post('/non-jti/add', [EventController::class, 'storeNonJTI'])->name('event.non-jti.store'); // Proses tambah Non-JTI
+    Route::get('/non-jti/{id}/edit', [EventController::class, 'editNonJTI'])->name('event.non-jti.edit'); // Form edit Non-JTI
+    Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
 });

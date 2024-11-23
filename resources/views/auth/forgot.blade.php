@@ -3,6 +3,7 @@
 <head>
     <title>PORTAL SIMAS - Forgot Password</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="adminlte/dist/img/logo-jti.png">
     <style>
         body {
             background-image: url(https://ppid.polinema.ac.id/wp-content/uploads/2024/02/GRAHA-POLINEMA1-slider-01.webp);
@@ -36,6 +37,7 @@
         .logo-text {
             font-size: 1em;
             color: black;
+            font-weight: bold;
         }
 
         .forgot-password-container {
@@ -51,7 +53,6 @@
         }
 
         .form-title {
-            font-size: 24px;
             color: #333;
             margin-bottom: 25px;
             font-weight: 600;
@@ -100,7 +101,7 @@
     </div>
 
     <div class="forgot-password-container">
-        <h2 class="form-title">Forgot Password</h2>
+        <h1 class="form-title">Forgot Password</h1>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -114,7 +115,9 @@
 
         @if (session('status'))
             <div class="alert alert-success">
-                {{ session('status') }}
+                <ul class="mb-0">
+                    <li>{{ session('status') }}</li>
+                </ul>
             </div>
         @endif
 
@@ -136,6 +139,7 @@
             </div>
 
             <button type="submit" class="btn btn-confirm">Confirm</button>
+            <a href="{{ url('/login') }}" class="float-center">Back to Login</a>
         </form>
     </div>
 </body>

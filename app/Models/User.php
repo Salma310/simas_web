@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
     public $incrementing = true;
     protected $fillable =
     [
-        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'picture'
+        'username', 'email', 'password', 'auth_token', 'device_token', 'name', 'phone', 'picture', 'role_id'
     ];
 
     protected $hidden = ['password']; //jangan ditampilkan saat select
@@ -46,7 +46,7 @@ class User extends Authenticatable implements JWTSubject
     public function avatar() : Attribute
     {
         return Attribute::make(
-            get: fn ($image) => url('/storage/app/public/avatars/' . $image),
+            get: fn ($image) => url('/storage/app/public/picture/' . $image),
         );
     }
 

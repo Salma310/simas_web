@@ -29,7 +29,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item pt-2">
-        <a class="nav-link" href="#">
+        <a class="nav-link" onclick="modalAction('{{ url('/notifikasi') }}')" style="cursor: pointer;">
           <i class="far fa-bell"></i>
         </a>
       </li>

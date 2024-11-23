@@ -41,3 +41,9 @@ Route::post('events', [App\Http\Controllers\Api\EventController::class, 'store']
 Route::get('events/{event}', [App\Http\Controllers\Api\EventController::class, 'show']);
 Route::put('events/{event}', [App\Http\Controllers\Api\EventController::class, 'update']);
 Route::delete('events/{event}', [App\Http\Controllers\Api\EventController::class, 'destroy']);
+
+Route::post("all_data", [App\Http\Controllers\Api\NotifikasiController::class, 'index']);
+Route::post("show_data", [App\Http\Controllers\Api\NotifikasiController::class, 'show']);
+
+Route::post("all_roles", [App\Http\Controllers\Api\RoleController::class, 'index']);
+Route::post("show_roles", [App\Http\Controllers\Api\RoleController::class, 'show']);
