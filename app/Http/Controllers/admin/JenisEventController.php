@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Models\EventType;
@@ -18,9 +18,10 @@ class JenisEventController extends Controller
             'list' => ['Home', 'Welcome']
         ];
 
+        $title = 'jenis event';
         $activeMenu = 'jenis event';
 
-        return view('jenis.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('admin.jenis.index', ['title' => $title,'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)
@@ -40,7 +41,7 @@ class JenisEventController extends Controller
 
     public function create()
     {
-        return view('jenis.create');
+        return view('admin.jenis.create');
     }
 
     public function store(Request $request)
@@ -98,7 +99,7 @@ class JenisEventController extends Controller
         {
             $jenis = EventType::find($id);
 
-            return view('jenis.edit', ['jenis' => $jenis]);
+            return view('admin.jenis.edit', ['jenis' => $jenis]);
         }
 
     public function update(Request $request, $id)
@@ -162,7 +163,7 @@ class JenisEventController extends Controller
 
     public function confirm(String $id){
             $jenis = EventType::find($id);
-            return view('jenis.confirm', ['jenis' => $jenis]);
+            return view('admin.jenis.confirm', ['jenis' => $jenis]);
         }
 
     public function delete(Request $request, $id)

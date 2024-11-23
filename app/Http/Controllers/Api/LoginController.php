@@ -75,7 +75,7 @@ class LoginController extends Controller
     //     if($validator->fails()){
     //         return response()->json($validator->errors(), 422);
     //     }
-        
+
     //     //get credentials from request
     //     $credentials = $request->only('username', 'password');
 

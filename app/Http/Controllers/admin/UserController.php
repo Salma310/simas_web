@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -22,11 +22,12 @@ class UserController extends Controller
             'title' => 'Daftar user yang terdaftar dalam sistem'
         ];
 
+        $title = 'User';
         $activeMenu = 'list user';
 
         $role = Role::all();
 
-        return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'role' => $role, 'activeMenu' => $activeMenu]);
+        return view('admin.user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'role' => $role, 'title' => $title, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)

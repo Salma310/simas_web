@@ -8,98 +8,152 @@
   </title>
   <style>
    body {
-            background-color: #f5f5f5;
-        }
-        .content .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .content .header .search-box {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        .content .header .search-box input {
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            padding: 10px 20px;
-            width: 250px;
-            transition: all 0.3s ease;
-        }
-        .content .header .search-box input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        .content .header .search-box i {
-            position: absolute;
-            right: 15px;
-            color: #aaa;
-        }
-        .content .header .btn-primary {
-            background-color: #007bff;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-        .content .header .btn-primary i {
-            margin-right: 10px;
-        }
-        .content .header .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .content .table-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .content .table-container table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .content .table-container table th, .content .table-container table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #f5f5f5;
-            transition: background-color 0.3s ease;
-        }
-        .content .table-container table th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-            color: #333;
-        }
-        .content .table-container table td {
-            color: #555;
-        }
-        .content .table-container table tr:hover td {
-            background-color: #f1f1f1;
-        }
-        .content .table-container table td .btn {
-            margin-right: 5px;
-            border-radius: 5px;
-            padding: 5px 10px;
-            transition: all 0.3s ease;
-        }
-        .content .table-container table td .btn-light {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-        }
-        .content .table-container table td .btn-light:hover {
-            background-color: #e0e0e0;
-        }
-        .content .table-container table td .btn-light.text-danger:hover {
-            background-color: #f8d7da;
-        }
+    background-color: #f4f7f6;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.content {
+    padding: 30px;
+}
+
+.content .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.content .header:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.content .header .search-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.content .header .search-box input {
+    border-radius: 25px;
+    border: 2px solid #e0e0e0;
+    padding: 12px 20px 12px 40px;
+    width: 300px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: all 0.4s ease;
+}
+
+.content .header .search-box input:focus {
+    border-color: #4a90e2;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.2);
+    outline: none;
+}
+
+.content .header .search-box i {
+    position: absolute;
+    left: 15px;
+    color: #a0a0a0;
+    transition: color 0.3s ease;
+}
+
+.content .header .search-box input:focus + i {
+    color: #4a90e2;
+}
+
+.content .header .btn-primary {
+    background: linear-gradient(to right, #4a90e2, #2c3e50);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.content .header .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+.content .header .btn-primary i {
+    margin-right: 10px;
+}
+
+.content .table-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+.content .table-container table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.content .table-container table thead {
+    background-color: #f4f7f6;
+}
+
+.content .table-container table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.content .table-container table td {
+    padding: 15px;
+    color: #34495e;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.content .table-container table tr {
+    margin-bottom: 10px;
+}
+
+.content .table-container table tr:hover td {
+    background-color: #f1f3f4;
+    transform: scale(1.01);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content .table-container table td .btn {
+    margin: 0 5px;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.content .table-container table td .btn-light {
+    background-color: #f1f3f4;
+    color: #34495e;
+    border: none;
+}
+
+.content .table-container table td .btn-light:hover {
+    background-color: #e0e2e4;
+    transform: translateY(-2px);
+}
+
+.content .table-container table td .btn-light.text-danger:hover {
+    background-color: #ffebee;
+    color: #d32f2f;
+}
   </style>
  </head>
  <body>
@@ -182,9 +236,9 @@
                     searchable: true,
                 },
                 {
-                    data: 'participant_name', 
-                    name: 'participant_name', 
-                    orderable: false, 
+                    data: 'participant_name',
+                    name: 'participant_name',
+                    orderable: false,
                     searchable: true
                 }, {
                     data: "end_date",

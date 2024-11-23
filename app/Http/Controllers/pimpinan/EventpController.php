@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\pimpinan;
 
 use Illuminate\Http\Request;
 use App\Models\EventType;
@@ -12,23 +12,25 @@ use App\Models\Agenda;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-class EventController extends Controller
+class EventpController extends Controller
 {
     public function index()
     {
 
         $breadcrumb = (object) [
-            'title' => 'Selamat Datang',
+            'title' => 'Event',
             'list' => ['Home', 'Event']
         ];
 
+        $title = 'event';
+        $events = Event::withCount('participants')->get();
         $jenisEvent = EventType::all();
         $jabatan = Position::all();
-        $user = User::all();
         $eventParticipant = EventParticipant::all();
-        $activeMenu = 'event';
+        $user = User::all();
+        $activeMenu = 'event pimpinan';
 
-        return view('event.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant]);
+        return view('pimpinan.eventp.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant, 'events' => $events]);
     }
 
     public function list(Request $request)
@@ -100,10 +102,10 @@ class EventController extends Controller
                 'jabatan_id' => 'required|array',
                 'jabatan_id.*' => 'required|integer|exists:m_jabatan,jabatan_id',
             ];
-    
+
             // Gunakan Validator untuk memvalidasi data
             $validator = Validator::make($request->all(), $rules);
-    
+
             // Jika validasi gagal
             if ($validator->fails()) {
                 return response()->json([
@@ -112,7 +114,7 @@ class EventController extends Controller
                     'msgField' => $validator->errors(),
                 ]);
             }
-    
+
             try {
                 // Simpan data event
                 $event = Event::create([
@@ -124,11 +126,11 @@ class EventController extends Controller
                     'jenis_event_id' => $request->input('jenis_event_id'),
                     'status' => 'not started', // Tambahkan status default
                 ]);
-    
+
                 // Simpan data ke event_participants untuk setiap kombinasi user_id dan jabatan_id
                 $userIds = $request->input('user_id');
                 $jabatanIds = $request->input('jabatan_id');
-    
+
                 foreach ($userIds as $key => $userId) {
                     EventParticipant::create([
                         'event_id' => $event->event_id, // Ambil ID dari event yang baru disimpan
@@ -136,13 +138,13 @@ class EventController extends Controller
                         'jabatan_id' => $jabatanIds[$key] ?? null, // Pastikan indeks cocok
                     ]);
                 }
-    
+
                 // Jika berhasil
                 return response()->json([
                     'status' => true,
                     'message' => 'Data event berhasil disimpan',
                 ]);
-    
+
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan pada proses simpan
                 return response()->json([
@@ -151,7 +153,7 @@ class EventController extends Controller
                 ]);
             }
         }
-    
+
         // Redirect jika bukan request Ajax
         return redirect('/');
     }
@@ -162,12 +164,12 @@ class EventController extends Controller
          $user = User::select('user_id', 'name')->get();
          $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
          $agenda = Agenda::where('event_id', $id)->get();
-         
+
          // Ambil data peserta (partisipan) dan jabatannya
          $eventParticipant = EventParticipant::where('event_id', $id)
              ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
              ->get();
-     
+
          return view('event.detail_ajax', [
              'event' => $event,
              'jenisEvent' => $jenisEvent,
@@ -178,18 +180,25 @@ class EventController extends Controller
          ]);
      }
 
+     public function show($id)
+    {
+        $event = Event::with('jenisEvent','participants.user', 'participants.position')->findOrFail($id);
+        return view('pimpinan.eventp.show', compact('event'));
+    }
+
+
      public function edit_ajax($id)
      {
          $event = Event::find($id);
          $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
          $user = User::select('user_id', 'name')->get();
          $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
-         
+
          // Ambil data peserta (partisipan) dan jabatannya
          $eventParticipant = EventParticipant::where('event_id', $id)
              ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
              ->get();
-     
+
          return view('event.edit_ajax', [
              'event' => $event,
              'jenisEvent' => $jenisEvent,
@@ -198,7 +207,7 @@ class EventController extends Controller
              'eventParticipant' => $eventParticipant
          ]);
      }
-     
+
 
     public function update_ajax(Request $request, $id)
     {
@@ -248,12 +257,12 @@ class EventController extends Controller
          $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
          $user = User::select('user_id', 'name')->get();
          $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
-         
+
          // Ambil data peserta (partisipan) dan jabatannya
          $eventParticipant = EventParticipant::where('event_id', $id)
              ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
              ->get();
-     
+
          return view('event.confirm_ajax', [
              'event' => $event,
              'jenisEvent' => $jenisEvent,
