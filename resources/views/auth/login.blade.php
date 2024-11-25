@@ -18,7 +18,7 @@
     <link rel="shortcut icon" href="adminlte/dist/img/logo-jti.png">
     <style>
         body {
-            background-image: url(https://ppid.polinema.ac.id/wp-content/uploads/2024/02/GRAHA-POLINEMA1-slider-01.webp);
+            background-image: url('{{ asset('images/background.webp') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

@@ -19,7 +19,7 @@
                          id="picturePreview">
 
                     <h3 class="profile-username">{{ $user->name }}</h3>
-                    <p class="text-muted">{{ $user->level_nama }}</p>
+                    <p class="text-muted">{{ $user->role->role_name }}</p>
 
                     <form action="{{ route('profile.update_picture') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -54,7 +54,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">NIDN</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="{{ $user->nidn }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $user->username }}" readonly>
                                     </div>
                                 </div>
 
@@ -87,7 +87,6 @@
                                     <label for="oldPassword" class="col-sm-3 col-form-label">Password Lama</label>
                                     <div class="col-sm-9">
                                         <input type="password" name="old_password" class="form-control" id="oldPassword" placeholder="Masukkan password lama" required>
-                                    </ ```blade
                                     </div>
                                 </div>
 

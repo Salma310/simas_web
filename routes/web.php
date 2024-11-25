@@ -6,9 +6,11 @@ use App\Http\Controllers\pimpinan\EventpController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\admin\JenisEventController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\RoleUserController;
+use App\Http\Controllers\StatistikController;
 
 
 /*
@@ -104,7 +106,7 @@ Route::group(['prefix' => 'role'], function () {
     Route::delete('/{id}', [RoleUserController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'event_pimpinan'], function () {
+/*Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);
     Route::post('/list', [EventpController::class, 'list']);
     Route::get('/create', [EventpController::class, 'create']);
@@ -120,7 +122,7 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventpController::class, 'destroy']);
-});
+}); */
 
 Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);
@@ -148,3 +150,5 @@ Route::group(['prefix' => 'event_non_jti'], function () {
     Route::get('/non-jti/{id}/edit', [EventController::class, 'editNonJTI'])->name('event.non-jti.edit'); // Form edit Non-JTI
     Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
 });
+
+Route::get('/statistik', [StatistikController::class, 'index']);

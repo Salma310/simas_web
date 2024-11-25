@@ -3,10 +3,21 @@
 <head>
     <title>PORTAL SIMAS - Forgot Password</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <link rel="shortcut icon" href="adminlte/dist/img/logo-jti.png">
     <style>
         body {
-            background-image: url(https://ppid.polinema.ac.id/wp-content/uploads/2024/02/GRAHA-POLINEMA1-slider-01.webp);
+            background-image: url('{{ asset('images/background.webp') }}');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -113,15 +124,7 @@
             </div>
         @endif
 
-        @if (session('status'))
-            <div class="alert alert-success">
-                <ul class="mb-0">
-                    <li>{{ session('status') }}</li>
-                </ul>
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('password.reset') }}">
+        <form method="POST" id="form-forgot" action="{{ route('password.reset') }}">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Enter your email address</label>
@@ -139,8 +142,74 @@
             </div>
 
             <button type="submit" class="btn btn-confirm">Confirm</button>
-            <a href="{{ url('/login') }}" class="float-center">Back to Login</a>
+            <div class="back-login text-center mt-3">
+                <a href="{{ url('/login') }}" class=" text-decoration-none">Back to Login</a>
+            </div>
         </form>
     </div>
+
+    <!-- jQuery -->
+    <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- jquery-validation -->
+    <script src="adminlte/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="adminlte/plugins/jquery-validation/additional-methods.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="adminlte/dist/js/adminlte.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#form-forgot").validate({
+            rules: {
+                email: {required: true, email: true},
+                password: {required: true, minlength: 6, maxlength: 10},
+                password_confirmation: {required: true, minlength: 6, maxlength: 10, equalTo: "#password"},
+            },
+            submitHandler: function(form) { // ketika valid, maka bagian yg akan dijalankan
+                $.ajax({
+                url: form.action,
+                type: "POST",
+                data: $(form).serialize(),
+                success: function(response) {
+                    if(response.status){ // jika sukses
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: response.message,
+                    }).then(function() {
+                        window.location = response.redirect;
+                    });
+                    }else{ // jika error
+                    $('.error-text').text('');
+                    $.each(response.msgField, function(prefix, val) {
+                        $('#error-'+prefix).text(val[0]);
+                    });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terjadi Kesalahan',
+                        text: response.message
+                    });
+                    }
+                }
+                });
+                return false;
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.input-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+            });
+        });
+    </script>
 </body>
 </html>
