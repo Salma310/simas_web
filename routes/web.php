@@ -9,6 +9,7 @@ use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\StatistikController;
 
 
 /*
@@ -109,3 +110,5 @@ Route::group(['prefix' => 'event_non_jti'], function () {
     Route::get('/non-jti/{id}/edit', [EventController::class, 'editNonJTI'])->name('event.non-jti.edit'); // Form edit Non-JTI
     Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
 });
+
+Route::get('/statistik', [StatistikController::class, 'index']);
