@@ -55,7 +55,7 @@
             </li>
             @elseif (Auth::user()->role->role_name == 'Pimpinan')
             <li class="nav-item">
-                <a href="{{ url('/dashboard_pimpinan') }}" class="nav-link {{ $activeMenu == 'dashboard pimpinan' ? 'active' : '' }} ">
+                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
@@ -68,13 +68,13 @@
                 </a>
             </li>
             <li class="nav-item mt-2">
-                <a href="{{ url('/statistik_pimpinan') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
+                <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile_pimpinan') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>
@@ -100,7 +100,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile_dosen') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>

@@ -245,6 +245,16 @@
                     className: "",
                     orderable: true,
                     searchable: true,
+                    render: function(data) {
+                            if (data) {
+                                var date = new Date(data);
+                                var day = ("0" + date.getDate()).slice(-2);
+                                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                                var year = date.getFullYear();
+                                return day + '-' + month + '-' + year;
+                            }
+                            return data;
+                    }
                 },
                 {
                     data: "status",

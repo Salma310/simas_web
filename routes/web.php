@@ -106,7 +106,7 @@ Route::group(['prefix' => 'role'], function () {
     Route::delete('/{id}', [RoleUserController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'event_pimpinan'], function () {
+/*Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);
     Route::post('/list', [EventpController::class, 'list']);
     Route::get('/create', [EventpController::class, 'create']);
@@ -122,7 +122,7 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventpController::class, 'destroy']);
-});
+}); */
 
 Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);

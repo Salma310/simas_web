@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function profile()
     {
         $title = 'Profile';
-        $user = Auth::user(); // Mendapatkan user yang sedang login
+        $user = User::find(Auth::id());// Mendapatkan user yang sedang login
         $activeMenu = 'profile';
 
         return view('profile.index', compact('title', 'user', 'activeMenu'));
@@ -29,7 +30,7 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first());
         }
 
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Hapus picture lama jika bukan default
         if ($user->picture && $user->picture != 'defaultUser.png') {
@@ -49,11 +50,11 @@ class ProfileController extends Controller
 
     public function updateDataDiri(Request $request)
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string|max:15',
-            'email' => 'required|email|unique:m_user,email' // Validasi email
+            'email' => 'required|string',// Validasi email
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +79,7 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first());
         }
 
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Periksa password lama
         if (!Hash::check($request->old_password, $user->password)) {
