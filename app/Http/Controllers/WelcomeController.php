@@ -14,8 +14,9 @@ class WelcomeController extends Controller
             'list' => ['Home', 'Welcome']
         ];
 
+        $title = 'Dashboard';
         $activeMenu = 'dashboard';
 
-        return view('welcome', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('welcome', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 }

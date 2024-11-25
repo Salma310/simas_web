@@ -13,9 +13,9 @@ class Event extends Model
     protected $primaryKey = 'event_id';
     protected $fillable = ['event_code', 'event_name', 'event_description', 'assign_letter', 'status', 'start_date', 'end_date',  'jenis_event_id'];
 
-    public function eventParticipant()
+    public function participants()
     {
-        return $this->hasMany(EventParticipant::class, 'event_id', 'event_id');
+        return $this->hasMany(EventParticipant::class, 'event_id');
     }
 
     public function agenda()

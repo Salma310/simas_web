@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\pimpinan;
 
 use Illuminate\Http\Request;
 use App\Models\EventType;
@@ -12,23 +12,25 @@ use App\Models\Agenda;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-class EventController extends Controller
+class EventpController extends Controller
 {
     public function index()
     {
 
         $breadcrumb = (object) [
-            'title' => 'Selamat Datang',
+            'title' => 'Event',
             'list' => ['Home', 'Event']
         ];
 
+        $title = 'event';
+        $events = Event::withCount('participants')->get();
         $jenisEvent = EventType::all();
         $jabatan = Position::all();
-        $user = User::all();
         $eventParticipant = EventParticipant::all();
-        $activeMenu = 'event';
+        $user = User::all();
+        $activeMenu = 'event pimpinan';
 
-        return view('event.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant]);
+        return view('pimpinan.eventp.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant, 'events' => $events]);
     }
 
     public function list(Request $request)
@@ -142,6 +144,7 @@ class EventController extends Controller
                     'status' => true,
                     'message' => 'Data event berhasil disimpan',
                 ]);
+
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan pada proses simpan
                 return response()->json([

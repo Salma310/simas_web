@@ -22,7 +22,7 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <h4 class="mt-1 font-weight-bold">{{ ucwords($activeMenu) }}</h4>
+      <h4 class="mt-1 font-weight-bold">{{ ucwords($title) }}</h4>
     </ul>
 
     <!-- Right navbar links -->
@@ -35,7 +35,7 @@
       </li>
       <li class="nav-item pb-3">
         <a class="nav-link" href="{{ url('/profile') }}" role="button">
-          <img src="{{ asset('adminlte/dist/img/avatar5.png') }}" alt="Profile Image" class="img-circle" style="width: 35px; height: 35px; object-fit: cover;">
+          <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('images/defaultUser.png') }}" alt="Profile Image" class="img-circle" style="width: 35px; height: 35px; object-fit: cover;">
         </a>
       </li>
     </ul>

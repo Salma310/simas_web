@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use App\Models\Role;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -17,12 +17,13 @@ class RoleUserController extends Controller
             'list' => ['Home', 'Role User']
         ];
 
+        $title = 'role';
         $page = (object) [
             'title' => 'Daftar role yang terdaftar dalam sistem'
         ];
 
         $activeMenu = 'role user';
-        return view('role.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('admin.role.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)
@@ -52,7 +53,7 @@ class RoleUserController extends Controller
 
         $activeMenu = 'role user';
 
-        return view('role.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('admin.role.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function store(Request $request) {
@@ -133,7 +134,7 @@ class RoleUserController extends Controller
 
     public function create_ajax()
     {
-        return view('role.create_ajax');
+        return view('admin.role.create_ajax');
     }
 
     public function show_ajax(string $id)
@@ -170,7 +171,7 @@ class RoleUserController extends Controller
 
     public function edit_ajax(string $id) {
         $role = Role::find($id);
-        return view('role.edit_ajax', ['role' => $role]);
+        return view('admin.role.edit_ajax', ['role' => $role]);
     }
 
     public function update_ajax(Request $request, string $id)
@@ -209,7 +210,7 @@ class RoleUserController extends Controller
     public function confirm_ajax(string $id)
     {
         $role = Role::find($id);
-        return view('role.confirm_ajax', ['role' => $role]);
+        return view('admin.role.confirm_ajax', ['role' => $role]);
     }
 
     public function delete_ajax(Request $request, string $id)

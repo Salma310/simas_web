@@ -62,24 +62,24 @@
             </li>
             <!-- Data Event Section -->
             <li class="nav-item">
-                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
+                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event pimpinan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
             </li>
             <li class="nav-item mt-2">
-                <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
+                <a href="{{ url('/statistik_pimpinan') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/profile_pimpinan') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>
             </li>
-            
+
             @else
             <li class="nav-item">
                 <a href="{{ url('/dashboard_dosen') }}" class="nav-link {{ $activeMenu == 'dashboard dosen' ? 'active' : '' }} ">
@@ -88,7 +88,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event dosen' ? 'active' : '' }}">
+                <a href="{{ url('/event_dosen') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
@@ -100,7 +100,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
+                <a href="{{ url('/profile_dosen') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
                 </a>
@@ -127,4 +127,20 @@
         background-color: #E0E0E0 !important;
         color: #4894FE !important;
     }
+    .main-sidebar {
+    position: fixed; /* Sidebar tetap di tempat saat menggulir */
+    display: flex;
+    flex-direction: column; /* Atur elemen secara vertikal */
+    height: 100vh; /* Tinggi layar penuh */
+    overflow: hidden; /* Cegah pengguliran di elemen utama */
+    }
+
+    .sidebar {
+    flex: 1; /* Sidebar mengambil sisa ruang */
+    height: calc(100vh - 60px); /* Atur tinggi sidebar dengan responsif */
+    overflow-y: auto; /* Izinkan pengguliran vertikal */
+    overflow-x: hidden; /* Hindari pengguliran horizontal */
+    }
+
+
 </style>
