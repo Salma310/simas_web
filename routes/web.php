@@ -131,7 +131,7 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::post('/', [EventpController::class, 'store']);
     Route::get('/create_ajax', [EventpController::class, 'create_ajax']);
     Route::post('/ajax', [EventpController::class, 'store_ajax']);
-    Route::get('/{id}', [EventpController::class, 'show'])->name('event.show');
+    Route::get('/{id}', [EventpController::class, 'show_ajax'])->name('event.show');
     Route::get('/{id}/edit', [EventpController::class, 'edit']);
     Route::put('/{id}', [EventpController::class, 'update']);
     Route::get('/{id}/edit_ajax', [EventpController::class, 'edit_ajax']);

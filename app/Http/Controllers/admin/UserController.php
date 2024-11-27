@@ -75,7 +75,7 @@ class UserController extends Controller
     public function create_ajax(){
         $role =  Role::select('role_id', 'role_name')->get();
 
-        return view('user.create_ajax')
+        return view('admin.user.create_ajax')
                     ->with('role', $role);
     }
 
