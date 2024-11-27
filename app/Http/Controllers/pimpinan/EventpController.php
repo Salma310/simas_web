@@ -171,7 +171,7 @@ class EventpController extends Controller
             ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
             ->get();
 
-        return view('event.detail_ajax', [
+        return view('pimpinan.eventP.show', [
             'event' => $event,
             'jenisEvent' => $jenisEvent,
             'user' => $user,
