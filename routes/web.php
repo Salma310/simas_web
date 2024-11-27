@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\EventController;
-use App\Http\Controllers\pimpinan\EventpController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\admin\JenisEventController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\admin\EventController;
+use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\RoleUserController;
+use App\Http\Controllers\pimpinan\EventpController;
+use App\Http\Controllers\admin\JenisEventController;
 
 
 /*

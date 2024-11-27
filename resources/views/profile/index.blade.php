@@ -12,7 +12,7 @@
         <div class="col-md-3">
             <div class="card card-primary card-outline text-center">
                 <div class="card-body box-profile">
-                    <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('default-picture.jpeg') }}"
+                    <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('images/defaultUser.png') }}"
                          class="rounded-circle img-fluid mb-3"
                          style="width: 150px; height: 150px;"
                          alt="picture"
@@ -54,7 +54,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">NIDN</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" value="{{ $user->nidn }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $user->username }}" readonly>
                                     </div>
                                 </div>
 
@@ -87,7 +87,6 @@
                                     <label for="oldPassword" class="col-sm-3 col-form-label">Password Lama</label>
                                     <div class="col-sm-9">
                                         <input type="password" name="old_password" class="form-control" id="oldPassword" placeholder="Masukkan password lama" required>
-                                    </ ```blade
                                     </div>
                                 </div>
 
