@@ -11,7 +11,6 @@
         }
         .modal-header {
             border-bottom: none;
-            background-color: #007bff;
             color: white;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -115,8 +114,8 @@
         @method('DELETE')
         <div id="modal-master" class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="roleModalLabel">Edit Data Jenis</h5>
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="roleModalLabel">Hapus Data Jenis Event</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
@@ -135,14 +134,14 @@
                             <th class="text-right col-3">Nama Jenis:</th>
                             <td class="col-9">{{ $jenis->jenis_event_name }}</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <th class="text-right col-3">Tanggal Dibuat:</th>
                             <td class="col-9">{{ \Carbon\Carbon::parse($jenis->created_at)->format('d-m-Y H:i:s') }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Terakhir Diupdate:</th>
                             <td class="col-9">{{ \Carbon\Carbon::parse($jenis->updated_at)->format('d-m-Y H:i:s') }}</td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </div>
                 <div class="modal-footer">

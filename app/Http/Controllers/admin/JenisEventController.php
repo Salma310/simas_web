@@ -31,8 +31,8 @@ class JenisEventController extends Controller
         return DataTables::of($jenis)
             ->addIndexColumn()
             ->addColumn('aksi', function ($jenis) {
-                $btn = '<button onclick="modalAction(\'' . url("jenis/$jenis->jenis_event_id/edit").'\')" class="btn btn-light"><i class="fas fa-edit"></i></button> ';
-                $btn .= '<button onclick="modalAction(\''.url("jenis/$jenis->jenis_event_id/delete").'\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button>';
+                $btn = '<button onclick="modalAction(\'' . url("jenis/$jenis->jenis_event_id/edit").'\')" class="btn btn-info"><i class="fas fa-edit"></i> Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url("jenis/$jenis->jenis_event_id/delete").'\')" class="btn btn-danger "><i class="fas fa-trash"></i> Hapus</button>';
                 return $btn;
             })
             ->rawColumns(['aksi'])

@@ -137,15 +137,20 @@
                     </tr>
                     <tr>
                         <th class="text-right col-3">Tanggal Mulai :</th>
-                        <td class="col-9">{{ $event->start_date }}</td>
+                        <td class="col-9">{{ \Carbon\Carbon::parse($event->start_date)->format('d-m-Y') }}</td>
                     </tr>
                     <tr>
                         <th class="text-right col-3">Tanggal Selesai :</th>
-                        <td class="col-9">{{ $event->end_date }}</td>
+                        <td class="col-9">{{ \Carbon\Carbon::parse($event->end_date)->format('d-m-Y') }}</td>
                     </tr>
+                    
                     <tr>
                         <th class="text-right col-3">Deskripsi Event :</th>
                         <td class="col-9">{{ $event->event_description }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right col-3">Point :</th>
+                        <td class="col-9">{{ $event->point }}</td>
                     </tr>
                 </table>
 
