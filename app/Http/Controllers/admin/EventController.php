@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Agenda;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -35,7 +36,7 @@ class EventController extends Controller
 
     public function list(Request $request)
     {
-        $event = Event::select('event_id', 'event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id')
+        $event = Event::select('event_id', 'event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id', 'point')
             ->with(['jenisEvent', 'participants']);
 
         return DataTables::of($event)
@@ -45,9 +46,9 @@ class EventController extends Controller
                 return $participant ? $participant->user->name : '-';
             })
             ->addColumn('aksi', function ($event) {
-                $btn = '<div class="btn-group" role="group" aria-label="Basic example"> <button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/show_ajax') . '\')" class="btn btn-light"><i class="fas fa-qrcode"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/edit_ajax') . '\')" class="btn btn-light"><i class="fas fa-edit"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/delete_ajax') . '\')" class="btn btn-light"><i class="fas fa-trash"></i></button></div>';
+                $btn = '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/show_ajax') . '\')" class="btn btn-primary"><i class="fas fa-qrcode"></i> Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/edit_ajax') . '\')" class="btn btn-info"><i class="fas fa-edit"></i> Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/delete_ajax') . '\')" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button></div>';
                 return $btn;
             })
             ->rawColumns(['aksi']) // ada teks html
@@ -77,6 +78,7 @@ class EventController extends Controller
                 'start_date' => 'required|date',
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'jenis_event_id' => 'required|integer',
+                'point' => 'required|integer',
                 // Validasi untuk array user_id dan jabatan_id
                 'participant' => 'required|array|min:1',
                 'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
@@ -105,6 +107,7 @@ class EventController extends Controller
                     'end_date' => $request->input('end_date'),
                     'jenis_event_id' => $request->input('jenis_event_id'),
                     'status' => 'not started', // Tambahkan status default
+                    'point' => $request->input('point')
                 ]);
 
                 // Simpan data ke event_participants untuk setiap kombinasi user_id dan jabatan_id

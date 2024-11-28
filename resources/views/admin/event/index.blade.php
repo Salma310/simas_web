@@ -132,7 +132,7 @@
 }
 
 .content .table-container table td .btn {
-    margin: 0 5px;
+    /* margin: 0 5px; */
     border-radius: 20px;
     padding: 8px 15px;
     font-size: 14px;
@@ -190,13 +190,13 @@
         Status
        </th>
        <th>
+        Point
+       </th>
+       <th>
         Action
        </th>
       </tr>
      </thead>
-     <tbody>
-
-     </tbody>
     </table>
    </div>
   </div>
@@ -261,6 +261,12 @@
                     className: "",
                     orderable: false,
                     searchable: false,
+                },
+                {
+                    data: "point",
+                    className: "",
+                    orderable: true,
+                    searchable: false
                 },
                 {
                     data: "aksi",

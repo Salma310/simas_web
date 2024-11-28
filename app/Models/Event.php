@@ -12,7 +12,7 @@ class Event extends Model
 
     protected $table = 'm_event';
     protected $primaryKey = 'event_id';
-    protected $fillable = ['event_code', 'event_name', 'event_description', 'assign_letter', 'status', 'start_date', 'end_date',  'jenis_event_id'];
+    protected $fillable = ['event_code', 'event_name', 'event_description', 'assign_letter', 'status', 'start_date', 'end_date',  'jenis_event_id', 'point'];
 
     public function participants()
     {

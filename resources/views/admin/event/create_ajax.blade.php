@@ -5,7 +5,7 @@
     }
 
     .modal-header {
-        background-color: #28a745;
+        /* background-color: #28a745; */
         color: white;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
@@ -29,13 +29,13 @@
         font-weight: bold;
     }
 
-    .btn-success {
+    .btn-primary {
         background-color: #007bff;
         border-color: #007bff;
         transition: background-color 0.3s ease;
     }
 
-    .btn-success:hover {
+    .btn-primary:hover {
         background-color: #0056b3;
     }
 
@@ -48,7 +48,7 @@
     @csrf
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content" style="border-radius:15px;">
-            <div class="modal-header -primary">
+            <div class="modal-header bg-primary">
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Event</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -63,10 +63,16 @@
                 </div>
 
                 <!-- Kode Event -->
-                <div class="form-group">
-                    <label>Kode Event</label>
-                    <input type="text" name="event_code" id="event_code" class="form-control"
-                        placeholder="Isi kode event" required>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Kode Event</label>
+                        <input type="text" name="event_code" id="event_code" class="form-control"
+                            placeholder="Isi kode event" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Point</label>
+                        <input type="number" name="point" id="point" class="form-control" placeholder="Isi point" required>
+                    </div>
                 </div>
 
                 <!-- Jenis Event -->
@@ -132,7 +138,7 @@
                                 </button>
                             </div>
                             <div class="form-group col-md-1 d-flex align-items-center justify-content-center mt-4">
-                                <button type="button" class="btn btn-success btn-sm" id="btn-add-item">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-add-item">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>

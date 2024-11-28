@@ -115,8 +115,8 @@
         @method('PUT')
         <div id="modal-master" class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="roleModalLabel">Edit Data Jenis</h5>
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="roleModalLabel">Edit Data Jenis Event</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         &times;
                     </button>
