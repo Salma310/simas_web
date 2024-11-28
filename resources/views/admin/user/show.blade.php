@@ -1,56 +1,66 @@
-@extends('layouts.template')
 
-@section('content')
-<div class="card card-outline card-primary">
-    <div class="card-header">
-        <h3 class="card-title">{{ $page->title }}</h3>
-        <div class="card-tools"></div>
-    </div>
-
-    <div class="card-body">
-        @empty($user)
-        <div class="alert alert-danger alert-dismissible">
-            <h5><i class="icon fas fa-ban"></i> Kesalahan!</h5>
-            Data yang Anda cari tidak ditemukan.
+@empty($user)
+    <div id="modal-master" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
+                    Data yang anda cari tidak ditemukan
+                </div>
+                <a href="{{ url('/user') }}" class="btn btn-warning">Kembali</a>
+            </div>
         </div>
-        @else
-        <table class="table table-bordered table-striped table-hover table-sm">
-            <tr>
-                <th>ID</th>
-                <td>{{ $user->user_id }}</td>
-            </tr>
-            <tr>
-                <th>Role</th>
-                <td>{{ $user->role->role_nama }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ $user->username }}</td>   
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ $user->email }}</td>   
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>********</td>
-            </tr>
-            <tr>
-                <th>Nama</th>
-                <td>{{ $user->name }}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>{{ $user->phone }}</td>
-            </tr>
-        </table>
-        @endempty
-
-        <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
     </div>
-</div>
-@endsection
-@push('css')
-@endpush
-@push('js')
-@endpush
+@else
+    <div id="modal-master" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Data User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm table-bordered table-striped">
+                    <tr>
+                        <th class="text-right col-3">Role :</th>
+                        <td class="col-9">{{ $user->role->role_name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right col-3">Username :</th>
+                        <td class="col-9">{{ $user->username }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right col-3">Nama :</th>
+                        <td class="col-9">{{ $user->name }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right col-3">Email :</th>
+                        @if ($user->email == null)
+                            <td><span class="badge badge-danger">Email Masih Kosong</span></td>
+                        @else
+                            <td>{{ $user->email }}</td>
+                        @endif
+                    </tr>
+                    <tr>
+                        <th class="text-right col-3">No Telp :</th>
+                        @if ($user->phone == null)
+                            <td><span class="badge badge-danger">No Telp Masih Kosong</span></td>
+                        @else
+                            <td>{{ $user->phone }}</td>
+                        @endif
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+@endempty

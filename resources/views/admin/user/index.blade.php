@@ -127,17 +127,7 @@
             color: #6c757d;
             border: 1px solid #6c757d;
         }
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .btn-light {
-            background-color: #f8f9fa;
-            color: #6c757d;
-            border: 1px solid #dee2e6;
-            border-radius: 15px;
-        }
-        .btn-primary, .btn-info, .btn-danger {
+        body td .btn{
             margin-right: 5px;
             border-radius: 20px;
             padding: 8px 15px;
