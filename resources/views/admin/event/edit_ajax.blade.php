@@ -90,17 +90,30 @@
                         <small id="error-point" class="error-text form-text text-danger"></small>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Jenis Event</label>
-                    <select name="jenis_event_id" id="jenis_event_id" class="form-control" required>
-                        @foreach ($jenisEvent as $l)
-                            <option {{ $l->jenis_event_id == $event->kategori_id ? 'selected' : '' }}
-                                value="{{ $l->jenis_event_id }}">
-                                {{ $l->jenis_event_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <small id="error-jenis_event_id" class="error-text form-text text-danger"></small>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Jenis Event</label>
+                        <select name="jenis_event_id" id="jenis_event_id" class="form-control" required>
+                            @foreach ($jenisEvent as $l)
+                                <option {{ $l->jenis_event_id == $event->kategori_id ? 'selected' : '' }}
+                                    value="{{ $l->jenis_event_id }}">
+                                    {{ $l->jenis_event_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small id="error-jenis_event_id" class="error-text form-text text-danger"></small>
+                    </div>
+                    {{-- <div class="form-group col-md-6">
+                        <label>Status</label>
+                        <select name="event_id" id="event_id" class="form-control" required>
+                            @foreach ($event as $e)
+                                <option value="{{ $e->event_id }}" {{ $e->event_id == $selectedEventId ? 'selected' : '' }}>
+                                    {{ $e->status }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small id="error-status" class="error-text form-text text-danger"></small>
+                    </div> --}}
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
