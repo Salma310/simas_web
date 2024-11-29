@@ -190,6 +190,7 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <a href="{{ url('/event/'.$event->event_id.'/export_pdf')}}" class="btn btn-success"><i class="fa fa-file-pdf"></i> Export Surat Tugas</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>

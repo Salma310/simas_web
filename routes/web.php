@@ -64,6 +64,7 @@ Route::group(['prefix' => 'event'], function () {
     Route::get('/{id}/delete_ajax', [EventController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventController::class, 'destroy']);
+    Route::get('/{id}/export_pdf', [EventController::class, 'export_pdf']);
 });
 
 Route::get('/profil', [ProfileController::class, 'index'])->name('profil');
