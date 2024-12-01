@@ -90,7 +90,7 @@
         </div>
         <!-- /.content-wrapper -->
 
-        @include('layouts.footer')
+        {{-- @include('layouts.footer') --}}
     </div>
     <!-- ./wrapper -->
 

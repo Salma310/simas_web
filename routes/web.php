@@ -8,6 +8,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\MyEventController;
+use App\Http\Controllers\AgendaController;
+
 
 
 /*
@@ -107,3 +110,38 @@ Route::group(['prefix' => 'event_non_jti'], function () {
     Route::get('/non-jti/{id}/edit', [EventController::class, 'editNonJTI'])->name('event.non-jti.edit'); // Form edit Non-JTI
     Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
 });
+
+
+Route::group(['prefix' => 'myevent'], function () {
+    Route::get('/', [MyEventController::class, 'index']);
+    Route::post('/list', [MyEventController::class, 'list']);
+    Route::get('/create_ajax', [MyEventController::class, 'create_ajax']);
+    Route::post('/ajax', [MyEventController::class, 'store_ajax']);
+    Route::get('/{id}/edit_ajax', [MyEventController::class, 'edit_ajax']);
+    Route::get('/{id}/show_ajax', [MyEventController::class, 'show_ajax']);
+    Route::put('/{id}/update_ajax', [MyEventController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [MyEventController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [MyEventController::class, 'delete_ajax']);
+    Route::get('/agenda', [MyEventController::class, 'agenda']);
+    Route::post('/agenda/list', [MyEventController::class, 'agenda_list']);
+    Route::get('/agenda/show', [MyEventController::class, 'agenda_show']);
+    Route::get('/{id}/agenda', [MyEventController::class, 'agenda_show']);
+    Route::get('/{id}/agenda/edit', [MyEventController::class, 'agenda_edit']);
+    Route::get('/{id}/agenda/update', [MyEventController::class, 'agenda_update']);
+    Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delconfirm']);
+    Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delete']);
+
+});
+
+
+// Route::group(['prefix' => 'agenda'], function () {
+//     Route::get('/', [AgendaController::class, 'index']);
+//     Route::post('/list', [AgendaController::class, 'list']);
+//     Route::get('/create_ajax', [AgendaController::class, 'create_ajax']);
+//     Route::post('/ajax', [AgendaController::class, 'store_ajax']);
+//     Route::get('/{id}/edit_ajax', [AgendaController::class, 'edit_ajax']);
+//     Route::get('/{id}/show_ajax', [AgendaController::class, 'show_ajax']);
+//     Route::put('/{id}/update_ajax', [AgendaController::class, 'update_ajax']);
+//     Route::get('/{id}/delete_ajax', [AgendaController::class, 'confirm_ajax']);
+//     Route::delete('/{id}/delete_ajax', [AgendaController::class, 'delete_ajax']);
+// });
