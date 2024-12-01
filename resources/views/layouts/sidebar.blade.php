@@ -2,6 +2,7 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            @if (Auth::user()->role->role_name == 'Admin')
             <!-- Dashboard -->
             <li class="nav-item">
                 <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
@@ -52,17 +53,16 @@
                     <p>Profile</p>
                 </a>
             </li>
-
-            <li class="nav-header">Menu Pimpinan</li>
+            @elseif (Auth::user()->role->role_name == 'Pimpinan')
             <li class="nav-item">
-                <a href="{{ url('/dashboard_pimpinan') }}" class="nav-link {{ $activeMenu == 'dashboard pimpinan' ? 'active' : '' }} ">
+                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
             <!-- Data Event Section -->
             <li class="nav-item">
-                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
+                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event pimpinan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
@@ -80,7 +80,7 @@
                 </a>
             </li>
 
-            <li class="nav-header">Menu Dosen</li>
+            @else
             <li class="nav-item">
                 <a href="{{ url('/dashboard_dosen') }}" class="nav-link {{ $activeMenu == 'dashboard dosen' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -88,7 +88,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
+                <a href="{{ url('/event_dosen') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
@@ -105,6 +105,7 @@
                     <p>Profile</p>
                 </a>
             </li>
+            @endif
             <!-- Button Logout -->
             <li class="nav-header">Log Out</li>
             <li class="nav-item logout">
@@ -126,4 +127,20 @@
         background-color: #E0E0E0 !important;
         color: #4894FE !important;
     }
+    .main-sidebar {
+    position: fixed; /* Sidebar tetap di tempat saat menggulir */
+    display: flex;
+    flex-direction: column; /* Atur elemen secara vertikal */
+    height: 100vh; /* Tinggi layar penuh */
+    overflow: hidden; /* Cegah pengguliran di elemen utama */
+    }
+
+    .sidebar {
+    flex: 1; /* Sidebar mengambil sisa ruang */
+    height: calc(100vh - 60px); /* Atur tinggi sidebar dengan responsif */
+    overflow-y: auto; /* Izinkan pengguliran vertikal */
+    overflow-x: hidden; /* Hindari pengguliran horizontal */
+    }
+
+
 </style>

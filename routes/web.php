@@ -1,16 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EventController;
+use App\Http\Controllers\admin\EventController;
+use App\Http\Controllers\pimpinan\EventpController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\JenisEventController;
+use App\Http\Controllers\admin\JenisEventController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\AgendaController;
-
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\RoleUserController;
+use App\Http\Controllers\StatistikController;
 
 
 /*
@@ -31,9 +36,10 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth');
 
 Route::get('forgot', [AuthController::class, 'showForgot'])->name('password.request');
 Route::post('forgot', [AuthController::class, 'forgot'])->name('password.email');
-Route::post('reset', [AuthController::class, 'resetPassword'])->name('password.reset');
+Route::post('reset', [AuthController::class, 'forgot'])->name('password.reset');
 Route::get('/dashboard', [WelcomeController::class, 'index']);
 
+Route::get('/notifikasi', [NotifikasiController::class, 'index']);
 
 
 Route::get('/jenis', [JenisEventController::class, 'index']);
@@ -63,25 +69,29 @@ Route::group(['prefix' => 'event'], function () {
     Route::get('/{id}/delete_ajax', [EventController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventController::class, 'destroy']);
+    Route::get('/{id}/export_pdf', [EventController::class, 'export_pdf']);
 });
 
 Route::get('/profil', [ProfileController::class, 'index'])->name('profil');
+Route::post('/profil/picture', [ProfileController::class, 'updatePicture'])->name('profile.update_picture');
+Route::post('/profil/datadiri', [ProfileController::class, 'updateDataDiri'])->name('profile.update_data_diri');
+Route::post('/profil/password', [ProfileController::class, 'updatePassword'])->name('profile.update_password');
 
 
 Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'index']);
     Route::post('/list', [UserController::class, 'list']);
-    Route::post('/', [UserController::class, 'store']);
     Route::get('/create_ajax', [UserController::class, 'create_ajax']);
     Route::post('/ajax', [UserController::class, 'store_ajax']);
     Route::get('/{id}/show_ajax', [UserController::class, 'show']);
-    Route::get('/{id}/edit', [UserController::class, 'edit']);
-    Route::put('/{id}', [UserController::class, 'update']);
     Route::get('/{id}/edit_ajax', [UserController::class, 'edit_ajax']);
     Route::put('/{id}/update_ajax', [UserController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [UserController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
+    // Route::post('/', [UserController::class, 'store']);
+    // Route::get('/{id}/edit', [UserController::class, 'edit']);
+    // Route::put('/{id}', [UserController::class, 'update']);
+    // Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 Route::get('/profile', [ProfileController::class, 'profile']);
 Route::post('/profile/update', [ProfileController::class, 'updateAvatar']);
@@ -100,6 +110,42 @@ Route::group(['prefix' => 'role'], function () {
     Route::delete('/{id}/delete_ajax', [RoleUserController::class, 'delete_ajax']);
     Route::get('/export_pdf', [RoleUserController::class, 'export_pdf']);
     Route::delete('/{id}', [RoleUserController::class, 'destroy']);
+});
+
+/*Route::group(['prefix' => 'event_pimpinan'], function () {
+    Route::get('/', [EventpController::class, 'index']);
+    Route::post('/list', [EventpController::class, 'list']);
+    Route::get('/create', [EventpController::class, 'create']);
+    Route::post('/', [EventpController::class, 'store']);
+    Route::get('/create_ajax', [EventpController::class, 'create_ajax']);
+    Route::post('/ajax', [EventpController::class, 'store_ajax']);
+    Route::get('/{id}', [EventpController::class, 'show'])->name('event.show');
+    Route::get('/{id}/edit', [EventpController::class, 'edit']);
+    Route::put('/{id}', [EventpController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [EventpController::class, 'edit_ajax']);
+    Route::get('/{id}/show_ajax', [EventpController::class, 'show_ajax']);
+    Route::put('/{id}/update_ajax', [EventpController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
+    Route::delete('/{id}', [EventpController::class, 'destroy']);
+}); */
+
+Route::group(['prefix' => 'event_pimpinan'], function () {
+    Route::get('/', [EventpController::class, 'index']);
+    Route::post('/list', [EventpController::class, 'list']);
+    Route::get('/create', [EventpController::class, 'create']);
+    Route::post('/', [EventpController::class, 'store']);
+    Route::get('/create_ajax', [EventpController::class, 'create_ajax']);
+    Route::post('/ajax', [EventpController::class, 'store_ajax']);
+    Route::get('/{id}', [EventpController::class, 'show_ajax'])->name('event.show');
+    Route::get('/{id}/edit', [EventpController::class, 'edit']);
+    Route::put('/{id}', [EventpController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [EventpController::class, 'edit_ajax']);
+    Route::get('/{id}/show_ajax', [EventpController::class, 'show_ajax']);
+    Route::put('/{id}/update_ajax', [EventpController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
+    Route::delete('/{id}', [EventpController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'event_non_jti'], function () {
@@ -145,3 +191,4 @@ Route::group(['prefix' => 'myevent'], function () {
 //     Route::get('/{id}/delete_ajax', [AgendaController::class, 'confirm_ajax']);
 //     Route::delete('/{id}/delete_ajax', [AgendaController::class, 'delete_ajax']);
 // });
+Route::get('/statistik', [StatistikController::class, 'index']);

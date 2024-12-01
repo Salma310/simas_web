@@ -53,8 +53,8 @@ class AuthController extends Controller
     public function forgot(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
-            'password' => 'required|min:8|confirmed',
+            'email' => 'required|email|exists:m_user',
+            'password' => 'required|min:6|confirmed',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -63,12 +63,16 @@ class AuthController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('login')
-                ->with('status', 'Password berhasil direset. Silakan login dengan password baru.');
+            return response()->json([
+                'status' => true,
+                'message' => 'Password berhasil direset. Silakan login dengan password baru',
+                'redirect' => url('/login')
+            ]);
         }
 
-        return back()->withErrors([
-            'email' => 'Email tidak ditemukan.',
+        return response()->json([
+            'status' => false,
+            'message' => 'Password tidak dapat diganti',
         ]);
     }
 }

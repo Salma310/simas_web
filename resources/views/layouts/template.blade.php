@@ -33,7 +33,8 @@
 
     <!-- DataTables -->
     <link rel="stylesheet"href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet"href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link
+        rel="stylesheet"href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet"href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
     <!-- SweetAlert2 -->
@@ -51,6 +52,20 @@
             margin-bottom: 0 !important;
             /* Hilangkan margin bawah logo */
         }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .preloader img {
+            animation: spin 1s linear infinite;
+        }
     </style>
 
     @stack('css') <!-- Digunakan untuk memanggil custom css dari perintah push('css') pada masing-masing view -->
@@ -59,6 +74,10 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
+        <!-- Preloader -->
+        <div class="preloader d-flex justify-content-center align-items-center bg-info">
+            <img src="adminlte/dist/img/logo-jti.png" alt="logo-jti" style="max-width: 80%;">
+        </div>
         {{-- Navbar --}}
         @include('layouts.header')
         {{-- /.navbar --}}
