@@ -153,3 +153,4 @@ Route::group(['prefix' => 'event_non_jti'], function () {
 });
 
 Route::get('/statistik', [StatistikController::class, 'index']);
+Route::get('notifikasi_event/{id}', [NotifikasiController::class, 'indexEvent'])->name('notifikasi_event.show');

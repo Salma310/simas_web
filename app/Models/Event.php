@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Notifications\Notifiable;
 
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'm_event';
     protected $primaryKey = 'event_id';
@@ -24,10 +25,10 @@ class Event extends Model
         return $this->hasMany(Agenda::class, 'agenda_id');
     }
 
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class, 'notification_id');
-    }
+    // public function notifications()
+    // {
+    //     return $this->hasMany(Notification::class, 'notification_id');
+    // }
 
     public function jenisEvent()
     {

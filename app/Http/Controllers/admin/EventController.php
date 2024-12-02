@@ -10,6 +10,8 @@ use App\Models\Position;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Agenda;
+use App\Notifications\EventNotification;
+use Illuminate\Support\Facades\Notification;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -39,6 +41,10 @@ class EventController extends Controller
     {
         $event = Event::select('event_id', 'event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id', 'point')
             ->with(['jenisEvent', 'participants']);
+
+        if ($request->jenis_event_id) {
+            $event->where('jenis_event_id', $request->jenis_event_id);
+        }
 
         return DataTables::of($event)
             ->addIndexColumn()
@@ -120,6 +126,9 @@ class EventController extends Controller
                         'jabatan_id' => $participants['jabatan_id']
                     ]);
                 }
+
+                $users  = User::all();
+                Notification::send($users, new EventNotification($event));
 
                 // Jika berhasil
                 return response()->json([

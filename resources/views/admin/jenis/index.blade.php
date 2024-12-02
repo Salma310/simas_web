@@ -155,6 +155,7 @@
             processing: true,
             serverSide: true,
             searching: false,
+            lengthChange: false,
             ajax: {
                 "url": "{{ route('jenis.list') }}",
                 "type": "POST",

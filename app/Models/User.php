@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable; 
 
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     public function getJWTIdentifier(){
         return $this->getKey();
@@ -55,11 +56,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Profil::class);
     }
 
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
 
     public function eventParticipant()
     {
