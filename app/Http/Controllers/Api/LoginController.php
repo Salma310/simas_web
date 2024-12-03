@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +28,7 @@ class LoginController extends Controller
         }
 
         // Cek user berdasarkan username atau email
-        $user = UserModel::where('username', $request->username)
+        $user = User::where('username', $request->username)
             // ->orWhere('email', $request->username)
             ->first();
 
@@ -49,17 +49,14 @@ class LoginController extends Controller
 
         // Generate token
         $token = auth()->guard('api')->login($user);
+        $user->auth_token = $token;
+        $user->save();
 
         // Return response
         return response()->json([
             'success' => true,
             'message' => 'Login successful',
-            'user' => [
-                'id' => $user->id,
-                'username' => $user->username,
-                // 'email' => $user->email,
-                'role_kode' => $user->role->role_kode, // Asumsikan role relasi sudah diatur
-            ],
+            'user' => $user,
             'token' => $token,
         ], 200)->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')

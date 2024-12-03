@@ -11,11 +11,11 @@ class Agenda extends Model
 
     protected $table = 't_agenda';
     protected $primaryKey = 'agenda_id';
-    protected $fillable = ['event_id', 'nama_agenda', 'waktu', 'tempat', 'point_beban_kerja'];
+    protected $fillable = ['event_id', 'nama_agenda', 'start_date','end_date', 'tempat', 'point_beban_kerja', 'status', 'jabatan_id'];
 
-    public function event()
+    public function events()
     {
-        return $this->belongsTo(Event::class, 'event_id', 'event_id');
+        return $this->belongsTo(Event::class, 'event_id');
     }
 
     public function assignees()
@@ -25,11 +25,16 @@ class Agenda extends Model
 
     public function documents()
     {
-        return $this->hasMany(AgendaDocument::class);
+        return $this->hasMany(AgendaDocument::class, 'agenda_id');
     }
 
     public function workloads()
     {
         return $this->hasMany(Workload::class);
+    }
+
+    public function position()
+    {
+        return $this->BelongsToMany(Position::class, 'jabatan_id');
     }
 }

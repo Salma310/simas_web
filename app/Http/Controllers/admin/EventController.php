@@ -35,7 +35,7 @@ class EventController extends Controller
 
     public function list(Request $request)
     {
-        $event = Event::select('event_id', 'event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id')
+        $event = Event::select('event_id', 'event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id', 'point')
             ->with(['jenisEvent', 'participants']);
 
         return DataTables::of($event)
@@ -77,6 +77,7 @@ class EventController extends Controller
                 'start_date' => 'required|date',
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'jenis_event_id' => 'required|integer',
+                'point' => 'required|numeric|min:0',
                 // Validasi untuk array user_id dan jabatan_id
                 'participant' => 'required|array|min:1',
                 'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
@@ -105,6 +106,7 @@ class EventController extends Controller
                     'end_date' => $request->input('end_date'),
                     'jenis_event_id' => $request->input('jenis_event_id'),
                     'status' => 'not started', // Tambahkan status default
+                    'point' => $request->input('point'),
                 ]);
 
                 // Simpan data ke event_participants untuk setiap kombinasi user_id dan jabatan_id
@@ -190,6 +192,7 @@ class EventController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'jenis_event_id' => 'required|integer',
+            'point' => 'required|numeric|min:0',
             'participant' => 'required|array|min:1',
             'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
             'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
@@ -217,6 +220,7 @@ class EventController extends Controller
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'jenis_event_id' => $request->jenis_event_id,
+                'point' => $request->point,
             ]);
 
             // Delete existing participants
