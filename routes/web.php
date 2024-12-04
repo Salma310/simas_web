@@ -1,11 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\EventController;
-use App\Http\Controllers\pimpinan\EventpController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\admin\JenisEventController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleUserController;
@@ -14,7 +11,14 @@ use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\admin\EventController;
+use App\Http\Controllers\dosen\EventdController;
+use App\Http\Controllers\dosen\AgendaController;
+use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\RoleUserController;
+use App\Http\Controllers\pimpinan\EventpController;
+use App\Http\Controllers\admin\JenisEventController;
 use App\Http\Controllers\StatistikController;
 
 
@@ -119,17 +123,38 @@ Route::group(['prefix' => 'role'], function () {
     Route::post('/', [EventpController::class, 'store']);
     Route::get('/create_ajax', [EventpController::class, 'create_ajax']);
     Route::post('/ajax', [EventpController::class, 'store_ajax']);
-    Route::get('/{id}', [EventpController::class, 'show'])->name('event.show');
+    Route::get('/{id}', [EventpController::class, 'show']);
     Route::get('/{id}/edit', [EventpController::class, 'edit']);
     Route::put('/{id}', [EventpController::class, 'update']);
     Route::get('/{id}/edit_ajax', [EventpController::class, 'edit_ajax']);
-    Route::get('/{id}/show_ajax', [EventpController::class, 'show_ajax']);
+    Route::get('/{id}/show_ajax', [EventpController::class, 'show_ajax'])->name('event.show');
     Route::put('/{id}/update_ajax', [EventpController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [EventpController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventpController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventpController::class, 'destroy']);
 }); */
 
+Route::group(['prefix' => 'event_dosen'], function () {
+    Route::get('/', [EventdController::class, 'index']);
+    Route::post('/list', [EventdController::class, 'list']);
+    Route::get('/create', [EventController::class, 'create']);
+    Route::post('/', [EventdController::class, 'store']);
+    Route::get('/create_ajax', [EventdController::class, 'create_ajax']);
+    Route::post('/ajax', [EventdController::class, 'store_ajax']);
+    Route::get('/{id}', [EventdController::class, 'show_ajax'])->name('dosen.event.show');
+    Route::get('/{id}/edit', [EventdController::class, 'edit']);
+    Route::put('/{id}', [EventdController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [EventdController::class, 'edit_ajax']);
+
+    Route::get('/{id}/show_ajax', [EventdController::class, 'show_ajax']);
+    Route::put('/{id}/update_ajax', [EventdController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [EventdController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [EventdController::class, 'delete_ajax']);
+    Route::delete('/{id}', [EventdController::class, 'destroy']);
+    Route::get('/{id}/agenda', [AgendaController::class, 'index'])->name('event.agenda');
+    Route::post('/{id}/agenda/list', [AgendaController::class, 'list'])->name('agenda.list');
+    Route::get('/{id}/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
+    Route::post('/{id}/agenda/store', [AgendaController::class, 'store'])->name('agenda.store');
 Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);
     Route::post('/list', [EventpController::class, 'list']);

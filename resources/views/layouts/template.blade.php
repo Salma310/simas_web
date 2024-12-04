@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Portal Simas JTI</title>
-    <link rel="shortcut icon" href="adminlte/dist/img/logo-jti.png">
+    <link rel="shortcut icon" href="{{ asset('adminlte/dist/img/logo-jti.png') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}"> {{-- Untuk mengirimkan token Laravel CSRF pada setiap request ajax --}}
 
@@ -76,7 +76,7 @@
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader d-flex justify-content-center align-items-center bg-info">
-            <img src="adminlte/dist/img/logo-jti.png" alt="logo-jti" style="max-width: 80%;">
+            <img src="{{ asset('adminlte/dist/img/logo-jti.png') }}" alt="logo-jti" style="max-width: 80%;">
         </div>
         {{-- Navbar --}}
         @include('layouts.header')

@@ -11,7 +11,7 @@ class AgendaDocument extends Model
 
     protected $table = 'agenda_documents';
     protected $primaryKey = 'document_id';
-    protected $fillable = ['agenda_id', 'file_name', 'file_path', 'upload_by'];
+    protected $fillable = ['agenda_id', 'file_name', 'file_path'];
 
     public function agenda()
     {
