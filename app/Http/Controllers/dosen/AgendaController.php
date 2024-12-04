@@ -74,6 +74,11 @@ class AgendaController extends Controller
 
             // If validation fails, return response with error messages
             if ($validator->fails()) {
+                if ($request->hasFile('dokumen_pendukung')) {
+                    $file = $request->file('dokumen_pendukung');
+                    dd($file->getMimeType());
+                }
+
                 return response()->json([
                     'status' => false,
                     'message' => 'Validasi Gagal',

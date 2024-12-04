@@ -50,15 +50,20 @@ class LoginController extends Controller
         // Generate token
         $token = auth()->guard('api')->login($user);
         $user->auth_token = $token;
-        $user->save();
+    $user->save();
 
         // Return response
         return response()->json([
             'success' => true,
             'message' => 'Login successful',
-            'user' => $user,
+            'user' => [
+                'id' => $user->user_id,
+                'username' => $user->username,
+                'email' => $user->email,
+            ],
             'token' => $token,
-        ], 200)->header('Access-Control-Allow-Origin', '*')
+        ],  200)
+        ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
