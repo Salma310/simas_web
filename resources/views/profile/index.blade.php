@@ -19,7 +19,7 @@
                          id="picturePreview">
 
                     <h3 class="profile-username">{{ $user->name }}</h3>
-                    <p class="text-muted">{{ $user->level_nama }}</p>
+                    <p class="text-muted">{{ $user->role->role_name }}</p>
 
                     <form action="{{ route('profile.update_picture') }}" method="POST" enctype="multipart/form-data">
                         @csrf

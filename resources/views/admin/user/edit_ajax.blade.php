@@ -22,7 +22,7 @@
         @method('PUT')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #007bff">
+                <div class="modal-header bg-info text-white">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Data User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -46,26 +46,26 @@
                         <small id="error-username" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
+                        <label>Nama</label>
+                        <input value="{{ $user->name }}" type="text" name="name" id="name" class="form-control" required>
+                        <small id="error-name" class="error-text form-text text-danger"></small>
+                    </div>
+                    {{-- <div class="form-group">
                         <label>Email</label>
                         <input value="{{ $user->email }}" type="email" name="email" id="email" class="form-control" required>
                         <small id="error-email" class="error-text form-text text-danger"></small>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label>Password</label>
                         <input value="" type="password" name="password" id="password" class="form-control">
                         <small class="form-text text-muted">Abaikan jika tidak ingin ubah password</small>
                         <small id="error-password" class="error-text form-text text-danger"></small>
                     </div>
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input value="{{ $user->name }}" type="text" name="name" id="name" class="form-control" required>
-                        <small id="error-name" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label>Phone</label>
                         <input value="{{ $user->phone }}" type="text" name="phone" id="phone" class="form-control" required>
                         <small id="error-phone" class="error-text form-text text-danger"></small>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
@@ -81,10 +81,10 @@
                 rules: {
                     role_id: { required: true, number: true },
                     username: { required: true, minlength: 3, maxlength: 20 },
-                    email: { required: true, maxlength: 20 },
                     password: { minlength: 6, maxlength: 20 },
                     name: { required: true, minlength: 3, maxlength: 200 },
-                    phone: { required: true, minlength: 3, maxlength: 100 },
+                    // email: { required: true, maxlength: 20 },
+                    // phone: { required: true, minlength: 3, maxlength: 100 },
                 },
                 submitHandler: function(form) {
                     $.ajax({

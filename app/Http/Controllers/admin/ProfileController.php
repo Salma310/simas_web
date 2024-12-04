@@ -7,53 +7,60 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function profile()
     {
         $title = 'Profile';
-        $user = Auth::user(); // Mendapatkan user yang sedang login
+        $user = User::find(Auth::id());// Mendapatkan user yang sedang login
         $activeMenu = 'profile';
 
         return view('profile.index', compact('title', 'user', 'activeMenu'));
     }
 
     public function updatePicture(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
-        ]);
+{
+    // Validasi input
+    $validator = Validator::make($request->all(), [
+        'picture' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->with('error', $validator->errors()->first());
-        }
-
-        $user = Auth::user();
-
-        // Hapus picture lama jika bukan default
-        if ($user->picture && $user->picture != 'defaultUser.png') {
-            Storage::delete('public/picture/' . $user->picture);
-        }
-
-        // Simpan picture baru
-        $pictureName = time() . '.' . $request->picture->extension();
-        $request->picture->storeAs('public/picture', $pictureName);
-
-        // Update picture di database
-        $user->picture = $pictureName;
-        $user->save();
-
-        return redirect()->back()->with('success', 'Foto profil berhasil diperbarui.');
+    if ($validator->fails()) {
+        return redirect()->back()->with('error', $validator->errors()->first());
     }
+
+    // Dapatkan user yang sedang login
+    $user = User::find(Auth::id());
+
+    // Hapus gambar lama jika bukan default
+    if ($user->picture && $user->picture != 'defaultUser.png') {
+        Storage::delete('public/picture/' . $user->picture);
+    }
+
+    // Hash nama file baru
+    $extension = $request->picture->extension();
+    $pictureHash = hash('sha256', time() . $request->picture->getClientOriginalName()) . '.' . $extension;
+
+    // Simpan file dengan nama hash
+    $request->picture->storeAs('public/picture', $pictureHash);
+
+    // Update database dengan nama file yang di-hash
+    $user->picture = $pictureHash;
+    $user->save();
+
+    return redirect()->back()->with('success', 'Foto profil berhasil diperbarui.');
+}
+
 
     public function updateDataDiri(Request $request)
     {
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string|max:15',
-            'email' => 'required|email|unique:m_user,email' // Validasi email
+            'email' => 'required|string',// Validasi email
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +85,7 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', $validator->errors()->first());
         }
 
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         // Periksa password lama
         if (!Hash::check($request->old_password, $user->password)) {

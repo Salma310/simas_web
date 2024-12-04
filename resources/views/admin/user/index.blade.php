@@ -127,15 +127,11 @@
             color: #6c757d;
             border: 1px solid #6c757d;
         }
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .btn-light {
-            background-color: #f8f9fa;
-            color: #6c757d;
-            border: 1px solid #dee2e6;
-            border-radius: 15px;
+        body td .btn{
+            margin-right: 5px;
+            border-radius: 20px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
         }
         .header .search-box {
             display: flex;
@@ -278,7 +274,7 @@
                 <span>&#x1F50D;</span> Filters
             </button> --}}
             <button class="btn btn-primary" onclick="modalAction('{{ url('user/create_ajax') }}')">
-                <span>&#x2795;</span> Add User
+                <i class="fas fa-plus"></i> Add User
             </button>
         </div>
         <div class="search-box">
@@ -318,7 +314,7 @@
                     </div>
                 </div>
             </div>
-            <table class="table-container mt-4" id="table_user">
+            <table class="table-container  mt-4" id="table_user">
                 <thead>
                     <tr><th>No</th><th>Username</th><th>Nama</th><th>Role</th><th>Aksi</th></tr>
                 </thead>

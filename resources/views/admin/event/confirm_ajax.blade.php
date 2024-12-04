@@ -20,13 +20,13 @@
         background-color: #f9f9f9;
     }
 
-    .btn-danger {
+    .btn-warning {
         background-color: #ffc107;
         border-color: #ffc107;
         transition: background-color 0.3s ease;
     }
 
-    .btn-danger:hover {
+    .btn-warning:hover {
         background-color: #e0a800;
     }
 
@@ -81,17 +81,17 @@
                         </tr>
                         <tr>
                             <th class="text-right col-3">Tanggal Mulai :</th>
-                            <td class="col-9">{{ $event->start_date }}</td>
+                            <td class="col-9">{{ \Carbon\Carbon::parse($event->start_date)->format('d-m-Y') }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Tanggal Selesai :</th>
-                            <td class="col-9">{{ $event->end_date }}</td>
-                        </tr>
+                            <td class="col-9">{{ \Carbon\Carbon::parse($event->end_date)->format('d-m-Y') }}</td>
+                        </tr>                        
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                    <button type="submit" class="btn btn-primary">Ya, Hapus</button>
+                    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
                 </div>
             </div>
         </div>

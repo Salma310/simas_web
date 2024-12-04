@@ -63,12 +63,16 @@ class AuthController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
 
-            return redirect()->route('login')
-                ->with('status', 'Password berhasil direset. Silakan login dengan password baru.');
+            return response()->json([
+                'status' => true,
+                'message' => 'Password berhasil direset. Silakan login dengan password baru',
+                'redirect' => url('/login')
+            ]);
         }
 
-        return back()->withErrors([
-            'email' => 'Email tidak ditemukan.',
+        return response()->json([
+            'status' => false,
+            'message' => 'Password tidak dapat diganti',
         ]);
     }
 }

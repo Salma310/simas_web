@@ -22,7 +22,7 @@ class UserController extends Controller
             'title' => 'Daftar user yang terdaftar dalam sistem'
         ];
 
-        $title = 'User';
+        $title = 'List User';
         $activeMenu = 'list user';
 
         $role = Role::all();
@@ -46,9 +46,9 @@ class UserController extends Controller
                 return $user->role ? $user->role->role_name : '-';
             })
             ->addColumn('aksi', function ($user) { // menambahkan kolom aksi
-                $btn = '<button onclick="modalAction(\'' . url("user/$user->user_id/show_ajax") . '\')" class="btn btn-light"><i class="fas fa-qrcode"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url("user/$user->user_id/edit_ajax") . '\')" class="btn btn-light"><i class="fas fa-edit"></i></button> ';
-                $btn .= '<button onclick="modalAction(\''.url("user/$user->user_id/delete_ajax").'\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button> ';
+                $btn = '<button onclick="modalAction(\'' . url("user/$user->user_id/show_ajax") . '\')" class="btn btn-primary"><i class="fas fa-qrcode"></i> Detail</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url("user/$user->user_id/edit_ajax") . '\')" class="btn btn-info"><i class="fas fa-edit"></i> Edit</button> ';
+                $btn .= '<button onclick="modalAction(\''.url("user/$user->user_id/delete_ajax").'\')" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button> ';
                 return $btn;
             })
             ->rawColumns(['aksi']) // memberitahu bahwa kolom aksi adalah HTML
@@ -69,13 +69,13 @@ class UserController extends Controller
 
         $activeMenu = 'user'; //set menu yang sedang aktif
 
-        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+        return view('admin.user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
     public function create_ajax(){
         $role =  Role::select('role_id', 'role_name')->get();
 
-        return view('user.create_ajax')
+        return view('admin.user.create_ajax')
                     ->with('role', $role);
     }
 
@@ -112,7 +112,7 @@ class UserController extends Controller
         $user = User::find($id);
         $role = Role::select('role_id', 'role_name' )->get();
 
-        return view('user.edit_ajax', ['user' => $user, 'role' => $role]);
+        return view('admin.user.edit_ajax', ['user' => $user, 'role' => $role]);
     }
 
     public function update_ajax(Request $request, $id) {
@@ -121,10 +121,10 @@ class UserController extends Controller
             $rules = [
                 'role_id' => 'required|integer',
                 'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
-                'email' => 'required|max:200',
                 'password'=> 'nullable|min:6|max:20',
                 'name' => 'required|max:200',
-                'phone' => 'required|max:100',
+                // 'email' => 'required|max:200',
+                // 'phone' => 'required|max:100',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -163,7 +163,7 @@ class UserController extends Controller
     public function confirm_ajax(string $id) {
         $user = User::find($id);
 
-        return view('user.confirm_ajax', ['user' => $user]);
+        return view('admin.user.confirm_ajax', ['user' => $user]);
     }
 
 

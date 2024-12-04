@@ -19,8 +19,8 @@
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #007bff">
-                    <h5 class="modal-title" id="exampleModalLabel">Hapus Data Role</h5>
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">Hapus Data Role</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 </div>
@@ -38,14 +38,14 @@
                             <th class="text-right col-3">Kode Role :</th>
                             <td class="col-9">{{ $role->role_code }}</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <th class="text-right col-3">Tanggal Dibuat :</th>
                             <td class="col-9">{{ $role->created_at }}</td>
                         </tr>
                         <tr>
                             <th class="text-right col-3">Terakhir Diupdate :</th>
                             <td class="col-9">{{ $role->updated_at }}</td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </div>
                 <div class="modal-footer">

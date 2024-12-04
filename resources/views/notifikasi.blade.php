@@ -26,87 +26,21 @@
             </div>
             <div class="modal-body">
                 <div class="notification-section">
-                    <h6 class="notification-category">Today</h6>
+                    @foreach ($notifikasi as $n)
                     <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
                         <div>
-                            <p><strong>Admin</strong> berhasil mengatur acara awal tahun</p>
+                            <h5>{{$n->title}}</h5>
+                            <p>{{$n->message}}</p>
                             <small>Now</small>
                         </div>
                     </div>
-                    <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
-                        <div>
-                            <p><strong>Admin</strong> menambahkan anda ke acara Interkom</p>
-                            <small>Now</small>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
-                        <div>
-                            <p><strong>Admin</strong> berhasil mengatur acara akhir tahun</p>
-                            <small>Now</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-section">
-                    <h6 class="notification-category">Yesterday</h6>
-                    <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
-                        <div>
-                            <p><strong>Dina S,Tr</strong> memberikan agenda kegiatan</p>
-                            <small>7d ago</small>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
-                        <div>
-                            <p><strong>Dina S,Tr</strong> memberikan agenda kegiatan</p>
-                            <small>7d ago</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="notification-section">
-                    <h6 class="notification-category">Last Week</h6>
-                    <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
-                        <div>
-                            <p><strong>Annisa S,Tr</strong> memberikan agenda kegiatan</p>
-                            <small>7d ago</small>
-                        </div>
-                    </div>
-                    <div class="notification-item">
-                        <img src="adminlte/dist/img/avatar.png" alt="User" class="notification-avatar">
-                        <div>
-                            <p><strong>Annisa S,Tr</strong> memberikan agenda kegiatan</p>
-                            <small>7d ago</small>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 @endempty
 <style>
-    .notification-header {
-        padding: 15px;
-        border-bottom: 1px solid #ddd;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .notification-body {
-        padding: 15px;
-    }
-
-    .notification-category {
-        font-weight: bold;
-        color: #555;
-    }
-
     .notification-item {
         display: flex;
         margin-bottom: 10px;
@@ -114,12 +48,5 @@
 
     .notification-item p {
         margin-bottom: 0;
-    }
-
-    .notification-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
     }
 </style>

@@ -22,7 +22,7 @@
         @method('DELETE')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #007bff">
+                <div class="modal-header bg-danger">
                     <h5 class="modal-title" id="exampleModalLabel">Hapus Data User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -43,18 +43,18 @@
                             <td class="col-9">{{ $user->username }}</td>
                         </tr>
                         <tr>
-                            <th class="text-right col-3">Email :</th>
-                            <td class="col-9">{{ $user->email }}</td>
-                        </tr>
-                        <tr>
                             <th class="text-right col-3">Nama :</th>
                             <td class="col-9">{{ $user->name }}</td>
                         </tr>
+                        {{-- <tr>
+                            <th class="text-right col-3">Email :</th>
+                            <td class="col-9">{{ $user->email }}</td>
+                        </tr> --}}
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                    <button type="submit" class="btn btn-primary">Ya, Hapus</button>
+                    <button type="submit" class="btn btn-danger">Ya, Hapus</button>
                 </div>
             </div>
         </div>
