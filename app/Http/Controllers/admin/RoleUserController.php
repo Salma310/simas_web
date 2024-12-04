@@ -33,8 +33,8 @@ class RoleUserController extends Controller
         return DataTables::of($role)
             ->addIndexColumn()
             ->addColumn('aksi', function ($role) {
-                $btn = '<button onclick="modalAction(\'' . url('/role/' . $role->role_id .'/edit_ajax') . '\')" class="btn btn-light"><i class="fas fa-edit"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/role/' . $role->role_id .'/delete_ajax') . '\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button> ';
+                $btn = '<button onclick="modalAction(\'' . url('/role/' . $role->role_id .'/edit_ajax') . '\')" class="btn btn-info"><i class="fas fa-edit"></i> Edit</button> ';
+                $btn .= '<button onclick="modalAction(\'' . url('/role/' . $role->role_id .'/delete_ajax') . '\')" class="btn btn-danger"><i class="fas fa-trash"> Hapus</i></button> ';
                 return $btn;
             })
             ->rawColumns(['aksi'])

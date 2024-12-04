@@ -84,8 +84,8 @@
         }
         .content .table-container table td .btn {
             margin-right: 5px;
-            border-radius: 5px;
-            padding: 5px 10px;
+            border-radius: 20px;
+            padding: 8px 15px;
             transition: all 0.3s ease;
         }
         .content .table-container table td .btn-light {
@@ -111,7 +111,7 @@
             <i class="fas fa-search"></i>
         </div>
     </div>
-    <div class="table-container mt-4">
+    <div class="table-container table-responsive mt-4">
         <table class="table" id="roleTable">
             <thead>
                 <tr>
@@ -143,6 +143,8 @@
             dataRole = $('#roleTable').DataTable({
                 serverSide: true,
                 Processing: true,
+                searching: false,
+                lengthChange: false,
                 ajax: {
                     "url": "{{ url('role/list') }}",
                     "dataType": "json",

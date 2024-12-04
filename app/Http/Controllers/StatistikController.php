@@ -15,7 +15,8 @@ class StatistikController extends Controller
         $agenda = Agenda::all();
         $workload = Workload::all();
 
+        $title = 'Statistik';
         $activeMenu = 'statistik';
-        return view('statistik', ['position' => $position, 'agenda' => $agenda, 'workload' => $workload, 'activeMenu' => $activeMenu]);
+        return view('statistik', ['position' => $position, 'agenda' => $agenda, 'workload' => $workload, 'activeMenu' => $activeMenu, 'title' => $title]);
     }
 }

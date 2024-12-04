@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Notification;
+use App\Models\Event;
+use App\Notifications\EventNotification;
+use Illuminate\Support\Facades\Notification;
+// use App\Models\Notification;
 
 class NotifikasiController extends Controller
 {
-    public function index() {
-        $notifikasi = Notification::all();
-        return view('notifikasi', ['notifikasi' => $notifikasi]);
+    public function indexEvent() {
+        $notification = Notification::all();
+        $event = Event::all();
+        return view('layouts.header', compact('event'));
     }
 }
