@@ -157,6 +157,9 @@ Route::group(['prefix' => 'event_non_jti'], function () {
     Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
 });
 
+Route::get('/statistik', [StatistikController::class, 'index']);
+Route::get('notifikasi_event/{id}', [NotifikasiController::class, 'indexEvent'])->name('notifikasi_event.show');
+
 
 Route::group(['prefix' => 'myevent'], function () {
     Route::get('/', [MyEventController::class, 'index']);

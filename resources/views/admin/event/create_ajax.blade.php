@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <label>Jenis Event</label>
                     <select name="jenis_event_id" id="jenis_event_id" class="form-control rounded" required>
-                        <option value="">- Pilih Level -</option>
+                        <option value="">- Pilih Jenis Event -</option>
                         @foreach ($jenisEvent as $item)
                             <option value="{{ $item->jenis_event_id }}">{{ $item->jenis_event_name }}</option>
                         @endforeach

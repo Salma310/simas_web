@@ -153,6 +153,8 @@
             }
         });
     </script>
+
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     @stack('js') <!-- Digunakan untuk memanggil custom js dari perintah push('js') pada masing-masing view -->
 
     <!-- AdminLTE for demo purposes -->

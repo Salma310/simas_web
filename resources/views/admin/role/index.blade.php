@@ -144,6 +144,7 @@
                 serverSide: true,
                 Processing: true,
                 searching: false,
+                lengthChange: false,
                 ajax: {
                     "url": "{{ url('role/list') }}",
                     "dataType": "json",

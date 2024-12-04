@@ -28,11 +28,34 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      <li class="nav-item pt-2">
-        <a class="nav-link" onclick="modalAction('{{ url('/notifikasi') }}')" style="cursor: pointer;">
-          <i class="far fa-bell"></i>
-        </a>
+      @if (Auth::user()->role->role_id != 1)
+      <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="far fa-bell"></i>
+              <span
+                  class="badge badge-warning navbar-badge">{{ Auth()->user()->unreadNotifications->count() }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <span class="dropdown-item dropdown-header">Notifications</span>
+              @if (Auth()->user()->unreadNotifications->count() > 0)
+                  @foreach (Auth()->user()->unreadNotifications as $notification)
+                      <div class="dropdown-divider"></div>
+                      <a href="{{ url($notification->data['url']) }}" class="dropdown-item">
+                          <p class="dropdown-item-title font-weight-bold">
+                              {{ $notification->data['title'] }}
+                              <span
+                                  class="float-right text-muted text-sm font-weight-normal">{{ $notification->created_at->diffForHumans() }}</span>
+                          </p>
+                          <p class="notification-text">{{ $notification->data['message'] }}</p>
+                      </a>
+                  @endforeach
+              @else
+                  <div class="dropdown-item">No Notifications</div>
+              @endif
+              <div class="dropdown-divider"></div>
+          </div>
       </li>
+  @endif
       <li class="nav-item pb-3">
         <a class="nav-link" href="{{ url('/profile') }}" role="button">
           <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('images/defaultUser.png') }}" alt="Profile Image" class="img-circle" style="width: 35px; height: 35px; object-fit: cover;">
