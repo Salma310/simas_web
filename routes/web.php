@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\MyEventController;
-use App\Http\Controllers\AgendaController;
-use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\EventController;
@@ -151,6 +149,8 @@ Route::group(['prefix' => 'event_dosen'], function () {
     Route::post('/{id}/agenda/list', [AgendaController::class, 'list'])->name('agenda.list');
     Route::get('/{id}/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
     Route::post('/{id}/agenda/store', [AgendaController::class, 'store'])->name('agenda.store');
+});
+
 Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);
     Route::post('/list', [EventpController::class, 'list']);
