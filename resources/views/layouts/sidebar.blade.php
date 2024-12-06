@@ -67,7 +67,7 @@
                     <p>Event</p>
                 </a>
             </li>
-            <li class="nav-item mt-2">
+            <li class="nav-item">
                 <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
@@ -107,7 +107,6 @@
             </li>
             @endif
             <!-- Button Logout -->
-            <li class="nav-header">Log Out</li>
             <li class="nav-item logout">
                 <a href="{{ url('/logout') }}" class="nav-link"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

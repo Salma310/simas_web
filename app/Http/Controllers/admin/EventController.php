@@ -65,7 +65,7 @@ class EventController extends Controller
     public function create_ajax()
     {
         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name')->get();
+        $user = User::select('user_id', 'name')->where('role_id', 3)->get();
         $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
         return view('admin.event.create_ajax')
             ->with('jenisEvent', $jenisEvent)
@@ -175,7 +175,7 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name')->get();
+        $user = User::select('user_id', 'name')->where('role_id', 3)->get();
         $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
 
         // Ambil data peserta (partisipan) dan jabatannya

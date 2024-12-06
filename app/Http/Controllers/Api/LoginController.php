@@ -58,7 +58,7 @@ class LoginController extends Controller
                 'id' => $user->id,
                 'username' => $user->username,
                 // 'email' => $user->email,
-                'role_kode' => $user->role->role_kode, // Asumsikan role relasi sudah diatur
+                'role_kode' => $user->role->role_code, // Asumsikan role relasi sudah diatur
             ],
             'token' => $token,
         ], 200)->header('Access-Control-Allow-Origin', '*')

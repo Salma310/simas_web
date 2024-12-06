@@ -179,7 +179,7 @@
             var input, filter, table, tr, td, i, j, txtValue;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            table = document.getElementById("jenisTable");
+            table = document.getElementById("roleTable");
             tr = table.getElementsByTagName("tr");
 
             for (i = 1; i < tr.length; i++) {
