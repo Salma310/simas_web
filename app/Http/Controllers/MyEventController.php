@@ -21,9 +21,10 @@ class MyEventController extends Controller
             'list' => ['Home', 'Welcome']
         ];
 
+        $title = 'My Event';
         $activeMenu = 'My Event';
 
-        return view('my_event.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('my_event.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'title' => $title]);
     }
 
     public function agenda(){
@@ -33,9 +34,10 @@ class MyEventController extends Controller
             'list' => ['Home', 'Welcome']
         ];
 
+        $title = 'My Event';
         $activeMenu = 'My Event';
 
-        return view('agenda.table', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('agenda.table', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'title' => $title]);
     }
 
     public function agenda_list(Request $request)
