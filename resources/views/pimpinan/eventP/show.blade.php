@@ -200,7 +200,7 @@
                         <p><strong>Pelaksanaan</strong></p>
                     </div>
                     <div class="col-md-9">
-                        <p>{{ $event->start_date }} - {{ $event->end_date }}</p>
+                        <p>{{ \Carbon\Carbon::parse($event->start_date)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($event->end_date)->format('d-m-Y') }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -215,8 +215,8 @@
                         <div class="col-md-3">
                             <p><strong>PIC</strong></p>
                             <div class="member-info">
-                                <img alt="Profile picture of {{ $pic->user->name }}" class="picture" height="50"
-                                     src="{{ $pic->user->picture ? asset('storage/picture/' . $pic->user->picture) : asset('images/defaultUser.png') }}" width="50"/>
+                                <img alt="Profile picture of {{ $pic->user->name }}" class="avatar" height="50"
+                                     src="{{ $pic->user->picture ? asset('storage/picture/' . ($pic->user->picture)) : asset('images/defaultUser.png') }}" width="50"/>
                                 <p>{{ $pic->user->name }}</p>
                             </div>
                         </div>
@@ -226,8 +226,8 @@
                         <div class="col-md-3">
                             <p><strong>Pembina</strong></p>
                             <div class="member-info">
-                                <img alt="Profile picture of {{ $pembina->user->name }}" class="picture" height="50"
-                                     src="{{ $pembina->user->picture ? asset('storage/picture/' . $pembina->user->picture) : asset('images/defaultUser.png') }}" width="50"/>
+                                <img alt="Profile picture of {{ $pembina->user->name }}" class="avatar" height="50"
+                                     src="{{ $pembina->user->picture ? asset('storage/picture/' . ($pembina->user->picture)) : asset('images/defaultUser.png') }}" width="50"/>
                                 <p>{{ $pembina->user->name }}</p>
                             </div>
                         </div>
@@ -237,8 +237,8 @@
                         <div class="col-md-3">
                             <p><strong>Sekretaris</strong></p>
                             <div class="member-info">
-                                <img alt="Profile picture of {{ $sekretaris->user->name }}" class="picture" height="50"
-                                     src="{{ $sekretaris->user->picture ? asset('storage/picture/' . $sekretaris->user->picture) : asset('images/defaultUser.png') }}" width="50"/>
+                                <img alt="Profile picture of {{ $sekretaris->user->name }}" class="avatar" height="50"
+                                     src="{{ $sekretaris->user->picture ? asset('storage/picture/' . ($sekretaris->user->picture)) : asset('images/defaultUser.png') }}" width="50"/>
                                 <p>{{ $sekretaris->user->name }}</p>
                             </div>
                         </div>
@@ -249,8 +249,8 @@
                             <div class="member-info">
                                 @foreach($anggota as $member)
                                     <div class="d-flex align-items-center mb-2">
-                                        <img alt="Profile picture of {{ $member->user->name }}" class="picture mr-2" height="40"
-                                             src="{{ $member->user->picture ? asset('storage/picture/' . $member->user->picture) : asset('images/defaultUser.png') }}" width="40"/>
+                                        <img alt="Profile picture of {{ $member->user->name }}" class="avatar mr-2" height="40"
+                                             src="{{ $member->user->picture ? asset('storage/picture/' . ($member->user->picture)) : asset('images/defaultUser.png') }}" width="40"/>
                                         <p class="mb-0">{{ $member->user->name }}</p>
                                     </div>
                                 @endforeach

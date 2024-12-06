@@ -3,12 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\AgendaController;
-use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\NotifikasiController;
