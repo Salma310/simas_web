@@ -128,11 +128,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Point</label>
-                    <input value="{{ $event->point }}" type="number" name="point" id="point" class="form-control" placeholder="Isi point" required>
-                    <small id="error-point" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
                     <label>Deskripsi Event</label>
                     <textarea name="event_description" id="event_description" class="form-control" placeholder="Deskripsi event" rows="3">{{ $event->event_description }}</textarea>
                     <small id="error-event_description" class="error-text form-text text-danger"></small>
