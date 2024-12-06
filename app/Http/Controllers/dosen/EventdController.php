@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\pimpinan;
+namespace App\Http\Controllers\dosen;
 
 use Illuminate\Http\Request;
 use App\Models\EventType;
@@ -12,7 +12,7 @@ use App\Models\Agenda;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-class EventpController extends Controller
+class EventdController extends Controller
 {
     public function index()
     {
@@ -28,31 +28,11 @@ class EventpController extends Controller
         $jabatan = Position::all();
         $eventParticipant = EventParticipant::all();
         $user = User::all();
-        $activeMenu = 'event pimpinan';
+        $activeMenu = 'event dosen';
 
-        return view('pimpinan.eventp.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant, 'events' => $events]);
+        return view('dosen.event.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant, 'events' => $events]);
     }
 
-    public function list(Request $request)
-    {
-        $event = Event::select('event_id', 'event_name', 'event_code', 'event_description', 'start_date', 'end_date', 'status', 'assign_letter', 'jenis_event_id')
-            ->with(['jenisEvent', 'eventParticipant']);
-
-        return DataTables::of($event)
-            ->addIndexColumn()
-            ->addColumn('participant_name', function ($event) {
-                $participant = $event->eventParticipant->firstWhere('jabatan_id', 1);
-                return $participant ? $participant->user->name : '-';
-            })
-            ->addColumn('aksi', function ($event) {
-                $btn = '<div class="btn-group" role="group" aria-label="Basic example"> <button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/show_ajax') . '\')" class="btn btn-light"><i class="fas fa-qrcode"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/edit_ajax') . '\')" class="btn btn-light"><i class="fas fa-edit"></i></button> ';
-                $btn .= '<button onclick="modalAction(\'' . url('/event/' . $event->event_id . '/delete_ajax') . '\')" class="btn btn-light"><i class="fas fa-trash"></i></button></div>';
-                return $btn;
-            })
-            ->rawColumns(['aksi']) // ada teks html
-            ->make(true);
-    }
     public function create()
     {
         $breadcrumb = (object) [
@@ -160,6 +140,8 @@ class EventpController extends Controller
 
     public function show_ajax(string $id)
     {
+        $title = 'Detail Event';
+        $activeMenu = 'event dosen';
         $event = Event::find($id);
         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
         $user = User::select('user_id', 'name', 'picture')->get();
@@ -171,13 +153,15 @@ class EventpController extends Controller
             ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
             ->get();
 
-        return view('pimpinan.eventP.show', [
+        return view('dosen.event.show', [
             'event' => $event,
             'jenisEvent' => $jenisEvent,
             'user' => $user,
             'jabatan' => $jabatan,
             'agenda' => $agenda,
-            'eventParticipant' => $eventParticipant
+            'eventParticipant' => $eventParticipant,
+            'title' => $title,
+            'activeMenu' => $activeMenu
         ]);
     }
 

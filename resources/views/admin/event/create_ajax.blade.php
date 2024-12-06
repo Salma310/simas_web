@@ -98,6 +98,12 @@
                     </div>
                 </div>
 
+                <!-- Point -->
+                <div class="form-group">
+                    <label>Point</label>
+                    <input type="number" name="point" id="point" class="form-control" placeholder="Isi point" required>
+                </div>
+
                 <!-- Deskripsi Event -->
                 <div class="form-group">
                     <label>Deskripsi Event</label>
@@ -224,6 +230,12 @@
                     required: true,
                     number: true
                 },
+
+                point: {
+                    required: true,
+                    number: true
+                },
+
                 "participant[][jabatan_id]": {
                     required: true
                 },

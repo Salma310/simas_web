@@ -3,10 +3,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-        }
+
         .modal-content {
             border-radius: 15px;
             padding: 20px;
@@ -62,7 +59,7 @@
             color: #000;
             opacity: 0.75;
         }
-        .avatar {
+        .picture {
             width: 50px;
             height: 50px;
             border-radius: 50%;

@@ -12,7 +12,7 @@
         <div class="col-md-3">
             <div class="card card-primary card-outline text-center">
                 <div class="card-body box-profile">
-                    <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('default-picture.jpeg') }}"
+                    <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('images/defaultUser.png') }}"
                          class="rounded-circle img-fluid mb-3"
                          style="width: 150px; height: 150px;"
                          alt="picture"

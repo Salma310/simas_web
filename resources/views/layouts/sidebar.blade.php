@@ -88,13 +88,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/event_dosen') }}" class="nav-link {{ $activeMenu == 'event Pimpinan' ? 'active' : '' }}">
+                <a href="{{ url('/event_dosen') }}" class="nav-link {{ $activeMenu == 'event dosen' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url('/event_dosen') }}" class="nav-link {{ $activeMenu == 'event dosen' ? 'active' : '' }}">
+                <a href="{{ url('/myevent') }}" class="nav-link {{ $activeMenu == 'myevent' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>My Event</p>
                 </a>

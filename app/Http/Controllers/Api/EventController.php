@@ -10,10 +10,8 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
         // $events = EventModel::all();
-        $events = Event::with(['jenisEvent', 'eventParticipant.user'])->get();
-
+        $events = Event::with('jenisEvent', 'participants.user')->get();
         if ($events->isEmpty()) {
             return response()->json([
                 'status' => 'success',
@@ -24,6 +22,7 @@ class EventController extends Controller
 
         return response()->json([
             'status' => 'success',
+            'message' => 'Events found',
             'data' => $events,
     ]);
         // $events = Event::all(); // Mengambil semua data dari tabel m_event
@@ -35,12 +34,12 @@ class EventController extends Controller
         $event = Event::create($request->all());
         return response()->json($event, 201);
     }
-    
+
     public function show(Event $event)
     {
         // return EventModel::find($event);
         // Muat data relasi
-        $event->load(['jenisEvent', 'participants']);
+        $event->load(['jenisEvent', 'participants.user']);
 
         return response()->json([
             'success' => true,
