@@ -12,7 +12,7 @@
             </li>
 
             <!-- Data Event Section -->
-            <li class="nav-header">Data Event</li>
+            <li class="nav-header mt-2">Data Event</li>
             <li class="nav-item">
                 <a href="{{ url('/event') }}" class="nav-link {{ $activeMenu == 'event' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
@@ -27,7 +27,7 @@
             </li>
 
             <!-- Data User Section -->
-            <li class="nav-header">Data User</li>
+            <li class="nav-header mt-2">Data User</li>
             <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'list user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
@@ -41,7 +41,7 @@
                 </a>
             </li>
 
-            <li class="nav-item mt-2">
+            <li class="nav-item mt-3">
                 <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>

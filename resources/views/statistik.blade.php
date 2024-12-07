@@ -15,7 +15,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             width: 70%;
-            max-width: 800px;
+            max-width: 1000px;
             text-align: center;
         }
 

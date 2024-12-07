@@ -8,6 +8,9 @@
         body {
             background-color: #f5f5f5;
         }
+        .content {
+            padding: 15px;
+        }
         .content .header {
             display: flex;
             justify-content: space-between;
@@ -19,26 +22,40 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .content .header .search-box {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        .content .header .search-box input {
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            padding: 10px 20px;
-            width: 250px;
-            transition: all 0.3s ease;
-        }
-        .content .header .search-box input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-        .content .header .search-box i {
-            position: absolute;
-            right: 15px;
-            color: #aaa;
-        }
+                margin-left: auto;
+                /* Memastikan search box berada di kanan */
+                display: flex;
+                align-items: center;
+                position: relative;
+            }
+
+            .content .header .search-box input {
+                border-radius: 25px;
+                border: 2px solid #e0e0e0;
+                padding: 12px 20px 12px 40px;
+                width: 300px;
+                font-size: 16px;
+                background-color: #f9f9f9;
+                transition: all 0.4s ease;
+            }
+
+            .content .header .search-box input:focus {
+                border-color: #4a90e2;
+                background-color: white;
+                box-shadow: 0 0 15px rgba(74, 144, 226, 0.2);
+                outline: none;
+            }
+
+            .content .header .search-box i {
+                position: absolute;
+                left: 15px;
+                color: #a0a0a0;
+                transition: color 0.3s ease;
+            }
+
+            .content .header .search-box input:focus+i {
+                color: #4a90e2;
+            }
         .content .header .btn-primary {
             background-color: #007bff;
             border: none;
@@ -98,6 +115,27 @@
         .content .table-container table td .btn-light.text-danger:hover {
             background-color: #f8d7da;
         }
+        .content .header .btn-primary {
+                background: linear-gradient(to right, #4a90e2, #2c3e50);
+                border: none;
+                border-radius: 25px;
+                padding: 12px 25px;
+                font-size: 16px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                transition: all 0.4s ease;
+                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            }
+
+            .content .header .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            }
+
+            .content .header .btn-primary i {
+                margin-right: 10px;
+            }
     </style>
 </head>
 <body>
