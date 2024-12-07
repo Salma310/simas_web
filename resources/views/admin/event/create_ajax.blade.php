@@ -81,7 +81,9 @@
                     <select name="jenis_event_id" id="jenis_event_id" class="form-control rounded" required>
                         <option value="">- Pilih Jenis Event -</option>
                         @foreach ($jenisEvent as $item)
+                            @if($item->jenis_event_id != 3)
                             <option value="{{ $item->jenis_event_id }}">{{ $item->jenis_event_name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

@@ -95,7 +95,7 @@
                         <label>Jenis Event</label>
                         <select name="jenis_event_id" id="jenis_event_id" class="form-control" required>
                             @foreach ($jenisEvent as $l)
-                                <option {{ $l->jenis_event_id == $event->kategori_id ? 'selected' : '' }}
+                                <option {{ $l->jenis_event_id == $event->jenis_event_id ? 'selected' : '' }}
                                     value="{{ $l->jenis_event_id }}">
                                     {{ $l->jenis_event_name }}
                                 </option>
