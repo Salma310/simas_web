@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RoleController;
 
 /*
@@ -22,6 +21,7 @@ use App\Http\Controllers\Api\RoleController;
 
 Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('login');
 Route::get('/login', App\Http\Controllers\Api\LoginController::class)->name('login');
+Route::post('/logout', App\Http\Controllers\Api\LogoutController::class)->name('logout');
 // Route::middleware('auth:sanctum')->get('/user', [LoginController::class, 'getUser'])->name('user');
 
 Route::get('roles', [RoleController::class, 'index']);
