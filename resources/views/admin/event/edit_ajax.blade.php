@@ -61,7 +61,7 @@
         </div>
     </div>
 @else
-<form action="{{ url('/event/' . $event->event_id . '/update_ajax') }}" method="POST" id="form-edit">
+<form action="{{ url('/event/' . $event->event_id . '/update_ajax') }}" method="POST" id="form-edit" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label>Jenis Event</label>
                         <select name="jenis_event_id" id="jenis_event_id" class="form-control" required>
                             @foreach ($jenisEvent as $l)
@@ -103,17 +103,18 @@
                         </select>
                         <small id="error-jenis_event_id" class="error-text form-text text-danger"></small>
                     </div>
-                    {{-- <div class="form-group col-md-6">
-                        <label>Status</label>
-                        <select name="event_id" id="event_id" class="form-control" required>
-                            @foreach ($event as $e)
-                                <option value="{{ $e->event_id }}" {{ $e->event_id == $selectedEventId ? 'selected' : '' }}>
-                                    {{ $e->status }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <small id="error-status" class="error-text form-text text-danger"></small>
-                    </div> --}}
+                    <div class="form-group col-md-6">
+                        <label>Upload Surat</label>
+                        @if (!empty($event->assign_letter))
+                            <div>
+                                <a href="{{ asset('storage/docs/' . $event->assign_letter) }}" target="_blank">
+                                    {{ basename($event->assign_letter) }}
+                                </a>
+                            </div>
+                        @endif
+                        <input type="file" name="assign_letter" id="assign_letter" class="form-control" required>
+                        <small id="error-assign_letter" class="error-text form-text text-danger"></small>
+                    </div>                    
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -129,7 +130,7 @@
                 </div>
                 <div class="form-group">
                     <label>Deskripsi Event</label>
-                    <textarea name="event_description" id="event_description" class="form-control" placeholder="Deskripsi event" rows="3">{{ $event->event_description }}</textarea>
+                    <textarea name="event_description" id="event_description" class="form-control" placeholder="Deskripsi event" rows="3" required>{{ $event->event_description }}</textarea>
                     <small id="error-event_description" class="error-text form-text text-danger"></small>
                 </div>
                 <div id="dynamic-fields">
@@ -137,7 +138,7 @@
                         <div class="form-row align-items-center mb-2 dynamic-field">
                             <div class="form-group col-md-5">
                                 <label>Jabatan</label>
-                                <select name="participant[{{ $index }}][jabatan_id]]" class="form-control" required>
+                                <select name="participant[{{ $index }}][jabatan_id]]" id="participant" class="form-control" required>
                                     <option value="">Pilih Jabatan</option>
                                     @foreach ($jabatan as $j)
                                         <option value="{{ $j->jabatan_id }}"
@@ -149,7 +150,7 @@
                             </div>
                             <div class="form-group col-md-5">
                                 <label>Partisipan</label>
-                                <select name="participant[{{ $index }}][user_id]]" class="form-control" required>
+                                <select name="participant[{{ $index }}][user_id]]" id="participant" class="form-control" required>
                                     <option value="">Pilih Dosen</option>
                                     @foreach ($user as $dosen)
                                         <option value="{{ $dosen->user_id }}"
@@ -252,6 +253,10 @@
                         required: true,
                         number: true
                     },
+                    assign_letter: {
+                        required: true,
+                        extension: "pdf, docx, png",
+                    },
                     "participant[][user_id]": {
                         required: true
                     },
@@ -265,10 +270,13 @@
                     }
                 },
                 submitHandler: function(form) {
+                    var formData = new FormData(form);
                     $.ajax({
                         url: form.action,
-                        type: form.method,
-                        data: $(form).serialize(),
+                        type: 'PUT',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
                         success: function(response) {
                             if (response.status) {
                                 $('#eventModal').modal('hide');

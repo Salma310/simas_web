@@ -166,7 +166,7 @@
             rules: {
                 email: {required: true, email: true},
                 password: {required: true, minlength: 6, maxlength: 10},
-                password_confirmation: {required: true, minlength: 6, maxlength: 10, equalTo: "#password"},
+                // password_confirmation: {required: true, minlength: 6, maxlength: 10, equalTo: "#password"},
             },
             submitHandler: function(form) { // ketika valid, maka bagian yg akan dijalankan
                 $.ajax({
