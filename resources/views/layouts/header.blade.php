@@ -28,7 +28,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      @if (Auth::user()->role->role_id != 1)
+      @if (Auth::user()->role->role_id != 1 && Auth::user()->role->role_id != 2)
       <li class="nav-item dropdown mt-2">
           <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell" style="font-size: 17px;"></i>
@@ -39,7 +39,7 @@
               @if (Auth()->user()->unreadNotifications->count() > 0)
                   @foreach (Auth()->user()->unreadNotifications as $notification)
                       <div class="dropdown-divider"></div>
-                      <a href="{{ url($notification->data['url']) }}" class="dropdown-item">
+                      <a  class="dropdown-item">
                           <p class="dropdown-item-title font-weight-bold">
                               {{ $notification->data['title'] }}
                               <span

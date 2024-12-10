@@ -58,14 +58,14 @@ Route::group(['prefix' => 'event'], function () {
     Route::post('/', [EventController::class, 'store']);
     Route::get('/create_ajax', [EventController::class, 'create_ajax']);
     Route::post('/ajax', [EventController::class, 'store_ajax']);
-    Route::get('/{id}', [EventController::class, 'show']);
-    Route::get('/{id}/edit', [EventController::class, 'edit']);
-    Route::put('/{id}', [EventController::class, 'update']);
     Route::get('/{id}/edit_ajax', [EventController::class, 'edit_ajax']);
     Route::get('/{id}/show_ajax', [EventController::class, 'show_ajax']);
     Route::put('/{id}/update_ajax', [EventController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [EventController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventController::class, 'delete_ajax']);
+    Route::get('/{id}', [EventController::class, 'show']);
+    Route::get('/{id}/edit', [EventController::class, 'edit']);
+    Route::put('/{id}', [EventController::class, 'update']);
     Route::delete('/{id}', [EventController::class, 'destroy']);
     Route::get('/{id}/export_pdf', [EventController::class, 'export_pdf']);
 });

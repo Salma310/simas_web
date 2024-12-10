@@ -52,7 +52,7 @@ class EventNotification extends Notification
             'event_id' => $this->event->event_id,
             'event_name' => $this->event->event_name,
             'title' => 'Event Baru',
-            'message' => 'Admin telah menambahkan event '. $this->event->event_name,
+            'message' => 'Admin telah menambahkan Anda dalam event '. $this->event->event_name,
             'url' => url('notifikasi_event/' . $this->event->event_id),
         ];
     }

@@ -294,11 +294,11 @@
                                 searchable: false,
                                 render: function(data) {
                                     if (data == 'completed') {
-                                        return '<span class="badge badge-success">Completed</span>';
+                                        return '<span class="badge badge-success">Selesai</span>';
                                     } else if(data == 'progress') {
-                                        return '<span class="badge badge-warning">Progress</span>';
+                                        return '<span class="badge badge-warning">Proses</span>';
                                     } else {
-                                        return '<span class="badge badge-primary">Not Started</span>';
+                                        return '<span class="badge badge-danger">Belum Dimulai</span>';
                                     }
                                 }
                             },
