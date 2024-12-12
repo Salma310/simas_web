@@ -200,7 +200,7 @@ class EventController extends Controller
     {
         try {
             DB::beginTransaction();
-    
+
             $validator = Validator::make($request->all(), [
                 'event_name' => 'required|string|max:100',
                 'event_code' => 'required|string|max:10|unique:m_event,event_code,' . $id . ',event_id',
@@ -214,7 +214,7 @@ class EventController extends Controller
                 'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
                 'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
@@ -236,26 +236,24 @@ class EventController extends Controller
 
             if ($request->hasFile('assign_letter')) {
                 $file = $request->file('assign_letter');
-    
-                // Hapus file lama jika ada
-                if ($event->assign_letter && Storage::disk('public')->exists('docs/' . $event->assign_letter)) {
-                    Storage::disk('public')->delete('docs/' . $event->assign_letter);
-                }
-    
-                // Generate nama file unik
-                $fileName = time() . '_' . $file->getClientOriginalName();
-    
-                // Simpan file
-                $filePath = $file->storeAs('docs', $fileName, 'public');
-
-                $event->update([
-                    'assign_letter' => $fileName,
-                ]);
-            }
             
+                // Hapus file lama jika ada
+                if ($event->assign_letter && Storage::disk('public')->exists('surat_tugas/' . $event->assign_letter)) {
+                    Storage::disk('public')->delete('surat_tugas/' . $event->assign_letter);
+                }
+            
+                // Simpan file baru
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('surat_tugas', $fileName, 'public');
+            
+                $event->assign_letter = $fileName;
+            } 
+            
+            $event->save();
+
             // Hapus peserta yang ada sebelumnya
             EventParticipant::where('event_id', $id)->delete();
-    
+
             // Tambahkan peserta baru
             $participantA = [];
             foreach ($request->participant as $participants) {
@@ -274,7 +272,7 @@ class EventController extends Controller
                 'status' => true,
                 'message' => 'Data berhasil diupdate'
             ]);
-        }   catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,

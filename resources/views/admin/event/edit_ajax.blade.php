@@ -49,7 +49,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" arialabel="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" arialabel="Close"><span
+                        aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
@@ -61,126 +62,131 @@
         </div>
     </div>
 @else
-<form action="{{ url('/event/' . $event->event_id . '/update_ajax') }}" method="POST" id="form-edit" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-    <div id="modal-master" class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Data Event</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="overflow-y: auto; max-height:600px; scrollbar-width: thin;">
-                <div class="form-group">
-                    <label>Nama Event</label>
-                    <input value="{{ $event->event_name }}" type="text" name="event_name" id="event_name" class="form-control" required>
-                    <small id="error-event_name" class="error-text form-text text-danger"></small>
+    <form action="{{ url('/event/' . $event->event_id . '/update_ajax') }}" method="POST" id="form-edit"
+        enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div id="modal-master" class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Data Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Kode Event</label>
-                        <input value="{{ $event->event_code }}" type="text" name="event_code" id="event_code" class="form-control" required>
-                        <small id="error-event_code" class="error-text form-text text-danger"></small>
+                <div class="modal-body" style="overflow-y: auto; max-height:600px; scrollbar-width: thin;">
+                    <div class="form-group">
+                        <label>Nama Event</label>
+                        <input value="{{ $event->event_name }}" type="text" name="event_name" id="event_name"
+                            class="form-control" required>
+                        <small id="error-event_name" class="error-text form-text text-danger"></small>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Point</label>
-                        <input value="{{ $event->point }}" type="number" name="point" id="point" class="form-control" required>
-                        <small id="error-point" class="error-text form-text text-danger"></small>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Jenis Event</label>
-                        <select name="jenis_event_id" id="jenis_event_id" class="form-control" required>
-                            @foreach ($jenisEvent as $l)
-                                <option {{ $l->jenis_event_id == $event->jenis_event_id ? 'selected' : '' }}
-                                    value="{{ $l->jenis_event_id }}">
-                                    {{ $l->jenis_event_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <small id="error-jenis_event_id" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Upload Surat</label>
-                        @if (!empty($event->assign_letter))
-                            <div>
-                                <a href="{{ asset('storage/docs/' . $event->assign_letter) }}" target="_blank">
-                                    {{ basename($event->assign_letter) }}
-                                </a>
-                            </div>
-                        @endif
-                        <input type="file" name="assign_letter" id="assign_letter" class="form-control" required>
-                        <small id="error-assign_letter" class="error-text form-text text-danger"></small>
-                    </div>                    
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Tanggal Mulai</label>
-                        <input value="{{ $event->start_date }}" type="date" name="start_date" id="start_date" class="form-control" required>
-                        <small id="error-start_date" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Tanggal Selesai</label>
-                        <input value="{{ $event->end_date }}" type="date" name="end_date" id="end_date" class="form-control" required>
-                        <small id="error-end_date" class="error-text form-text text-danger"></small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Deskripsi Event</label>
-                    <textarea name="event_description" id="event_description" class="form-control" placeholder="Deskripsi event" rows="3" required>{{ $event->event_description }}</textarea>
-                    <small id="error-event_description" class="error-text form-text text-danger"></small>
-                </div>
-                <div id="dynamic-fields">
-                    @foreach ($eventParticipant as $index => $participant)
-                        <div class="form-row align-items-center mb-2 dynamic-field">
-                            <div class="form-group col-md-5">
-                                <label>Jabatan</label>
-                                <select name="participant[{{ $index }}][jabatan_id]]" id="participant" class="form-control" required>
-                                    <option value="">Pilih Jabatan</option>
-                                    @foreach ($jabatan as $j)
-                                        <option value="{{ $j->jabatan_id }}"
-                                            {{ $j->jabatan_id == $participant->jabatan_id ? 'selected' : '' }}>
-                                            {{ $j->jabatan_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-5">
-                                <label>Partisipan</label>
-                                <select name="participant[{{ $index }}][user_id]]" id="participant" class="form-control" required>
-                                    <option value="">Pilih Dosen</option>
-                                    @foreach ($user as $dosen)
-                                        <option value="{{ $dosen->user_id }}"
-                                            {{ $dosen->user_id == $participant->user_id ? 'selected' : '' }}>
-                                            {{ $dosen->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-1 d-flex align-items-center justify-content-center">
-                                <button type="button" class="btn btn-secondary btn-sm add-field">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="form-group col-md-1 d-flex align-items-center justify-content-center">
-                                <button type="button" class="btn btn-danger btn-sm remove-field">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Kode Event</label>
+                            <input value="{{ $event->event_code }}" type="text" name="event_code" id="event_code"
+                                class="form-control" required>
+                            <small id="error-event_code" class="error-text form-text text-danger"></small>
                         </div>
-                    @endforeach
+                        <div class="form-group col-md-6">
+                            <label>Point</label>
+                            <input value="{{ $event->point }}" type="number" name="point" id="point"
+                                class="form-control" required>
+                            <small id="error-point" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Jenis Event</label>
+                            <select name="jenis_event_id" id="jenis_event_id" class="form-control" required>
+                                @foreach ($jenisEvent as $l)
+                                    <option {{ $l->jenis_event_id == $event->jenis_event_id ? 'selected' : '' }}
+                                        value="{{ $l->jenis_event_id }}">
+                                        {{ $l->jenis_event_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small id="error-jenis_event_id" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Upload Surat</label>
+                            <input type="file" name="assign_letter" id="assign_letter" class="form-control" required>
+                            <a href="{{ asset('storage/surat_tugas/' . $event->assign_letter) }}" target="_blank">
+                                {{ basename($event->assign_letter) }}
+                            </a>
+                            <small id="error-assign_letter" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Tanggal Mulai</label>
+                            <input value="{{ $event->start_date }}" type="date" name="start_date" id="start_date"
+                                class="form-control" required>
+                            <small id="error-start_date" class="error-text form-text text-danger"></small>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Tanggal Selesai</label>
+                            <input value="{{ $event->end_date }}" type="date" name="end_date" id="end_date"
+                                class="form-control" required>
+                            <small id="error-end_date" class="error-text form-text text-danger"></small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi Event</label>
+                        <textarea name="event_description" id="event_description" class="form-control" placeholder="Deskripsi event"
+                            rows="3" required>{{ $event->event_description }}</textarea>
+                        <small id="error-event_description" class="error-text form-text text-danger"></small>
+                    </div>
+                    <div id="dynamic-fields">
+                        @foreach ($eventParticipant as $index => $participant)
+                            <div class="form-row align-items-center mb-2 dynamic-field">
+                                <div class="form-group col-md-5">
+                                    <label>Jabatan</label>
+                                    <select name="participant[{{ $index }}][jabatan_id]]" id="participant"
+                                        class="form-control" required>
+                                        <option value="">Pilih Jabatan</option>
+                                        @foreach ($jabatan as $j)
+                                            <option value="{{ $j->jabatan_id }}"
+                                                {{ $j->jabatan_id == $participant->jabatan_id ? 'selected' : '' }}>
+                                                {{ $j->jabatan_name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label>Partisipan</label>
+                                    <select name="participant[{{ $index }}][user_id]]" id="participant"
+                                        class="form-control" required>
+                                        <option value="">Pilih Dosen</option>
+                                        @foreach ($user as $dosen)
+                                            <option value="{{ $dosen->user_id }}"
+                                                {{ $dosen->user_id == $participant->user_id ? 'selected' : '' }}>
+                                                {{ $dosen->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-1 d-flex align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-secondary btn-sm add-field">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="form-group col-md-1 d-flex align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-danger btn-sm remove-field">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
     <script>
         $(document).ready(function() {
             // Function to add a new field dynamically
@@ -254,8 +260,8 @@
                         number: true
                     },
                     assign_letter: {
-                        required: true,
-                        extension: "pdf, docx, png",
+                        required: false,
+                        extension: "pdf, docx, doc",
                     },
                     "participant[][user_id]": {
                         required: true
@@ -271,9 +277,10 @@
                 },
                 submitHandler: function(form) {
                     var formData = new FormData(form);
+                    // console.log(form);
                     $.ajax({
                         url: form.action,
-                        type: 'PUT',
+                        type: form.method,
                         data: formData,
                         processData: false,
                         contentType: false,
@@ -328,5 +335,5 @@
                 }
             );
         });
-        </script>
+    </script>
 @endempty
