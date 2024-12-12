@@ -10,6 +10,9 @@
             }
 
             .card {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
                 border: none;
                 border-radius: 10px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -17,12 +20,7 @@
                 background-color: #fff;
                 text-decoration: none;
                 color: inherit;
-                display: flex;
-                flex-direction: column;
-                height: 400px;
-                /* Tinggi tetap untuk setiap card */
             }
-
 
             .card:hover {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -31,12 +29,10 @@
             }
 
             .card-body {
-                padding: 20px;
+                flex-grow: 1;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                flex-grow: 1;
-                /* Agar card mengisi ruang vertikal */
             }
 
             .card-title {
@@ -47,23 +43,14 @@
 
             .card-text {
                 color: #6c757d;
-                flex-grow: 1;
-                /* Memastikan teks berada di ruang kosong */
                 overflow: hidden;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
-                /* Membatasi hanya 2 baris */
+                /* Batasi maksimal 4 baris */
                 -webkit-box-orient: vertical;
                 text-overflow: ellipsis;
-            }
-
-            .card-text::after {
-                content: '... Lihat lebih lanjut';
-                display: inline-block;
-                font-size: 0.875rem;
-                color: #007bff;
-                cursor: pointer;
-                margin-top: 5px;
+                max-height: 60px;
+                /* Sesuaikan dengan jumlah baris yang ingin ditampilkan */
             }
 
             .status {
@@ -90,36 +77,6 @@
                 color: #6c757d;
                 margin-right: 5px;
             }
-
-            /* From Uiverse.io by garerim
-                        .container-input {
-                            position: relative;
-                            display: flex;
-                            justify-content: flex-end;
-                            align-items: center;
-                        }
-
-                        .input {
-                            width: 100%;
-                            padding: 10px 0px 10px 20px;
-                            border-radius: 9999px;
-                            border: solid 1px #333;
-                            transition: all .2s ease-in-out;
-                            outline: none;
-                            opacity: 0.8;
-                        }
-
-                        .container-input i {
-                            position: absolute;
-                            top: 50%;
-                            right: 20px;
-                            transform: translate(0, -50%);
-                        }
-
-                        .input:focus {
-                            opacity: 1;
-                            width: 25%;
-                        } */
 
             .filters {
                 display: flex;
@@ -245,14 +202,18 @@
                                 @else
                                     <div class="status text-danger">Belum Dimulai</div>
                                 @endif
-                                <h5 class="card-title">{{ $event->event_name }}</h5>
+                                <h5 class="card-title mb-0">{{ $event->event_name }}</h5>
                                 @foreach ($jenisEvent as $j)
                                     @if ($j->jenis_event_id == $event->jenis_event_id)
                                         <h6 class="card-text mt-0" style="font-size: 1.1rem;">
                                             {{ $j->jenis_event_name }}</h6>
                                     @endif
                                 @endforeach
-                                <p class="card-text">{{ $event->event_description }}</p>
+                                <p class="card-text" data-full-text="{{ $event->event_description }}">
+                                    {{ $event->event_description }}
+                                </p>
+                                {{-- <span class="read-more" style="color: #007bff; cursor: pointer; display: none;">Lihat lebih lanjut</span> --}}
+
                                 <div class="d-flex flex-row justify-content-between align-content-end">
                                     <div class="icon-text">
                                         <div class="d-flex flex-column">
@@ -278,36 +239,6 @@
                     </a>
                 @endforeach
             </div>
-            <!-- Pagination Links -->
-            {{-- <nav aria-label="Page navigation" class="mt-5">
-                <ul class="pagination justify-content-end" id="pagination">
-                    @if ($events->onFirstPage())
-                        <li class="page-item disabled">
-                            <span class="page-link">Previous</span>
-                        </li>
-                    @else
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $events->previousPageUrl() }}">Previous</a>
-                        </li>
-                    @endif
-
-                    @for ($i = 1; $i <= $events->lastPage(); $i++)
-                        <li class="page-item {{ $events->currentPage() == $i ? 'active' : '' }}">
-                            <a class="page-link" href="{{ $events->url($i) }}">{{ $i }}</a>
-                        </li>
-                    @endfor
-
-                    @if ($events->hasMorePages())
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $events->nextPageUrl() }}">Next</a>
-                        </li>
-                    @else
-                        <li class="page-item disabled">
-                            <span class="page-link">Next</span>
-                        </li>
-                    @endif
-                </ul>
-            </nav> --}}
             <div class="modal fade show" id="eventModal" tabindex="-1" role="dialog" data-backdrop="static"
                 aria-labelledby="eventModalLabel" aria-hidden="true"></div>
         </div>
@@ -366,19 +297,42 @@
                         // Sesuaikan pencocokan status
                         if (status === "all") {
                             card.parentElement.style.display =
-                            "block"; // Tampilkan semua kartu
+                                "block"; // Tampilkan semua kartu
                         } else if (
                             (status === "not-started" && cardStatusText ===
-                            "belum dimulai") ||
+                                "belum dimulai") ||
                             (status === "in-progress" && cardStatusText === "proses") ||
                             (status === "completed" && cardStatusText === "selesai")
                         ) {
                             card.parentElement.style.display =
-                            "block"; // Tampilkan kartu sesuai status
+                                "block"; // Tampilkan kartu sesuai status
                         } else {
                             card.parentElement.style.display = "none"; // Sembunyikan kartu
                         }
                     });
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const cardText = card.querySelector('.card-text');
+                const readMore = card.querySelector('.read-more');
+
+                // Cek apakah teks melampaui dua baris
+                if (cardText.scrollHeight > cardText.offsetHeight) {
+                    readMore.style.display = 'inline'; // Tampilkan teks "Lihat lebih lanjut"
+                } else {
+                    readMore.style.display = 'none'; // Sembunyikan jika tidak perlu
+                }
+
+                // Interaksi untuk "Lihat lebih lanjut"
+                readMore.addEventListener('click', function() {
+                    cardText.style.display = 'block'; // Tampilkan teks penuh
+                    cardText.style.webkitLineClamp = 'unset'; // Batalkan pembatasan baris
+                    readMore.style.display = 'none'; // Sembunyikan tombol
                 });
             });
         });
