@@ -32,14 +32,17 @@
       <li class="nav-item dropdown mt-2">
           <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell" style="font-size: 17px;"></i>
+              @if(Auth()->user()->unreadNotifications->count())
               <span class="badge badge-warning navbar-badge text-dark font-weight-bold" style="font-size: 12px;">{{ Auth()->user()->unreadNotifications->count() }}</span>
+              @endif
           </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="overflow-y: auto; max-height: 600px; scrollbar-width: thin;">
               <span class="dropdown-item dropdown-header">Notifications</span>
-              @if (Auth()->user()->unreadNotifications->count() > 0)
-                  @foreach (Auth()->user()->unreadNotifications as $notification)
-                      <div class="dropdown-divider"></div>
-                      <a  class="dropdown-item">
+              {{-- @if (Auth()->user()->unreadNotifications->count() > 0) --}}
+              <a href="{{ route('markAsRead')}}" class="dropdown-item bg-success">Tandai Dibaca Semua</a>
+              @foreach (Auth()->user()->unreadNotifications as $notification)
+              <div class="dropdown-divider"></div>
+                      <a class="dropdown-item">
                           <p class="dropdown-item-title font-weight-bold">
                               {{ $notification->data['title'] }}
                               <span
@@ -48,9 +51,20 @@
                           <p class="notification-text">{{ $notification->data['message'] }}</p>
                       </a>
                   @endforeach
-              @else
+                  @foreach (Auth()->user()->readNotifications as $notification)
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item text-muted">
+                          <p class="dropdown-item-title font-weight-bold">
+                              {{ $notification->data['title'] }}
+                              <span
+                                  class="float-right text-muted text-sm font-weight-normal">{{ $notification->created_at->diffForHumans() }}</span>
+                          </p>
+                          <p class="notification-text">{{ $notification->data['message'] }}</p>
+                      </a>
+                  @endforeach
+              {{-- @else
                   <div class="dropdown-item">No Notifications</div>
-              @endif
+              @endif --}}
               <div class="dropdown-divider"></div>
           </div>
       </li>
@@ -106,5 +120,10 @@
 .navbar-profile:hover .edit-profile {
   opacity: 1;
   transform: translateY(0);
+}
+
+.dropdown-menu {
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 </style>
