@@ -127,13 +127,32 @@
             border: 1px solid #dee2e6;
             margin: 20px 0;
         }
+
+        .btn-success {
+            background-color: #007bff; // Sesuaikan dengan warna tombol Agenda
+            color: white;
+            float: right; // Pastikan tombol berada di sebelah kanan
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .btn-success:hover {
+            background-color: #0056b3; // Warna hover mirip dengan btn-agenda
+            transform: scale(1.05);
+        }
     </style>
     <div>
         <div class="header-section">
             <h5 class="header-title">{{ $event->event_name }}</h5>
             <p class="event-type">{{$event->jenisEvent->jenis_event_name}}</p>
             <p class="event-description">{{ $event->event_description }}</p>
-            <p class="progress-text">Progress ({{ $event->event_id }}%)</p>
+            <p class="progress-text">
+                Progress: {{ $progressPercentage }}%
+            </p>
             <p class="points-text">Points: {{ $event->point }}</p> <!-- Mengambil poin dari database -->
             <button class="btn btn-download-surat" onclick="downloadSuratTugas('{{ $event->assign_letter }}')">
                 Unduh Surat Tugas
@@ -200,7 +219,21 @@
         </div>
         <hr/>
         <button class="btn btn-back" onclick="window.location.href='{{ url('/event_dosen') }}'">Kembali</button>
-        <button class="btn btn-agenda" onclick="openAgenda(<?= $event->event_id ?>)">Agenda</button>
+        @if($eventParticipant)
+            @php
+                $userParticipant = $event->participants->first(function ($participant) use ($user) {
+                    return $participant->user_id == $user->user_id;
+                });
+            @endphp
+
+            @if($userParticipant)
+                @if($userParticipant->position->jabatan_id == 1) {{-- PIC role --}}
+                    <button class="btn btn-agenda" onclick="openAgendaPIC({{ $event->event_id }})">Agenda</button>
+                @else {{-- Non-PIC participants --}}
+                    <button class="btn btn-success" onclick="openAgenda({{ $event->event_id }})">AgendaAGT</button>
+                @endif
+            @endif
+        @endif
     </div>
     <script>
         function downloadSuratTugas(url) {
@@ -210,6 +243,10 @@
         function openAgenda(eventId) {
             // Logic to open the agenda page
             window.location.href = eventId+'/agenda';
+        }
+        function openAgendaPIC(eventId) {
+            // Logic to open the agenda page
+            window.location.href = eventId+'/agendaPIC';
         }
     </script>
 @endsection

@@ -2,24 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\MyEventController;
-use App\Http\Controllers\AgendaController;
-use App\Http\Controllers\NotifikasiController;
-use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\EventController;
+
 use App\Http\Controllers\dosen\EventdController;
-use App\Http\Controllers\dosen\AgendaController;
 use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\admin\RoleUserController;
 use App\Http\Controllers\pimpinan\EventpController;
 use App\Http\Controllers\admin\JenisEventController;
-use App\Http\Controllers\StatistikController;
 
 
 /*
@@ -151,10 +145,29 @@ Route::group(['prefix' => 'event_dosen'], function () {
     Route::get('/{id}/delete_ajax', [EventdController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventdController::class, 'delete_ajax']);
     Route::delete('/{id}', [EventdController::class, 'destroy']);
-    Route::get('/{id}/agenda', [AgendaController::class, 'index'])->name('event.agenda');
-    Route::post('/{id}/agenda/list', [AgendaController::class, 'list'])->name('agenda.list');
-    Route::get('/{id}/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
-    Route::post('/{id}/agenda/store', [AgendaController::class, 'store'])->name('agenda.store');
+    Route::middleware(['auth', 'event.participant'])->group(function () {
+        Route::get('/{id}/agenda', [App\Http\Controllers\dosen\AgendaController::class, 'agendaAGT'])->name('event.agendaAGT')
+            ->middleware('event.jabatan:participant');
+
+            Route::get('/{id}/agendaPIC', [App\Http\Controllers\dosen\AgendaController::class, 'index'])->name('event.agenda')
+            ->middleware('event.jabatan:pic');
+    });
+    Route::post('/{id}/agendaPIC/list', [App\Http\Controllers\dosen\AgendaController::class, 'list'])->name('agenda.list');
+    Route::post('/{id}/agenda/listAGT', [App\Http\Controllers\dosen\AgendaController::class, 'listAGT'])->name('agenda.listAGT');
+    Route::get('/{id}/agenda/{id_agenda}/showAGT', [App\Http\Controllers\dosen\AgendaController::class, 'showAGT'])->name('agenda.showAGT');
+    Route::post('/{id}/agenda/{id_agenda}/uploadProgress', [App\Http\Controllers\dosen\AgendaController::class, 'uploadProgress'])->name('agenda.uploadProgress');
+    Route::post('/{id}/agenda/{id_agenda}/updateStatus', [App\Http\Controllers\dosen\AgendaController::class, 'updateStatus']);
+    Route::post('/{id}/agenda/{id_agenda}/download/{id_document}', [App\Http\Controllers\dosen\AgendaController::class, 'download_Document'])->name('document.download');
+    Route::get('/{id}/agendaPIC/create', [App\Http\Controllers\dosen\AgendaController::class, 'create'])->name('agenda.create');
+    Route::post('/{id}/agendaPIC/store', [App\Http\Controllers\dosen\AgendaController::class, 'store'])->name('agenda.store');
+    Route::get('/{id}/agendaPIC/{id_agenda}/edit', [App\Http\Controllers\dosen\AgendaController::class, 'edit'])->name('agenda.edit');
+    Route::put('/{id}/agendaPIC/{id_agenda}/update', [App\Http\Controllers\dosen\AgendaController::class, 'update'])->name('agenda.update');
+    Route::get('/{id}/agendaPIC/{id_agenda}/delete', [App\Http\Controllers\dosen\AgendaController::class, 'confirm'])->name('agenda.delete');
+    Route::delete('/{id}/agendaPIC/{id_agenda}/delete', [App\Http\Controllers\dosen\AgendaController::class, 'delete']);
+    Route::delete('/{id}/agendaPIC/{id_agenda}/document/{document_id}', [App\Http\Controllers\dosen\AgendaController::class, 'deleteDocument'])->name('agenda.deleteDocument');
+    Route::post('/{id}/agendaPIC/generate-all-points', [App\Http\Controllers\dosen\AgendaController::class, 'generateAllPoints'])
+    ->name('agenda.generate-all-points');
+});
 Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::get('/', [EventpController::class, 'index']);
     Route::post('/list', [EventpController::class, 'list']);

@@ -16,6 +16,7 @@ class MyEventController extends Controller
 {
     public function index(){
 
+        $title = 'My Event';
         $breadcrumb = (object) [
             'title' => 'Selamat Datang',
             'list' => ['Home', 'Welcome']
@@ -23,7 +24,7 @@ class MyEventController extends Controller
 
         $activeMenu = 'My Event';
 
-        return view('my_event.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
+        return view('my_event.index', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'title' => $title]);
     }
 
     public function agenda(){

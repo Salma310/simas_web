@@ -20,9 +20,10 @@ class Event extends Model
         return $this->hasMany(EventParticipant::class, 'event_id');
     }
 
+    // Di model Event
     public function agenda()
     {
-        return $this->hasMany(Agenda::class, 'agenda_id');
+        return $this->hasMany(Agenda::class, 'event_id', 'event_id');
     }
 
     // public function notifications()

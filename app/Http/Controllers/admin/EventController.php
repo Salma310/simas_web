@@ -86,7 +86,7 @@ class EventController extends Controller
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'jenis_event_id' => 'required|integer',
                 'point' => 'required|numeric|min:0',
-              
+
                 // Validasi untuk array user_id dan jabatan_id
                 'participant' => 'required|array|min:1',
                 'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
@@ -194,91 +194,94 @@ class EventController extends Controller
      }
 
 
-     public function update_ajax(Request $request, $id)
-    {
-    if ($request->ajax() || $request->wantsJson()) {
-        $rules = [
-            'event_name' => 'required|string|max:100',
-            'event_code' => 'required|string|max:10|unique:m_event,event_code,'. $id . ',event_id',
-            'event_description' => 'required|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'jenis_event_id' => 'required|integer',
-            'point' => 'required|numeric|min:0',
-            'participant' => 'required|array|min:1',
-            'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
-            'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
-        ];
-      
-        $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name')->get();
-        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
-        $agenda = Agenda::where('event_id', $id)->get();
+//      public function update_ajax(Request $request, $id)
+//     {
+//     if ($request->ajax() || $request->wantsJson()) {
+//         $rules = [
+//             'event_name' => 'required|string|max:100',
+//             'event_code' => 'required|string|max:10|unique:m_event,event_code,'. $id . ',event_id',
+//             'event_description' => 'required|string',
+//             'start_date' => 'required|date',
+//             'end_date' => 'required|date|after_or_equal:start_date',
+//             'jenis_event_id' => 'required|integer',
+//             'point' => 'required|numeric|min:0',
+//             'participant' => 'required|array|min:1',
+//             'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
+//             'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
+//         ];
 
-        // Ambil data peserta (partisipan) dan jabatannya
-        $eventParticipant = EventParticipant::where('event_id', $id)
-            ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
-            ->get();
+//         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
+//         $user = User::select('user_id', 'name')->get();
+//         $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
+//         $agenda = Agenda::where('event_id', $id)->get();
 
-        return view('admin.event.detail_ajax', [
-            'event' => $event,
-            'jenisEvent' => $jenisEvent,
-            'user' => $user,
-            'jabatan' => $jabatan,
-            'agenda' => $agenda,
-            'eventParticipant' => $eventParticipant
-        ]);
-    }
+//         // Ambil data peserta (partisipan) dan jabatannya
+//         $eventParticipant = EventParticipant::where('event_id', $id)
+//             ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
+//             ->get();
 
-    public function edit_ajax($id)
-    {
-        $event = Event::find($id);
-        $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name')->get();
-        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
+//         return view('admin.event.detail_ajax', [
+//             'event' => $event,
+//             'jenisEvent' => $jenisEvent,
+//             'user' => $user,
+//             'jabatan' => $jabatan,
+//             'agenda' => $agenda,
+//             'eventParticipant' => $eventParticipant
+//         ]);
+//     }
+// }
 
-        // Ambil data peserta (partisipan) dan jabatannya
-        $eventParticipant = EventParticipant::where('event_id', $id)
-            ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
-            ->get();
+    // public function edit_ajax($id)
+    // {
+    //     $event = Event::find($id);
+    //     $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
+    //     $user = User::select('user_id', 'name')->get();
+    //     $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
 
-        return view('admin.event.edit_ajax', [
-            'event' => $event,
-            'jenisEvent' => $jenisEvent,
-            'user' => $user,
-            'jabatan' => $jabatan,
-            'eventParticipant' => $eventParticipant
-        ]);
-    
-        DB::beginTransaction();
-        try {
-            $event = Event::findOrFail($id);
+    //     // Ambil data peserta (partisipan) dan jabatannya
+    //     $eventParticipant = EventParticipant::where('event_id', $id)
+    //         ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
+    //         ->get();
 
-            // Update event details
-            $event->update([
-                'event_name' => $request->event_name,
-                'event_code' => $request->event_code,
-                'event_description' => $request->event_description,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'jenis_event_id' => $request->jenis_event_id,
-                'point' => $request->point,
-            ]);
+    //     return view('admin.event.edit_ajax', [
+    //         'event' => $event,
+    //         'jenisEvent' => $jenisEvent,
+    //         'user' => $user,
+    //         'jabatan' => $jabatan,
+    //         'eventParticipant' => $eventParticipant
+    //     ]);
 
-            // Delete existing participants
-            EventParticipant::where('event_id', $id)->delete();
+    //     DB::beginTransaction();
+    //     try {
+    //         $event = Event::findOrFail($id);
 
-            // Add new participants
-            $participantA = [];
-            foreach ($request->participant as $participants) {
-                $participantA[] = [
-                    'event_id' => $event->event_id,
-                    'jabatan_id' => $participants['jabatan_id'],
-                    'user_id' => $participants['user_id'],
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-          }
+    //         // Update event details
+    //         $event->update([
+    //             'event_name' => $request->event_name,
+    //             'event_code' => $request->event_code,
+    //             'event_description' => $request->event_description,
+    //             'start_date' => $request->start_date,
+    //             'end_date' => $request->end_date,
+    //             'jenis_event_id' => $request->jenis_event_id,
+    //             'point' => $request->point,
+    //         ]);
+
+    //         // Delete existing participants
+    //         EventParticipant::where('event_id', $id)->delete();
+
+    //         // Add new participants
+    //         $participantA = [];
+    //         foreach ($request->participant as $participants) {
+    //             $participantA[] = [
+    //                 'event_id' => $event->event_id,
+    //                 'jabatan_id' => $participants['jabatan_id'],
+    //                 'user_id' => $participants['user_id'],
+    //                 'created_at' => now(),
+    //                 'updated_at' => now()
+    //             ];
+    //       }
+    //     }
+    // }
 
     public function update_ajax(Request $request, $id)
     {
@@ -409,7 +412,7 @@ class EventController extends Controller
         $eventParticipant = EventParticipant::where('event_id', $id)
             ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
             ->get();
-        
+
         $pdf = Pdf::loadView('admin.event.export_surat_tugas', [
             'event' => $event,
             'jenisEvent' => $jenisEvent,

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\dosen;
 
-use Illuminate\Http\Request;
-use App\Models\EventType;
-use App\Models\Event;
-use App\Models\EventParticipant;
-use App\Models\Position;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Agenda;
+use App\Models\Position;
+use App\Models\EventType;
+use Illuminate\Http\Request;
+use App\Models\EventParticipant;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -142,24 +143,37 @@ class EventdController extends Controller
     {
         $title = 'Detail Event';
         $activeMenu = 'event dosen';
-        $event = Event::find($id);
-        $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name', 'picture')->get();
-        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
-        $agenda = Agenda::where('event_id', $id)->get();
 
-        // Ambil data peserta (partisipan) dan jabatannya
-        $eventParticipant = EventParticipant::where('event_id', $id)
-            ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
+        // Load event dengan agenda
+        $event = Event::with([
+            'jenisEvent',
+            'participants.position',
+            'participants.user',
+            'agenda' // Pastikan relasi agenda sudah didefinisikan di model Event
+        ])->findOrFail($id);
+
+        // Hitung progress
+        $totalAgenda = $event->agenda->count();
+        $completedAgenda = $event->agenda->where('status', 'done')->count();
+
+        // Hindari pembagian dengan nol
+        $progressPercentage = $totalAgenda > 0
+            ? round(($completedAgenda / $totalAgenda) * 100, 2)
+            : 0;
+
+        $user = Auth::user();
+        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
+
+        $eventParticipant = EventParticipant::where('user_id', $user->user_id)
+            ->with(['user', 'position'])
             ->get();
 
         return view('dosen.event.show', [
             'event' => $event,
-            'jenisEvent' => $jenisEvent,
             'user' => $user,
             'jabatan' => $jabatan,
-            'agenda' => $agenda,
-            'eventParticipant' => $eventParticipant,
+            'eventParticipant' => (bool)$eventParticipant,
+            'progressPercentage' => $progressPercentage, // Tambahkan progress ke view
             'title' => $title,
             'activeMenu' => $activeMenu
         ]);

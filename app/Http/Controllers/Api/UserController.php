@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +13,7 @@ class UserController extends Controller
     //
     public function index()
     {
-        return UserModel::all();
+        return User::all();
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class UserController extends Controller
             return response()->json($validator->errors(), 422);
         }
         //create user
-        $user = UserModel::create([
+        $user = User::create([
             'username' => $request->username,
             'name' => $request->name,
             'email' => $request->email,
@@ -50,27 +50,31 @@ class UserController extends Controller
             'user' => $user,
             ], 201);
         }
-        
+
         //return JSON process insert failed
         return response()->json([
             'success' => false,
         ], 409);
-        // $user = UserModel::create($request->all());
+        // $user = User::create($request->all());
         // return response()->json($user, 201);
     }
 
-    public function show(UserModel $user)
+    public function show(User $user)
     {
-        return UserModel::find($user);
+        return response()->json([
+            'success' => true,
+            'user' => $user,
+        ]);
     }
 
-    public function update(Request $request, UserModel $user)
+
+    public function update(Request $request, User $user)
     {
         $user->update($request->all());
-        return UserModel::find($user);
+        return User::find($user);
     }
 
-    public function destroy(UserModel $user)
+    public function destroy(User $user)
     {
         $user->delete();
 
