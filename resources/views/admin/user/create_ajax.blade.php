@@ -46,8 +46,13 @@
         </div>
     </div>
 </form>
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 $(document).ready(function() {
     $("#form-tambah").validate({
         rules: {
@@ -69,7 +74,7 @@ $(document).ready(function() {
                 data: $(form).serialize(),
                 success: function(response) {
                     if(response.status){
-                        $('#myModal').modal('hide');
+                        $('#modal-master').modal('hide');
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil',
