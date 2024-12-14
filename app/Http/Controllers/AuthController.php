@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 
 
 class AuthController extends Controller
@@ -24,6 +25,15 @@ class AuthController extends Controller
         if ($request->ajax() || $request->wantsJson()) {
             $credentials = $request->only('username', 'password');
             if (Auth::attempt($credentials)) {
+                // Format tanggal hari ini
+                $today = now()->format('d-m-Y');
+
+                // Tambah jumlah login untuk hari ini di cache
+                $logins = Cache::get('daily_logins', []);
+                $logins[$today] = isset($logins[$today]) ? $logins[$today] + 1 : 1;
+                Cache::put('daily_logins', $logins, now()->addDays(7));
+
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Login Berhasil',

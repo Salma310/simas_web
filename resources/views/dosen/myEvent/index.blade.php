@@ -212,14 +212,10 @@
 
     <body>
         <div class="container-fluid px-3">
-
-            <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+        <div class="d-flex flex-row justify-content-between align-items-center mb-3">
                 <!-- Filter di sebelah kiri -->
-                <div class="filters">
-                    <label for="semua" class="active" data-status="all">Semua</label>
-                    <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>
-                    <label for="Proses" data-status="in-progress">Proses</label>
-                    <label for="Selesai" data-status="completed">Selesai</label>
+                <div class="group-btn">
+                    <button class="btn btn-primary" onclick="modalAction('{{ url('myevent/non-jti/add') }}')">Add Event Ekstern</button>
                 </div>
 
 
@@ -229,8 +225,6 @@
                     <i class="fas fa-search"></i>
                 </div>
             </div>
-
-
             <div class="row">
                 @foreach ($events as $event)
                     <!-- Membungkus seluruh kartu dengan <a> -->
@@ -260,15 +254,6 @@
                                             <div class="d-flex align-items-center">
                                                 <i class="fas fa-calendar-alt"></i>
                                                 <span>{{ \Carbon\Carbon::parse($event->end_date)->format('F d, Y') }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="icon-text">
-                                        <div class="d-flex flex-column">
-                                            <span class="label">Jml Anggota</span>
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-users"></i>
-                                                <span>{{ $event->participants_count }} </span>
                                             </div>
                                         </div>
                                     </div>

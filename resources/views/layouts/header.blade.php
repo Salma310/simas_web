@@ -28,19 +28,18 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      @if (Auth::user()->role->role_id != 1)
-      <li class="nav-item dropdown">
+      @if (Auth::user()->role->role_id != 1 && Auth::user()->role->role_id != 2)
+      <li class="nav-item dropdown mt-2">
           <a class="nav-link" data-toggle="dropdown" href="#">
-              <i class="far fa-bell"></i>
-              <span
-                  class="badge badge-warning navbar-badge">{{ Auth()->user()->unreadNotifications->count() }}</span>
+              <i class="far fa-bell" style="font-size: 17px;"></i>
+              <span class="badge badge-warning navbar-badge text-dark font-weight-bold" style="font-size: 12px;">{{ Auth()->user()->unreadNotifications->count() }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
               <span class="dropdown-item dropdown-header">Notifications</span>
               @if (Auth()->user()->unreadNotifications->count() > 0)
                   @foreach (Auth()->user()->unreadNotifications as $notification)
                       <div class="dropdown-divider"></div>
-                      <a href="{{ url($notification->data['url']) }}" class="dropdown-item">
+                      <a  class="dropdown-item">
                           <p class="dropdown-item-title font-weight-bold">
                               {{ $notification->data['title'] }}
                               <span
@@ -56,11 +55,56 @@
           </div>
       </li>
   @endif
-      <li class="nav-item pb-3">
-        <a class="nav-link" href="{{ url('/profile') }}" role="button">
-          <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('images/defaultUser.png') }}" alt="Profile Image" class="img-circle" style="width: 35px; height: 35px; object-fit: cover;">
-        </a>
-      </li>
+  <li class="nav-item pb-3 d-flex align-items-center mt-1">
+    <a class="nav-link navbar-profile position-relative" href="{{ url('/profile') }}" role="button">
+      <p class="d-inline edit-profile">Edit Profile</p>
+      <img src="{{ auth()->user()->picture ? asset('storage/picture/' . auth()->user()->picture) : asset('images/defaultUser.png') }}" 
+      alt="Profile Image" 
+      class="img-circle profile-img" 
+      style="width: 35px; height: 35px; object-fit: cover;">
+      <p class="name d-inline ml-2 font-weight-bold">{{ auth()->user()->name }}</p>
+    </a>
+  </li>  
     </ul>
   </nav>
   <!-- /.navbar -->
+<style>
+.navbar-profile {
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-img {
+  margin-top: 5px;
+}
+
+.name {
+  margin-left: 10px; 
+  margin-top: 20px;
+  opacity: 1;
+  transform: translateY(0); 
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.edit-profile {
+  position: absolute;
+  left: 60px;
+  top: 25%; 
+  transform: translateY(20px); 
+  opacity: 0;
+  font-weight: bold;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-profile:hover .name {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.navbar-profile:hover .edit-profile {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>

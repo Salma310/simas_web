@@ -14,7 +14,7 @@
             }
 
             .content {
-                padding: 30px;
+                padding: 15px;
             }
 
             .content .header {
@@ -169,13 +169,8 @@
 
             .filter_jenis_event {
                 width: 250px;
-                /* Sesuaikan ukuran lebar filter */
-                /* padding: 10px; */
-                /* Sesuaikan padding untuk kenyamanan */
                 font-size: 14px;
-                /* Ukuran teks lebih besar */
                 border-radius: 8px;
-                /* Rounded edge */
             }
         </style>
     </head>
@@ -186,15 +181,6 @@
                 <div class="group-btn">
                     <button class="btn btn-primary" onclick="modalAction('{{ url('event/create_ajax') }}')">
                         <i class="fas fa-plus"></i>Add Event</button>
-                    <div>
-                        <label class="mt-0">Filter Jenis Event</label>
-                        <select name="jenis_event_id" id="jenis_event_id" class="form-control form-control-sm  mt-0 mb-2 filter_jenis_event">
-                            <option value="">- Semua -</option>
-                            @foreach ($jenisEvent as $l)
-                                <option value="{{ $l->jenis_event_id }}">{{ $l->jenis_event_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div>
                 <div class="search-box">
                     <input id="searchInput" onkeyup="searchTable()" placeholder="Search" type="text" />
@@ -203,6 +189,15 @@
                 </div>
             </div>
             <div class="table-container table-responsive mt-4">
+                <div class="d-flex flex-row justify-content-start">
+                    <label class="mr-3 mt-1">Filter: </label>
+                    <select name="jenis_event_id" id="jenis_event_id" class="form-control form-control mb-2 d-inline filter_jenis_event">
+                        <option value="">- Semua -</option>
+                        @foreach ($jenisEvent as $l)
+                            <option value="{{ $l->jenis_event_id }}">{{ $l->jenis_event_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <table class="table" id="eventTable">
                     <thead>
                         <tr>
@@ -297,6 +292,15 @@
                                 className: "",
                                 orderable: false,
                                 searchable: false,
+                                render: function(data) {
+                                    if (data == 'completed') {
+                                        return '<span class="badge badge-success">Selesai</span>';
+                                    } else if(data == 'progress') {
+                                        return '<span class="badge badge-warning">Proses</span>';
+                                    } else {
+                                        return '<span class="badge badge-danger">Belum Dimulai</span>';
+                                    }
+                                }
                             },
                             {
                                 data: "point",

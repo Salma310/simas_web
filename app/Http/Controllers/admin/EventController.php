@@ -16,6 +16,8 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -65,7 +67,7 @@ class EventController extends Controller
     public function create_ajax()
     {
         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name')->get();
+        $user = User::select('user_id', 'name')->where('role_id', 3)->get();
         $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
         return view('admin.event.create_ajax')
             ->with('jenisEvent', $jenisEvent)
@@ -128,7 +130,8 @@ class EventController extends Controller
                     ]);
                 }
 
-                $users  = User::all();
+                $eventParticipants = EventParticipant::where('event_id', $event->event_id)->get();
+                $users  = User::whereIn('user_id', $eventParticipants->pluck('user_id'))->get();
                 Notification::send($users, new EventNotification($event));
 
                 // Jika berhasil
@@ -152,27 +155,27 @@ class EventController extends Controller
     public function show_ajax(string $id)
     {
         $event = Event::find($id);
-         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-         $user = User::select('user_id', 'name')->get();
-         $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
-         $agenda = Agenda::where('event_id', $id)->get();
+        $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
+        $user = User::select('user_id', 'name')->get();
+        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
+        $agenda = Agenda::where('event_id', $id)->get();
 
-         // Ambil data peserta (partisipan) dan jabatannya
-         $eventParticipant = EventParticipant::where('event_id', $id)
-             ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
-             ->get();
+        // Ambil data peserta (partisipan) dan jabatannya
+        $eventParticipant = EventParticipant::where('event_id', $id)
+            ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
+            ->get();
 
-         return view('admin.event.detail_ajax', [
-             'event' => $event,
-             'jenisEvent' => $jenisEvent,
-             'user' => $user,
-             'jabatan' => $jabatan,
-             'agenda' => $agenda,
-             'eventParticipant' => $eventParticipant
-         ]);
-     }
+        return view('admin.event.detail_ajax', [
+            'event' => $event,
+            'jenisEvent' => $jenisEvent,
+            'user' => $user,
+            'jabatan' => $jabatan,
+            'agenda' => $agenda,
+            'eventParticipant' => $eventParticipant
+        ]);
+    }
 
-     public function edit_ajax($id)
+    public function edit_ajax($id)
      {
          $event = Event::find($id);
          $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
@@ -192,6 +195,7 @@ class EventController extends Controller
              'eventParticipant' => $eventParticipant
          ]);
      }
+
 
 
 //      public function update_ajax(Request $request, $id)
@@ -285,78 +289,95 @@ class EventController extends Controller
 
     public function update_ajax(Request $request, $id)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
+        try {
+            DB::beginTransaction();
+
+            $validator = Validator::make($request->all(), [
                 'event_name' => 'required|string|max:100',
                 'event_code' => 'required|string|max:10|unique:m_event,event_code,' . $id . ',event_id',
                 'event_description' => 'required|string',
                 'start_date' => 'required|date',
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'jenis_event_id' => 'required|integer',
+                'point' => 'required|integer',
+                'assign_letter' => 'nullable|file|mimes:pdf,doc,docx|max:10240',
                 'participant' => 'required|array|min:1',
                 'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
                 'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
+            ]);
 
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Validasi gagal',
-                    'errors' => $validator->errors()
+                    'msgField' => $validator->errors()
                 ], 422);
             }
 
-            DB::beginTransaction();
-            try {
-                $event = Event::findOrFail($id);
+            $event = Event::findOrFail($id);
+            $event->update([
+                'event_name' => $request->event_name,
+                'event_code' => $request->event_code,
+                'event_description' => $request->event_description,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'jenis_event_id' => $request->jenis_event_id,
+                'point' => $request->point,
+            ]);
 
-                // Update event details
-                $event->update([
-                    'event_name' => $request->event_name,
-                    'event_code' => $request->event_code,
-                    'event_description' => $request->event_description,
-                    'start_date' => $request->start_date,
-                    'end_date' => $request->end_date,
-                    'jenis_event_id' => $request->jenis_event_id,
-                ]);
+            if ($request->hasFile('assign_letter')) {
+                $file = $request->file('assign_letter');
 
-                // Delete existing participants
-                EventParticipant::where('event_id', $id)->delete();
-
-                // Add new participants
-                $participantA = [];
-                foreach ($request->participant as $participants) {
-                    $participantA[] = [
-                        'event_id' => $event->event_id,
-                        'jabatan_id' => $participants['jabatan_id'],
-                        'user_id' => $participants['user_id'],
-                        'created_at' => now(),
-                        'updated_at' => now()
-                    ];
+                // Hapus file lama jika ada
+                if ($event->assign_letter && Storage::disk('public')->exists('docs/' . $event->assign_letter)) {
+                    Storage::disk('public')->delete('docs/' . $event->assign_letter);
                 }
-                EventParticipant::insert($participantA);
 
-                DB::commit();
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Data berhasil diupdate'
+                // Generate nama file unik
+                $fileName = time() . '_' . $file->getClientOriginalName();
+
+                // Simpan file
+                $filePath = $file->storeAs('docs', $fileName, 'public');
+
+                $event->update([
+                    'assign_letter' => $fileName,
                 ]);
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Gagal mengupdate data: ' . $e->getMessage()
-                ], 500);
             }
-        }
 
+            // Hapus peserta yang ada sebelumnya
+            EventParticipant::where('event_id', $id)->delete();
+
+            // Tambahkan peserta baru
+            $participantA = [];
+            foreach ($request->participant as $participants) {
+                $participantA[] = [
+                    'event_id' => $event->event_id,
+                    'jabatan_id' => $participants['jabatan_id'],
+                    'user_id' => $participants['user_id'],
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+            EventParticipant::insert($participantA);
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Data berhasil diupdate'
+            ]);
+        }   catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengupdate data: ' . $e->getMessage()
+            ], 500);
+        }
         return response()->json([
             'status' => false,
             'message' => 'Invalid request method'
         ], 400);
     }
+
 
     public function confirm_ajax($id)
     {
@@ -401,7 +422,8 @@ class EventController extends Controller
         return redirect('/');
     }
 
-    public function export_pdf(string $id) {
+    public function export_pdf(string $id)
+    {
         $event = Event::find($id);
         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
         $user = User::select('user_id', 'name')->get();
@@ -426,6 +448,6 @@ class EventController extends Controller
         $pdf->setOption("isRemoteEnabled", true);
         $pdf->render();
 
-        return $pdf->stream('Surat Tugas '.$event->event_name.'.pdf');
+        return $pdf->stream('Surat Tugas ' . $event->event_name . '.pdf');
     }
 }

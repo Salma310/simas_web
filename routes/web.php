@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\StatistikController;
+use App\Http\Controllers\dosen\MyEventController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\EventController;
@@ -58,14 +58,14 @@ Route::group(['prefix' => 'event'], function () {
     Route::post('/', [EventController::class, 'store']);
     Route::get('/create_ajax', [EventController::class, 'create_ajax']);
     Route::post('/ajax', [EventController::class, 'store_ajax']);
-    Route::get('/{id}', [EventController::class, 'show']);
-    Route::get('/{id}/edit', [EventController::class, 'edit']);
-    Route::put('/{id}', [EventController::class, 'update']);
     Route::get('/{id}/edit_ajax', [EventController::class, 'edit_ajax']);
     Route::get('/{id}/show_ajax', [EventController::class, 'show_ajax']);
     Route::put('/{id}/update_ajax', [EventController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [EventController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [EventController::class, 'delete_ajax']);
+    Route::get('/{id}', [EventController::class, 'show']);
+    Route::get('/{id}/edit', [EventController::class, 'edit']);
+    Route::put('/{id}', [EventController::class, 'update']);
     Route::delete('/{id}', [EventController::class, 'destroy']);
     Route::get('/{id}/export_pdf', [EventController::class, 'export_pdf']);
 });
@@ -186,15 +186,6 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::delete('/{id}', [EventpController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'event_non_jti'], function () {
-    // Rute untuk Event Non-JTI
-    Route::get('/non-jti', [EventController::class, 'indexNonJTI'])->name('event.non-jti.index'); // Daftar event Non-JTI
-    Route::get('/non-jti/add', [EventController::class, 'createNonJTI'])->name('event.non-jti.create'); // Form tambah Non-JTI
-    Route::post('/non-jti/add', [EventController::class, 'storeNonJTI'])->name('event.non-jti.store'); // Proses tambah Non-JTI
-    Route::get('/non-jti/{id}/edit', [EventController::class, 'editNonJTI'])->name('event.non-jti.edit'); // Form edit Non-JTI
-    Route::put('/non-jti/{id}', [EventController::class, 'updateNonJTI'])->name('event.non-jti.update'); // Proses edit Non-JTI
-});
-
 Route::get('/statistik', [StatistikController::class, 'index']);
 Route::get('notifikasi_event/{id}', [NotifikasiController::class, 'indexEvent'])->name('notifikasi_event.show');
 
@@ -217,6 +208,10 @@ Route::group(['prefix' => 'myevent'], function () {
     Route::get('/{id}/agenda/update', [MyEventController::class, 'agenda_update']);
     Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delconfirm']);
     Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delete']);
+    // Route::get('/non-jti', [MyEventController::class, 'indexNonJTI'])->name('non-jti.index'); // Daftar event Non-JTI
+    Route::get('/non-jti/add', [MyEventController::class, 'createNonJTI'])->name('non-jti.create'); // Form tambah Non-JTI
+    Route::post('/non-jti/add', [MyEventController::class, 'storeNonJTI'])->name('non-jti.store'); // Proses tambah Non-JTI
+    Route::get('/non-jti/{id}/detail', [MyEventController::class, 'detailNonJTI'])->name('non-jti.detail'); // Form detail Non-JTI
 
 });
 

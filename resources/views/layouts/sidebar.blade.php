@@ -12,7 +12,7 @@
             </li>
 
             <!-- Data Event Section -->
-            <li class="nav-header">Data Event</li>
+            <li class="nav-header mt-2">Data Event</li>
             <li class="nav-item">
                 <a href="{{ url('/event') }}" class="nav-link {{ $activeMenu == 'event' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
@@ -27,7 +27,7 @@
             </li>
 
             <!-- Data User Section -->
-            <li class="nav-header">Data User</li>
+            <li class="nav-header mt-2">Data User</li>
             <li class="nav-item">
                 <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'list user' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users"></i>
@@ -41,7 +41,7 @@
                 </a>
             </li>
 
-            <li class="nav-item mt-2">
+            <li class="nav-item mt-3">
                 <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
@@ -61,19 +61,19 @@
                 </a>
             </li>
             <!-- Data Event Section -->
-            <li class="nav-item">
+            <li class="nav-item mt-1">
                 <a href="{{ url('/event_pimpinan') }}" class="nav-link {{ $activeMenu == 'event pimpinan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>Event</p>
                 </a>
             </li>
-            <li class="nav-item mt-2">
+            <li class="nav-item mt-1">
                 <a href="{{ url('/statistik') }}" class="nav-link {{ $activeMenu == 'statistik' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-chart-bar"></i>
                     <p>Statistik</p>
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mt-1">
                 <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
                     <p>Profile</p>
@@ -107,8 +107,7 @@
             </li>
             @endif
             <!-- Button Logout -->
-            <li class="nav-header">Log Out</li>
-            <li class="nav-item logout">
+            <li class="nav-item logout mt-1">
                 <a href="{{ url('/logout') }}" class="nav-link"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="nav-icon fas fa-power-off"></i>
