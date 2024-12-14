@@ -1,4 +1,4 @@
-<form action="{{ url('/event/non-jti/add') }}" method="POST" id="form-tambah-non-jti">
+<form action="{{ url('/myevent/non-jti/add') }}" method="POST" id="form-tambah-non-jti" enctype="multipart/form-data">
     @csrf
     <div id="modal-non-jti" class="modal-dialog modal-lg" role="document">
         <div class="modal-content" style="border-radius:15px;">
@@ -16,6 +16,13 @@
                         placeholder="Isi nama event" required>
                 </div>
 
+                <!-- Jenis Event -->
+                <div class="form-group">
+                    <label>Kode Jenis Event</label>
+                    <input type="text" name="jenis_event_id" id="jenis_event_id" class="form-control"
+                        placeholder="Pilih kode Jenis Event" required>
+                </div>
+
                 <!-- Kode Event -->
                 <div class="form-group">
                     <label>Kode Event</label>
@@ -23,16 +30,16 @@
                         placeholder="Isi kode event" required>
                 </div>
 
-                <!-- PIC -->
-                <div class="form-group">
-                    <label>PIC</label>
-                    <input type="text" name="pic" id="pic" class="form-control" placeholder="Isi Nama PIC" required>
-                </div>
-
-                <!-- Tanggal Pelaksanaan -->
-                <div class="form-group">
-                    <label>Tanggal Pelaksanaan</label>
-                    <input type="date" name="event_date" id="event_date" class="form-control" required>
+                <!-- Tanggal Mulai dan Tanggal Selesai -->
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Tanggal Mulai</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Tanggal Selesai</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control" required>
+                    </div>
                 </div>
 
                 <!-- Deskripsi Event -->
@@ -45,9 +52,8 @@
                 <!-- Surat Tugas -->
                 <div class="form-group">
                     <label>Surat Tugas</label>
-                    <input type="file" name="assignment_letter" id="assignment_letter" class="form-control-file"
-                        accept=".jpg, .png, .pdf" required>
-                    <small class="form-text text-muted">JPG, PNG, atau PDF. Maksimal ukuran file 10MB.</small>
+                    <input type="file" name="assign_letter" id="assign_letter" class="form-control-file" required>
+                    <small class="form-text text-muted">JPG, JPEG, PNG, atau PDF. Maksimal ukuran file 10MB.</small>
                 </div>
             </div>
 
@@ -58,7 +64,13 @@
         </div>
     </div>
 </form>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     $(document).ready(function() {
         $("#form-tambah-non-jti").validate({
             rules: {
@@ -66,6 +78,10 @@
                     required: true,
                     minlength: 3,
                     maxlength: 100
+                },
+                jenis_event_id: {
+                    required: true,
+                    number: true
                 },
                 event_code: {
                     required: true,
@@ -77,31 +93,37 @@
                     minlength: 3,
                     maxlength: 100
                 },
-                event_date: {
+                start_date: {
                     required: true,
                     date: true
                 },
+                end_date: {
+                    required: true,
+                    date: true,
+                    greaterThan: "#start_date"
+                }    
                 event_description: {
                     required: true,
                     minlength: 5
                 },
-                assignment_letter: {
+                assign_letter: {
                     required: true,
-                    extension: "jpg|png|pdf",
-                    filesize: 10485760 // 10MB in bytes
+                    extension: "jpg|jpeg|png|pdf",
+                    filesize: 10240 // 10MB in bytes
                 }
             },
             messages: {
-                assignment_letter: {
-                    extension: "Hanya file JPG, PNG, atau PDF yang diperbolehkan.",
+                assign_letter: {
+                    extension: "Hanya file JPG, JPEG, PNG, atau PDF yang diperbolehkan.",
                     filesize: "File tidak boleh lebih dari 10MB."
                 }
             },
             submitHandler: function(form) {
+                const formData = new FormData(form);
                 $.ajax({
                     url: form.action,
-                    type: form.method,
-                    data: new FormData(form),
+                    type: 'POST',
+                    data: formData,
                     contentType: false,
                     processData: false,
                     success: function(response) {
@@ -120,6 +142,16 @@
                                 text: response.message
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Status: " + status);
+                        console.error("Error: " + error);
+                        console.error("Response: " + xhr.responseText);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Terjadi Kesalahan',
+                            text: 'Gagal mengirim data.'
+                        });
                     }
                 });
                 return false;
