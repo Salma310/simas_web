@@ -3,6 +3,7 @@
 @section('content')
     <div class="container-fluid px-4 pt-0">
         <div class="row">
+            @if (Auth::user()->role->role_name == 'Admin' || Auth::user()->role->role_name == 'Pimpinan')
             <div class="col-9">
                 <!-- Statistik Utama -->
                 <div class="row d-flex flex-row">
@@ -67,17 +68,17 @@
                                     <!-- Grafik Donut 1 -->
                                     <div class="col-4 col-md-2 text-center">
                                         <canvas id="donutChart1"></canvas>
-                                        <div class="knob-label">Event Completed</div>
+                                        <div class="knob-label">Event Selesai</div>
                                     </div>
                                     <!-- Grafik Donut 2 -->
                                     <div class="col-4 col-md-2 text-center">
                                         <canvas id="donutChart2"></canvas>
-                                        <div class="knob-label">Event In Progress</div>
+                                        <div class="knob-label">Event Proses</div>
                                     </div>
                                     <!-- Grafik Donut 3 -->
                                     <div class="col-4 col-md-2 text-center">
                                         <canvas id="donutChart3"></canvas>
-                                        <div class="knob-label">Event Not Started</div>
+                                        <div class="knob-label">Event Belum Dimulai</div>
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +87,125 @@
                 </div>
             </div>
 
+            @else
+            <div class="col-12">
+                <!-- Statistik Utama -->
+                <div class="row d-flex flex-row">
+                    <!-- Jumlah User -->
+                    <div class="col-lg-4 col-md-6 mb-1">
+                        <div class="small-box bg-info" style="border-radius: 15px;">
+                            <div class="inner">
+                                <h3>{{ $event->Count('event_id') }}</h3>
+                                <p>Jumlah Event</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <a href="{{ url('/event') }}" class="small-box-footer" style="border-radius: 0 0 15px 15px;">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Jumlah Event -->
+                    <div class="col-lg-4 col-md-6 mb-1">
+                        <div class="small-box bg-success" style="border-radius:15px;">
+                            <div class="inner">
+                                <h3>{{ $agenda->Count('agenda_id') }}</h3>
+                                <p>Jumlah Agenda</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <p class="small-box-footer" style="border-radius: 0 0 15px 15px;">
+                                Jumlah Agenda yang Tersedia
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Rata-Rata Sesi -->
+                    <div class="col-lg-4 col-md-6 mb-1">
+                        <div class="small-box bg-warning" style="border-radius: 15px;">
+                            <div class="inner">
+                                <h3 id="viewCountDisplay"></h3>
+                                <p>Jumlah View</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <p class="small-box-footer text-dark" style="border-radius: 0 0 15px 15px;">
+                                Jumlah View Dashboard
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart dan Event Aktif -->
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <div class="card" style="border-radius: 15px">
+                            <div class="card-header">
+                                <h3 class="card-title">Event</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row d-flex justify-content-around">
+                                    <!-- Grafik Donut 1 -->
+                                    <div class="col-4 col-md-2 text-center">
+                                        <canvas id="donutChart1"></canvas>
+                                        <div class="knob-label">Event Selesai</div>
+                                    </div>
+                                    <!-- Grafik Donut 2 -->
+                                    <div class="col-4 col-md-2 text-center">
+                                        <canvas id="donutChart2"></canvas>
+                                        <div class="knob-label">Event Proses</div>
+                                    </div>
+                                    <!-- Grafik Donut 3 -->
+                                    <div class="col-4 col-md-2 text-center">
+                                        <canvas id="donutChart3"></canvas>
+                                        <div class="knob-label">Event Belum Dimulai</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            @if(Auth::user()->role->role_name == 'Dosen')
+            <div class="col-lg-6">
+                <div class="card" style="border-radius: 15px; height: auto;">
+                    <div class="card-body">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title">Daftar Agenda Yang Tersedia</h5>
+                                <p class="card-text text-secondary">Semua Agenda</p>
+                            </div>
+                        </div>
+
+                        @if ($agendaBelum->isNotEmpty())
+                            <ul class="list-group list-group-flush" style="max-height: 325px; overflow-y: auto;scrollbar-color:black transparent;scrollbar-width: thin;">
+                                @foreach ($agendaBelum as $e)
+                                    <li class="list-group-item">
+                                        {{ $e->nama_agenda }}
+                                        <p class="mb-0 mt-1">{{ \Carbon\Carbon::parse($e->end_date)->translatedFormat('l, d-m-Y') }}</p>
+                                    </li>
+                                    
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="card-text">Tidak ada agenda yang tersedia.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            @if(Auth::user()->role->role_name == 'Dosen')
+            <div class="col-lg-6">
+                @else
             <div class="col-lg-3">
+                @endif
                 <div class="card" style="border-radius: 15px; height: auto;">
                     <div class="card-body">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -99,6 +218,8 @@
                                 <a href="{{ url('/event') }}"><i class="fas fa-arrow-up text-dark" style="transform: rotate(45deg); font-size:20px;"></i></a>
                                 @elseif (Auth::user()->role->role_name == 'Pimpinan')
                                 <a href="{{ url('/event_pimpinan') }}"><i class="fas fa-arrow-up text-dark" style="transform: rotate(45deg); font-size:20px;"></i></a>
+                                @else
+                                <a href="{{ url('/event_dosen') }}"><i class="fas fa-arrow-up text-dark" style="transform: rotate(45deg); font-size:20px;"></i></a>
                                 @endif
                             </div>
                         </div>
@@ -128,6 +249,7 @@
             </div>
         </div>
 
+        @if(Auth::user()->role->role_name == 'Admin' || Auth::user()->role->role_name == 'Pimpinan')
         <div class="row">
             <div class="col-12">
                 <div class="card" style="border-radius: 15px">
@@ -141,6 +263,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 
     <!-- Include Chart.js atau library lainnya untuk rendering chart -->
@@ -154,7 +277,7 @@
     const loginCounts = Object.values(dailyLogins); // Jumlah login
 
     // Gunakan data ini untuk membuat grafik
-    const ctx = document.getElementById('sessionChart').getContext('2d');
+    const ctx = document.getElementById('sessionChart');
     const sessionChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -246,7 +369,7 @@
         }
         ?>
 
-        const donut1 = new Chart(document.getElementById('donutChart1'), {
+        const donut1 = new Chart(document.getElementById('donutChart1').getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Completed', 'Remaining'],
@@ -277,7 +400,7 @@
 
 
         // Donut Chart 2
-        const donut2 = new Chart(document.getElementById('donutChart2'), {
+        const donut2 = new Chart(document.getElementById('donutChart2').getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Progress', 'Remaining'],
@@ -307,7 +430,7 @@
         });
 
         // Donut Chart 3
-        const donut3 = new Chart(document.getElementById('donutChart3'), {
+        const donut3 = new Chart(document.getElementById('donutChart3').getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Not Started', 'Remaining'],
