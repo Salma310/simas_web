@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Agenda;
 use App\Notifications\EventNotification;
+use App\Notifications\PimpinanNotification;
 use Illuminate\Support\Facades\Notification;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -133,6 +134,9 @@ class EventController extends Controller
                 $eventParticipants = EventParticipant::where('event_id', $event->event_id)->get();
                 $users  = User::whereIn('user_id', $eventParticipants->pluck('user_id'))->get();
                 Notification::send($users, new EventNotification($event));
+
+                $pimpinan = User::where('role_id', 2)->get();
+                Notification::send($pimpinan, new PimpinanNotification($event));
 
                 // Jika berhasil
                 return response()->json([

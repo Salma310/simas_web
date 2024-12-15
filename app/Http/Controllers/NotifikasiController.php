@@ -15,4 +15,10 @@ class NotifikasiController extends Controller
         $event = Event::all();
         return view('layouts.header', compact('event'));
     }
+
+    public function indexPimpinan() {
+        $notification = Notification::all();
+        $event = Event::all();
+        return view('layouts.header', compact('event'));
+    }
 }
