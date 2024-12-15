@@ -32,9 +32,9 @@
                     <div class="col-md-3">
                         <select class="form-select" id="filterStatus">
                             <option value="">Semua Status</option>
-                            <option value="not started">belum mulai</option>
-                            <option value="progress">proses</option>
-                            <option value="completed">selesai</option>
+                            <option value="not started">Belum Mulai</option>
+                            <option value="progress">Proses</option>
+                            <option value="completed">Completed</option>
                         </select>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 
     <!-- Back Button -->
     <div class="d-flex justify-content-end mt-4">
-        <a href="{{ route('dosen.event.show', ['id' => $event->event_id]) }}"
+        <a href="{{ route('dosen.myevent.show', ['id' => $event->event_id]) }}"
            class="btn btn-light shadow-sm px-4">
             <i class="fas fa-arrow-left me-2"></i>Kembali
         </a>

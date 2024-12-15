@@ -57,15 +57,6 @@
                 text-overflow: ellipsis;
             }
 
-            .card-text::after {
-                content: '... Lihat lebih lanjut';
-                display: inline-block;
-                font-size: 0.875rem;
-                color: #007bff;
-                cursor: pointer;
-                margin-top: 5px;
-            }
-
             .status {
                 color: #f0ad4e;
                 font-weight: bold;
@@ -212,16 +203,14 @@
 
     <body>
         <div class="container-fluid px-3">
-
-            <div class="d-flex flex-row justify-content-between align-items-center mb-3">
-                <!-- Filter di sebelah kiri -->
-                <div class="filters">
-                    <label for="semua" class="active" data-status="all">Semua</label>
-                    <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>
-                    <label for="Proses" data-status="in-progress">Proses</label>
-                    <label for="Selesai" data-status="completed">Selesai</label>
-                </div>
-
+        <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+            <!-- Filter di sebelah kiri -->
+            <div class="filters">
+                <label for="semua" class="active" data-status="all">Semua</label>
+                <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>
+                <label for="Proses" data-status="in-progress">Proses</label>
+                <label for="Selesai" data-status="completed">Selesai</label>
+            </div>
 
                 <!-- Search di sebelah kanan -->
                 <div class="container-input">
@@ -229,7 +218,6 @@
                     <i class="fas fa-search"></i>
                 </div>
             </div>
-
 
             <div class="row">
                 @foreach ($events as $event)

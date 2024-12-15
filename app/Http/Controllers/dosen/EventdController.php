@@ -17,23 +17,58 @@ class EventdController extends Controller
 {
     public function index()
     {
-
         $breadcrumb = (object) [
             'title' => 'Event',
             'list' => ['Home', 'Event']
         ];
 
         $title = 'event';
-        $events = Event::withCount('participants')->get();
+
+        // Mengambil events dengan relasi agenda dan menghitung participants
+        $events = Event::with(['agenda'])
+            ->withCount('participants')
+            ->get()
+            ->map(function ($event) {
+                // Hitung progress untuk setiap event
+                $totalAgenda = $event->agenda->count();
+                $completedAgenda = $event->agenda->where('status', 'done')->count();
+
+                // Hitung persentase progress
+                $progressPercentage = $totalAgenda > 0
+                    ? round(($completedAgenda / $totalAgenda) * 100, 2)
+                    : 0;
+
+                // Set status berdasarkan progress
+                if ($progressPercentage === 0) {
+                    $event->status = 'not started';
+                } elseif ($progressPercentage < 100) {
+                    $event->status = 'progress';
+                } else {
+                    $event->status = 'completed';
+                }
+
+                $event->save();
+
+                return $event;
+            });
+
         $jenisEvent = EventType::all();
         $jabatan = Position::all();
         $eventParticipant = EventParticipant::all();
         $user = User::all();
         $activeMenu = 'event dosen';
 
-        return view('dosen.event.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant, 'events' => $events]);
+        return view('dosen.event.index', [
+            'title' => $title,
+            'breadcrumb' => $breadcrumb,
+            'activeMenu' => $activeMenu,
+            'jenisEvent' => $jenisEvent,
+            'jabatan' => $jabatan,
+            'user' => $user,
+            'eventParticipant' => $eventParticipant,
+            'events' => $events
+        ]);
     }
-
     public function create()
     {
         $breadcrumb = (object) [
