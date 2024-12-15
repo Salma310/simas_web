@@ -57,15 +57,6 @@
                 text-overflow: ellipsis;
             }
 
-            .card-text::after {
-                content: '... Lihat lebih lanjut';
-                display: inline-block;
-                font-size: 0.875rem;
-                color: #007bff;
-                cursor: pointer;
-                margin-top: 5px;
-            }
-
             .status {
                 color: #f0ad4e;
                 font-weight: bold;
