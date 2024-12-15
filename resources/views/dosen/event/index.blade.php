@@ -218,6 +218,7 @@
                     <i class="fas fa-search"></i>
                 </div>
             </div>
+
             <div class="row">
                 @foreach ($events as $event)
                     <!-- Membungkus seluruh kartu dengan <a> -->
