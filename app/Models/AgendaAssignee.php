@@ -10,16 +10,16 @@ class AgendaAssignee extends Model
     use HasFactory;
 
     protected $table = 'agenda_assignee';
-    protected $fillable = ['agenda_id', 'user_id', 'jabatan_id', 'document_progress'];
+    protected $fillable = ['agenda_id', 'user_id', 'jabatan_id'];
 
     public function agenda()
     {
-        return $this->belongsTo(Agenda::class);
+        return $this->belongsTo(Agenda::class, 'agenda_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function position()

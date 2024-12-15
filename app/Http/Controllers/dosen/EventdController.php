@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\dosen;
 
-use Illuminate\Http\Request;
-use App\Models\EventType;
-use App\Models\Event;
-use App\Models\EventParticipant;
-use App\Models\Position;
 use App\Models\User;
+use App\Models\Event;
 use App\Models\Agenda;
+use App\Models\Position;
+use App\Models\EventType;
+use Illuminate\Http\Request;
+use App\Models\EventParticipant;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -142,24 +143,37 @@ class EventdController extends Controller
     {
         $title = 'Detail Event';
         $activeMenu = 'event dosen';
-        $event = Event::find($id);
-        $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
-        $user = User::select('user_id', 'name', 'picture')->get();
-        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
-        $agenda = Agenda::where('event_id', $id)->get();
 
-        // Ambil data peserta (partisipan) dan jabatannya
-        $eventParticipant = EventParticipant::where('event_id', $id)
-            ->with(['user', 'position']) // Pastikan relasi `user` dan `position` ada di model
+        // Load event dengan agenda
+        $event = Event::with([
+            'jenisEvent',
+            'participants.position',
+            'participants.user',
+            'agenda' // Pastikan relasi agenda sudah didefinisikan di model Event
+        ])->findOrFail($id);
+
+        // Hitung progress
+        $totalAgenda = $event->agenda->count();
+        $completedAgenda = $event->agenda->where('status', 'done')->count();
+
+        // Hindari pembagian dengan nol
+        $progressPercentage = $totalAgenda > 0
+            ? round(($completedAgenda / $totalAgenda) * 100, 2)
+            : 0;
+
+        $user = Auth::user();
+        $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
+
+        $eventParticipant = EventParticipant::where('user_id', $user->user_id)
+            ->with(['user', 'position'])
             ->get();
 
         return view('dosen.event.show', [
             'event' => $event,
-            'jenisEvent' => $jenisEvent,
             'user' => $user,
             'jabatan' => $jabatan,
-            'agenda' => $agenda,
-            'eventParticipant' => $eventParticipant,
+            'eventParticipant' => (bool)$eventParticipant,
+            'progressPercentage' => $progressPercentage, // Tambahkan progress ke view
             'title' => $title,
             'activeMenu' => $activeMenu
         ]);
@@ -313,87 +327,4 @@ class EventdController extends Controller
         }
         return redirect('/');
     }
-
-    //BUAT NON-JTI
-    public function indexNonJTI()
-    {
-        $events = Event::where('category', 'Non-JTI')->get();
-        return view('events.non_jti.index', compact('events'));
-    }
-
-    public function createNonJTI()
-    {
-        return view('events.non_jti.create');
-    }
-
-    public function storeNonJTI(Request $request)
-    {
-        $request->validate([
-            'event_name' => 'required|min:3|max:100',
-            'event_code' => 'required|min:3|max:10|unique:events,event_code',
-            'pic' => 'required|min:3|max:100',
-            'event_date' => 'required|date',
-            'event_description' => 'required|min:5',
-            'assignment_letter' => 'required|file|mimes:jpg,png,pdf|max:10240',
-        ]);
-
-        // Simpan data ke database
-        $event = new Event();
-        $event->event_name = $request->event_name;
-        $event->event_code = $request->event_code;
-        $event->pic = $request->pic;
-        $event->start_date = $request->event_date;
-        $event->event_description = $request->event_description;
-
-        if ($request->hasFile('assignment_letter')) {
-            $path = $request->file('assignment_letter')->store('assignment_letters');
-            $event->assignment_letter = $path;
-        }
-
-        $event->category = 'Non-JTI';
-        $event->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Event Non-JTI berhasil ditambahkan!',
-        ]);
-    }
-
-    public function editNonJTI($id)
-    {
-        $event = Event::findOrFail($id);
-        return view('events.non_jti.edit', compact('event'));
-    }
-
-    public function updateNonJTI(Request $request, $id)
-    {
-        $request->validate([
-            'event_name' => 'required|min:3|max:100',
-            'event_code' => 'required|min:3|max:10|unique:events,event_code,' . $id,
-            'pic' => 'required|min:3|max:100',
-            'event_date' => 'required|date',
-            'event_description' => 'required|min:5',
-            'assignment_letter' => 'nullable|file|mimes:jpg,png,pdf|max:10240',
-        ]);
-
-        $event = Event::findOrFail($id);
-        $event->event_name = $request->event_name;
-        $event->event_code = $request->event_code;
-        $event->pic = $request->pic;
-        $event->start_date = $request->event_date;
-        $event->event_description = $request->event_description;
-
-        if ($request->hasFile('assignment_letter')) {
-            $path = $request->file('assignment_letter')->store('assignment_letters');
-            $event->assignment_letter = $path;
-        }
-
-        $event->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Event Non-JTI berhasil diperbarui!',
-        ]);
-    }
-
 }

@@ -36,6 +36,11 @@
             <h2>List Agenda</h2>
             @if (isset($event) && $event)
             <a href="javascript:void(0)" onclick="modalAction('{{ route('agenda.create', ['id' => $event->event_id]) }}')" class="btn btn-primary">Tambah Agenda</a>
+
+             <!-- Tombol Generate Point untuk Seluruh Agenda -->
+             <button onclick="generateAllPoints({{ $event->event_id }})" class="btn btn-warning">
+                <i class="fas fa-calculator"></i> Generate Point
+            </button>
             @else
                 <span class="text-danger">Event tidak ditemukan</span>
             @endif
@@ -140,6 +145,62 @@
             ]
         });
     });
+
+    function generateAllPoints(eventId) {
+        Swal.fire({
+            title: 'Generate Points Seluruh Agenda',
+            text: 'Apakah Anda yakin ingin generate points untuk semua agenda dalam event ini?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Generate!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('agenda.generate-all-points', ['id' => $event->event_id]) }}",
+                    type: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        event_id: eventId
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: 'Sedang diproses...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message
+                            });
+                            agendaTable.ajax.reload(); // Refresh tabel
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: xhr.responseJSON.message || 'Terjadi kesalahan saat generate points'
+                        });
+                    }
+                });
+            }
+        });
+    }
 
 </script>
 @endpush
