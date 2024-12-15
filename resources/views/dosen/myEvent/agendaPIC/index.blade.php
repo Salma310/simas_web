@@ -65,7 +65,7 @@
         </table>
 
         <div class="d-flex justify-content-end mt-4">
-            <a href="{{ route('dosen.event.show', ['id' => $event->event_id]) }}" class="btn btn-back">Kembali</a>
+            <a href="{{ route('dosen.myevent.show', ['id' => $event->event_id]) }}" class="btn btn-back">Kembali</a>
         </div>
         <div class="modal fade show" id="agendaModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="eventModalLabel" aria-hidden="true"></div>
     </div>

@@ -57,15 +57,6 @@
                 text-overflow: ellipsis;
             }
 
-            .card-text::after {
-                content: '... Lihat lebih lanjut';
-                display: inline-block;
-                font-size: 0.875rem;
-                color: #007bff;
-                cursor: pointer;
-                margin-top: 5px;
-            }
-
             .status {
                 color: #f0ad4e;
                 font-weight: bold;
@@ -225,44 +216,63 @@
                     <i class="fas fa-search"></i>
                 </div>
             </div>
-            <div class="row">
+            @if ($events->isEmpty())
+                <div class="col-12">
+                    <div class="alert alert-info text-center">
+                        Anda belum mengikuti event apapun.
+                    </div>
+                </div>
+            @else
                 @foreach ($events as $event)
-                    <!-- Membungkus seluruh kartu dengan <a> -->
-                    <a href="javascript:void(0)" onclick="modalAction('{{ route('event.show', $event->event_id) }}')"
-                        class="col-md-4 mb-3" style="text-decoration: none;">
-                        <div class="card" style="width:100%; height:100%;">
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                @if ($event->status == 'completed')
-                                    <div class="status text-success">Selesai</div>
-                                @elseif($event->status == 'progress')
-                                    <div class="status text-warning">Proses</div>
-                                @else
-                                    <div class="status text-danger">Belum Dimulai</div>
-                                @endif
-                                <h5 class="card-title">{{ $event->event_name }}</h5>
-                                @foreach ($jenisEvent as $j)
-                                    @if ($j->jenis_event_id == $event->jenis_event_id)
-                                        <h6 class="card-text mt-0" style="font-size: 1.1rem;">
-                                            {{ $j->jenis_event_name }}</h6>
-                                    @endif
-                                @endforeach
-                                <p class="card-text">{{ $event->event_description }}</p>
-                                <div class="d-flex flex-row justify-content-between align-content-end">
-                                    <div class="icon-text">
-                                        <div class="d-flex flex-column">
-                                            <span class="label">Tanggal</span>
-                                            <div class="d-flex align-items-center">
-                                                <i class="fas fa-calendar-alt"></i>
-                                                <span>{{ \Carbon\Carbon::parse($event->end_date)->format('F d, Y') }}</span>
+                    <!-- Your existing event card code -->
+                    <div class="row">
+                            <!-- Membungkus seluruh kartu dengan <a> -->
+                            <a href={{ route('dosen.myevent.show', $event->event_id) }}
+                                class="col-md-4 mb-3" style="text-decoration: none;">
+                                <div class="card" style="width:100%; height:100%;">
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        @if ($event->status == 'completed')
+                                            <div class="status text-success">Selesai</div>
+                                        @elseif($event->status == 'progress')
+                                            <div class="status text-warning">Proses</div>
+                                        @else
+                                            <div class="status text-danger">Belum Dimulai</div>
+                                        @endif
+                                        <h5 class="card-title">{{ $event->event_name }}</h5>
+                                        @foreach ($jenisEvent as $j)
+                                            @if ($j->jenis_event_id == $event->jenis_event_id)
+                                                <h6 class="card-text mt-0" style="font-size: 1.1rem;">
+                                                    {{ $j->jenis_event_name }}</h6>
+                                            @endif
+                                        @endforeach
+                                        <p class="card-text">{{ $event->event_description }}</p>
+                                        <div class="d-flex flex-row justify-content-between align-content-end">
+                                            <div class="icon-text">
+                                                <div class="d-flex flex-column">
+                                                    <span class="label">Tanggal</span>
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-calendar-alt"></i>
+                                                        <span>{{ \Carbon\Carbon::parse($event->end_date)->format('F d, Y') }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="icon-text">
+                                                <div class="d-flex flex-column">
+                                                    <span class="label">Jml Anggota</span>
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fas fa-users"></i>
+                                                        <span>{{ $event->participants_count }} </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </a>
+                            </a>
+                    </div>
                 @endforeach
-            </div>
+            @endif
+
             <!-- Pagination Links -->
             {{-- <nav aria-label="Page navigation" class="mt-5">
                 <ul class="pagination justify-content-end" id="pagination">

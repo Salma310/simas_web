@@ -10,7 +10,7 @@ class AgendaAssignee extends Model
     use HasFactory;
 
     protected $table = 'agenda_assignee';
-    protected $fillable = ['agenda_id', 'user_id', 'jabatan_id'];
+    protected $fillable = ['agenda_id', 'user_id', 'jabatan_id', 'document_progress'];
 
     public function agenda()
     {
