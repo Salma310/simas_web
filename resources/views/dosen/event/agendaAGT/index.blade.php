@@ -32,9 +32,9 @@
                     <div class="col-md-3">
                         <select class="form-select" id="filterStatus">
                             <option value="">Semua Status</option>
-                            <option value="not started">Not Started</option>
-                            <option value="progress">In Progress</option>
-                            <option value="done">Done</option>
+                            <option value="not started">belum mulai</option>
+                            <option value="progress">proses</option>
+                            <option value="completed">selesai</option>
                         </select>
                     </div>
                 </div>
@@ -198,13 +198,13 @@ function renderAgendaCard(data) {
     let statusClass = {
         'not started': 'status-not-started',
         'progress': 'status-progress',
-        'done': 'status-done'
+        'completed': 'status-completed'
     }[data.status] || 'status-not-started';  // Default status if undefined
 
     let statusText = {
-        'not started': 'Not Started',
-        'progress': 'In Progress',
-        'done': 'Done'
+        'not started': 'Belum Mulai',
+        'progress': 'Proses',
+        'completed': 'Selesai'
     }[data.status] || 'Not Started';  // Default text if undefined
 
     // Format dates to dd-mm-yy

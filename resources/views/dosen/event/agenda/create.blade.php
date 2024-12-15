@@ -150,9 +150,9 @@
                         <label for="status" class="form-label">Status</label>
                         <select name="status" id="status" class="form-control" required>
                             <option value="">Pilih Status</option>
-                            <option value="not started">not started</option>
-                            <option value="progress">progress</option>
-                            <option value="done">done</option>
+                            <option value="not started">belum mulai</option>
+                            <option value="progress">proses</option>
+                            <option value="completed">selesai</option>
                         </select>
                         <small id="error-status" class="error-text"></small>
                     </div>

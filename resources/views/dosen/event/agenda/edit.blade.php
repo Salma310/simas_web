@@ -85,9 +85,9 @@
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
                     <select name="status" id="status" class="form-control" required>
-                        <option value="not started" {{ $agenda->status == 'not started' ? 'selected' : '' }}>not started</option>
-                        <option value="progress" {{ $agenda->status == 'progress' ? 'selected' : '' }}>progress</option>
-                        <option value="done" {{ $agenda->status == 'done' ? 'selected' : '' }}>done</option>
+                        <option value="not started" {{ $agenda->status == 'not started' ? 'selected' : '' }}>belum mulai</option>
+                        <option value="progress" {{ $agenda->status == 'progress' ? 'selected' : '' }}>proses</option>
+                        <option value="completed" {{ $agenda->status == 'completed' ? 'selected' : '' }}>selesai</option>
                     </select>
                     <small id="error-status" class="error-text"></small>
                 </div>

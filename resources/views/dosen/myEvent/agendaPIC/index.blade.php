@@ -127,11 +127,11 @@
                     // Sesuaikan badge berdasarkan status
                         switch (data) {
                             case "not started":
-                                return '<span class="badge bg-secondary">not started</span>';
+                                return '<span class="badge bg-secondary">belum mulai</span>';
                             case "progress":
-                                return '<span class="badge bg-success">progress</span>';
-                            case "done":
-                                return '<span class="badge bg-primary">done</span>';
+                                return '<span class="badge bg-success">proses</span>';
+                            case "completed":
+                                return '<span class="badge bg-primary">selesai</span>';
                             default:
                                 return '<span class="badge bg-warning">Tidak Dikenal</span>';
                         }
