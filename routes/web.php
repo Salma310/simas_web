@@ -188,6 +188,13 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
 
 Route::get('/statistik', [StatistikController::class, 'index']);
 Route::get('notifikasi_event/{id}', [NotifikasiController::class, 'indexEvent'])->name('notifikasi_event.show');
+Route::get('notifikasi_pimpinan/{id}', [NotifikasiController::class, 'indexPimpinan'])->name('notifikasi_pimpinan.show');
+// Route::get('/notifications/mark-as-read/{id}', [NotifikasiController::class, 'markAsRead'])->name('notifications.markAsRead');
+// Route::post('/notifications/mark-as-read', [NotifikasiController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+Route::get('markAsRead', function() {
+    auth()->user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+})->name('markAsRead');
 
 
 Route::group(['prefix' => 'myevent'], function () {

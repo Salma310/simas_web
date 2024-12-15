@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Agenda;
 use App\Notifications\EventNotification;
+use App\Notifications\PimpinanNotification;
 use Illuminate\Support\Facades\Notification;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -133,6 +134,9 @@ class EventController extends Controller
                 $eventParticipants = EventParticipant::where('event_id', $event->event_id)->get();
                 $users  = User::whereIn('user_id', $eventParticipants->pluck('user_id'))->get();
                 Notification::send($users, new EventNotification($event));
+
+                $pimpinan = User::where('role_id', 2)->get();
+                Notification::send($pimpinan, new PimpinanNotification($event));
 
                 // Jika berhasil
                 return response()->json([
@@ -329,21 +333,19 @@ class EventController extends Controller
                 $file = $request->file('assign_letter');
 
                 // Hapus file lama jika ada
-                if ($event->assign_letter && Storage::disk('public')->exists('docs/' . $event->assign_letter)) {
-                    Storage::disk('public')->delete('docs/' . $event->assign_letter);
+                if ($event->assign_letter && Storage::disk('public')->exists('surat_tugas/' . $event->assign_letter)) {
+                    Storage::disk('public')->delete('surat_tugas/' . $event->assign_letter);
                 }
-
-                // Generate nama file unik
+            
+                // Simpan file baru
                 $fileName = time() . '_' . $file->getClientOriginalName();
-
-                // Simpan file
-                $filePath = $file->storeAs('docs', $fileName, 'public');
-
-                $event->update([
-                    'assign_letter' => $fileName,
-                ]);
-            }
-
+                $file->storeAs('surat_tugas', $fileName, 'public');
+            
+                $event->assign_letter = $fileName;
+            } 
+            
+            $event->save();
+          
             // Hapus peserta yang ada sebelumnya
             EventParticipant::where('event_id', $id)->delete();
 
@@ -365,7 +367,7 @@ class EventController extends Controller
                 'status' => true,
                 'message' => 'Data berhasil diupdate'
             ]);
-        }   catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status' => false,
