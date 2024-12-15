@@ -1,6 +1,8 @@
 <html>
 <head>
-    <style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <style>
         body {
             background-color: #f8f9fa;
         }
@@ -91,7 +93,7 @@
 </head>
 <body>
     <!-- Modal -->
-    <form action="{{ route('agenda.store', ['id' => $event->event_id]) }}" method="POST" id="form-tambah-agenda">
+    <form action="{{ route('agenda.store', ['id' => $event->event_id]) }}" method="POST" enctype="multipart/form-data" id="form-tambah-agenda">
         @csrf
         <div id="agendaModal" class="modal-dialog" role="document">
             <div class="modal-content">
@@ -158,18 +160,12 @@
                     <!-- Tambahkan input file setelah bagian status -->
                     <div class="mb-3 form-group">
                         <label for="dokumen_pendukung" class="form-label">Dokumen Pendukung</label>
-                        <div class="custom-file">
-                            <input type="file"
-                                name="dokumen_pendukung"
-                                id="dokumen_pendukung"
-                                class="form-control"
-                                accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
-                            <small class="text-muted">
-                                Jenis file yang diizinkan: PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, PNG
-                                (Maks. 5MB)
-                            </small>
-                            <small id="error-dokumen_pendukung" class="error-text"></small>
-                        </div>
+                        <input type="file"
+                               name="dokumen_pendukung[]"
+                               id="dokumen_pendukung"
+                               class="form-control"
+                               accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"multiple>
+                        <small id="error-dokumen_pendukung" class="error-text text-danger"></small>
                     </div>
 
                 </div>
@@ -180,102 +176,155 @@
             </div>
         </div>
     </form>
-
     <script>
-        $(document).ready(function() {
-            $("#form-tambah-agenda").validate({
-                rules: {
-                    nama_agenda: { required: true, minlength: 3 },
-                    start_date: { required: true, date: true },
-                    end_date: { required: true, date: true, greaterThan: "#start_date" },
-                    tempat: { required: true },
-                    jabatan_id: { required: true, number: true },
-                    status: { required: true }
-                    dokumen_pendukung: {
-                        extension: "pdf|doc|docx|xls|xlsx|jpg|jpeg|png",
-                        filesize: 5242880 // 5 MB dalam bytes
-                    }
+        $(document).ready(function () {
+            $.validator.addMethod("validateFile", function(value, element, param) {
+            // Jika tidak ada file yang dipilih, dianggap valid (opsional)
+            if (element.files.length === 0) {
+                return true;
+            }
+
+            // Ambil file yang dipilih
+            var file = element.files[0];
+
+            // Daftar ekstensi yang diizinkan
+            var allowedExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'jpg', 'jpeg', 'png'];
+
+            // Daftar MIME type yang diizinkan
+            var allowedMimeTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'image/jpeg',
+                'image/png'
+            ];
+
+            // Ambil ekstensi file
+            var fileExtension = file.name.split('.').pop().toLowerCase();
+
+            // Validasi ekstensi
+            if ($.inArray(fileExtension, allowedExtensions) === -1) {
+                return false;
+            }
+
+            // Validasi MIME type
+            if ($.inArray(file.type, allowedMimeTypes) === -1) {
+                return false;
+            }
+
+            // Validasi ukuran file (5MB = 5242880 bytes)
+            if (file.size > 5242880) {
+                return false;
+            }
+
+            return true;
+        }, "File harus berupa PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, atau PNG dengan ukuran maksimal 5MB");
+
+
+        // Tambahkan metode validasi kustom untuk tanggal
+        $.validator.addMethod("greaterThan", function (value, element, param) {
+            var startDate = $(param).val();
+            return Date.parse(value) >= Date.parse(startDate);
+        }, "Tanggal selesai harus setelah atau sama dengan tanggal mulai");
+
+        // Validasi form dengan jQuery Validation
+        $("#form-tambah-agenda").validate({
+            rules: {
+                nama_agenda: { required: true, minlength: 3 },
+                start_date: { required: true, date: true },
+                end_date: { required: true, date: true, greaterThan: "#start_date" },
+                tempat: { required: true },
+                jabatan_id: { required: true, number: true },
+                status: { required: true },
+                'dokumen_pendukung[]': {
+                    validateFile: true
+                }
+            },
+            messages: {
+                end_date: {
+                    greaterThan: "Tanggal selesai harus setelah tanggal mulai"
                 },
-                messages: {
-                    end_date: {
-                        greaterThan: "Tanggal selesai harus setelah tanggal mulai"
-                    }
-                    dokumen_pendukung: {
-                        extension: "Harap unggah file dengan format yang diizinkan",
-                        filesize: "Ukuran file maksimal 5 MB"
-                    }
-                },
-                submitHandler: function(form) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                dokumen_pendukung: {
+                    validateFile: "Pastikan file sesuai ketentuan (maks 5MB, format: PDF, DOC, DOCX, XLS, XLSX, JPG, JPEG, PNG)"
+                }
+            },
+            submitHandler: function (form) {
+            console.log("submitHandler berjalan");
+            var formData = new FormData(form);
+
+            // Nonaktifkan tombol submit dan ubah teksnya
+            $('#submit-agenda').prop('disabled', true).text('Mengirim...');
+
+            $.ajax({
+                url: $(form).attr('action'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            console.log(percentComplete);
                         }
-                    });
-
-                    $.ajax({
-                        url: $(form).attr('action'),
-                        type: 'POST',
-                        data: new FormData(form),  // Gunakan FormData untuk file upload
-                        processData: false,
-                        contentType: false,
-                        dataType: 'json',
-                        beforeSend: function() {
-                            $('button[type="submit"]').prop('disabled', true);
-                        },
-                        success: function(response) {
-                            if (response.status) {
-                                form.reset();
-                                $('#agendaModal').modal('hide');
-
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: response.message
-                                });
-
-                                // Refresh DataTable
-                                if (agendaTable) {
-                                    agendaTable.ajax.reload();
-                                }
-
-                            } else {
-                                $('.error-text').text('');
-                                if (response.msgField) {
-                                    $.each(response.msgField, function(prefix, val) {
-                                        $('#error-' + prefix).text(val[0]);
-                                    });
-                                }
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Terjadi Kesalahan',
-                                    text: response.message
-                                });
+                    }, false);
+                    return xhr;
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.status) {
+                        $('#agendaModal').modal('hide');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: response.message
+                        }).then((result) => {
+                            if (result.isConfirmed || result.isDismissed) {
+                                agendaTable.ajax.reload();
                             }
-                        },
-                        error: function(xhr, status, error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Terjadi kesalahan pada server'
-                            });
-                        },
-                        complete: function() {
-                            $('button[type="submit"]').prop('disabled', false);
-                        }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: response.message || 'Terjadi kesalahan'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: xhr.responseJSON?.message || 'Terjadi kesalahan pada server. Silakan coba lagi.'
                     });
-                    return false;
                 },
-                errorPlacement: function(error, element) {
-                    error.appendTo(element.next(".error-text"));
-                },
-                highlight: function(element) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element) {
-                    $(element).removeClass('is-invalid');
+                complete: function () {
+                    $('#submit-agenda').prop('disabled', false).text('Tambah');
                 }
             });
+
+            return false; // Mencegah submit form biasa
+        }
         });
+
+        // Validasi saat memilih file
+        $("#dokumen_pendukung").on('change', function () {
+            var file = this.files[0];
+            if (file) {
+                console.log("File dipilih:");
+                console.log("Nama: " + file.name);
+                console.log("Ukuran: " + file.size + " bytes");
+                console.log("Tipe: " + file.type);
+            }
+        });
+    });
     </script>
+
 </body>
 </html>
