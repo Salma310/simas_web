@@ -114,7 +114,7 @@
                         @endif
                         <input type="file" name="assign_letter" id="assign_letter" class="form-control" required>
                         <small id="error-assign_letter" class="error-text form-text text-danger"></small>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -273,7 +273,7 @@
                     var formData = new FormData(form);
                     $.ajax({
                         url: form.action,
-                        type: 'PUT',
+                        type: form.method,
                         data: formData,
                         processData: false,
                         contentType: false,

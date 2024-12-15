@@ -1,167 +1,184 @@
 @extends('layouts.template')
 
 @section('content')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grafik Beban Kerja Dosen</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .card {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 70%;
-            max-width: 1000px;
-            text-align: center;
-        }
-
-        canvas {
-            margin: 20px 0;
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
-</head>
-<body>
-    <div class="container-fluid d-flex justify-content-center">
-        <div class="card">
-            <h3 class="text-left">Beban Kerja Dosen</h3>
-            <canvas id="bobotChart"></canvas>
-            <div class="navigation-buttons">
-                <button id="prevBtn" onclick="prevPage()" disabled>Previous</button>
-                <button id="nextBtn" onclick="nextPage()">Next</button>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Beban Kerja Dosen</h3>
+            <div class="d-flex align-items-center">
+                <label for="periodFilter" class="mr-2">Pilih Periode:</label>
+                <select id="periodFilter" class="form-control">
+                    @foreach($periods as $period)
+                        <option value="{{ $period->period }}" {{ $selectedPeriod == $period->period ? 'selected' : '' }}>
+                            {{ $period->period }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="position: relative; height:60vh; width:100%">
+                <canvas id="bobotChart"></canvas>
+            </div>
+            <div class="navigation-buttons mt-3 d-flex justify-content-between">
+                <button id="prevBtn" class="btn btn-primary" onclick="prevPage()" disabled>Previous</button>
+                <div id="pageInfo" class="align-self-center"></div>
+                <button id="nextBtn" class="btn btn-primary" onclick="nextPage()">Next</button>
             </div>
         </div>
     </div>
 
-    <div class="modal fade show" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="roleModalLabel" aria-hidden="true"></div>
+    <!-- Tabel Detail -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3 class="card-title">Detail Beban Kerja</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Dosen</th>
+                            <th>Total Poin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($workloadData as $index => $data)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $data->user->name }}</td>
+                                <td>{{ number_format($data->total_points, 1) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script>
-        const ctx = document.getElementById('bobotChart').getContext('2d');
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('bobotChart').getContext('2d');
 
-        const allData = [
-            { name: "Farid Angga Pribadi", value: 25 },
-            { name: "Eka Larasati", value: 30 },
-            { name: "Ahmadi Yuli Ananta", value: 20 },
-            { name: "Dika Rizki Wahyu", value: 30 },
-            { name: "Zawarudin Abdullah", value: 25 },
-            { name: "Maulana Firdaus", value: 10 },
-            { name: "Rahmat Hidayat", value: 15 },
-            { name: "Sri Wulandari", value: 18 },
-            { name: "Budi Santoso", value: 22 },
-            { name: "Ayu Puspita", value: 28 },
-            { name: "Dwi Puspita", value: 24 },
-            { name: "Siti Nurjannah", value: 26 },
-        ];
+    const workloadData = @json($workloadData);
+    const itemsPerPage = 6;
+    let currentPage = 0;
 
-        const itemsPerPage = 6;
-        let currentPage = 0;
+    // Ubah format data untuk chart
+    const allData = workloadData.map(item => ({
+        name: item.user.name,
+        value: item.total_points
+    }));
 
-        function getPageData(page) {
-            const start = page * itemsPerPage;
-            const end = start + itemsPerPage;
-            return allData.slice(start, end);
-        }
-
-        function updateChart() {
-            const pageData = getPageData(currentPage);
-            const labels = pageData.map(item => item.name);
-            const data = pageData.map(item => item.value);
-
-            chart.data.labels = labels;
-            chart.data.datasets[0].data = data;
-            chart.update();
-
-            document.getElementById('prevBtn').disabled = currentPage === 0;
-            document.getElementById('nextBtn').disabled = (currentPage + 1) * itemsPerPage >= allData.length;
-        }
-
-        function nextPage() {
-            if ((currentPage + 1) * itemsPerPage < allData.length) {
-                currentPage++;
-                updateChart();
-            }
-        }
-
-        function prevPage() {
-            if (currentPage > 0) {
-                currentPage--;
-                updateChart();
-            }
-        }
-
-        function modalAction(url = ''){
-        $('#myModal').load(url,function(){
-            $('#myModal').modal('show');
-        });
+    function updatePageInfo() {
+        const totalPages = Math.ceil(allData.length / itemsPerPage);
+        document.getElementById('pageInfo').textContent =
+            `Halaman ${currentPage + 1} dari ${totalPages}`;
     }
 
-        const chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: "Beban Kerja",
-                    data: [],
-                    backgroundColor: "#007bff",
-                }]
+    function getPageData(page) {
+        const start = page * itemsPerPage;
+        const end = start + itemsPerPage;
+        return allData.slice(start, end);
+    }
+
+    function updateChart() {
+        const pageData = getPageData(currentPage);
+        const labels = pageData.map(item => item.name);
+        const data = pageData.map(item => item.value);
+
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = data;
+        chart.update();
+
+        document.getElementById('prevBtn').disabled = currentPage === 0;
+        document.getElementById('nextBtn').disabled =
+            (currentPage + 1) * itemsPerPage >= allData.length;
+
+        updatePageInfo();
+    }
+
+    function nextPage() {
+        if ((currentPage + 1) * itemsPerPage < allData.length) {
+            currentPage++;
+            updateChart();
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            updateChart();
+        }
+    }
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Total Poin",
+                data: [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Statistik Beban Kerja Periode ' + @json($selectedPeriod),
+                    font: {
+                        size: 16
+                    }
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
+            scales: {
+                y: {
+                    beginAtZero: true,
                     title: {
-                        display: false
+                        display: true,
+                        text: 'Total Poin'
                     }
                 },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            display: true
-                        }
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45
                     }
                 }
             }
-        });
+        }
+    });
 
-        // Initialize the chart with the first page of data
-        updateChart();
-    </script>
-</body>
-</html>
+    // Initialize the chart
+    updateChart();
+
+    // Handle period filter changes
+    document.getElementById('periodFilter').addEventListener('change', function() {
+        window.location.href = '{{ route("statistik.index") }}?period=' + this.value;
+    });
+</script>
 @endsection

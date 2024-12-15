@@ -12,7 +12,8 @@ class Agenda extends Model
 
     protected $table = 't_agenda';
     protected $primaryKey = 'agenda_id';
-    protected $fillable = ['event_id', 'nama_agenda', 'start_date','end_date', 'tempat', 'point_beban_kerja', 'status', 'jabatan_id', 'document_progress'];
+    protected $fillable = ['event_id', 'nama_agenda', 'start_date','end_date', 'tempat', 'point_beban_kerja', 'status', 'jabatan_id', 'needs_update',
+    'point_generated_at'];
 
     public function events()
     {
@@ -31,7 +32,7 @@ class Agenda extends Model
 
     public function workloads()
     {
-        return $this->hasMany(Workload::class);
+        return $this->hasMany(Workload::class, 'agenda_id');
     }
 
     public function position()
@@ -46,6 +47,8 @@ class Agenda extends Model
         static::deleting(function($agenda) {
             $agenda->assignees()->delete();
             $agenda->documents()->delete();
+            $agenda->workloads()->delete();
+
         });
     }
 
@@ -101,7 +104,7 @@ public static function generatePointsByTopsis($eventId, $point)
 
     return [
         'status' => true,
-        'message' => 'Berhasil generate points',
+        'message' => 'Berhasil generate points, Harap melakukan update agenda jika pointnya berubah',
         'results' => $pointsResult
     ];
 }
@@ -109,13 +112,27 @@ public static function generatePointsByTopsis($eventId, $point)
 /**
  * Prepare criteria matrix
  */
+/**
+ * Prepare criteria matrix
+ */
 private static function prepareCriteriaMatrix($agendas)
 {
     $criteriaMatrix = [];
 
+    // Definisikan point jabatan secara statis
+    $jabatanPoints = [
+        'PIC' => 10,
+        'PMB' => 6,
+        'SKR' => 5,
+        'AGT' => 1
+    ];
+
     foreach ($agendas as $agenda) {
-        // Get position point
-        $jabatanPoint = Position::find($agenda->jabatan_id)->point ?? 1; // Default to 1 to avoid division by zero
+        // Ambil nama jabatan dari model Position
+        $jabatanCode = Position::find($agenda->jabatan_id)->jabatan_code ?? 'AGT';
+
+        // Ambil point berdasarkan kode jabatan, gunakan kode asli tanpa mengubah kapitalisasi
+        $jabatanPoint = $jabatanPoints[$jabatanCode] ?? 1;
 
         // Calculate duration (in days)
         $startDate = Carbon::parse($agenda->start_date);
@@ -295,7 +312,9 @@ private static function savePointsToDatabase($pointsResult)
     foreach ($pointsResult as $result) {
         self::where('agenda_id', $result['agenda_id'])
             ->update([
-                'point_beban_kerja' => $result['calculated_point']
+                'point_beban_kerja' => $result['calculated_point'],
+                'needs_update' => true,
+                'point_generated_at' => now()
             ]);
     }
 }

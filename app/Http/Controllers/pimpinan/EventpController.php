@@ -16,21 +16,57 @@ class EventpController extends Controller
 {
     public function index()
     {
-
         $breadcrumb = (object) [
             'title' => 'Event',
             'list' => ['Home', 'Event']
         ];
 
         $title = 'event';
-        $events = Event::withCount('participants')->get();
+
+        // Mengambil events dengan relasi agenda dan menghitung participants
+        $events = Event::with(['agenda'])
+            ->withCount('participants')
+            ->get()
+            ->map(function ($event) {
+                // Hitung progress untuk setiap event
+                $totalAgenda = $event->agenda->count();
+                $completedAgenda = $event->agenda->where('status', 'done')->count();
+
+                // Hitung persentase progress
+                $progressPercentage = $totalAgenda > 0
+                    ? round(($completedAgenda / $totalAgenda) * 100, 2)
+                    : 0;
+
+                // Set status berdasarkan progress
+                if ($progressPercentage === 0) {
+                    $event->status = 'not started';
+                } elseif ($progressPercentage < 100) {
+                    $event->status = 'progress';
+                } else {
+                    $event->status = 'completed';
+                }
+
+                $event->save();
+
+                return $event;
+            });
+
         $jenisEvent = EventType::all();
         $jabatan = Position::all();
         $eventParticipant = EventParticipant::all();
         $user = User::all();
         $activeMenu = 'event pimpinan';
 
-        return view('pimpinan.eventp.index', ['title' => $title, 'breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu, 'jenisEvent' => $jenisEvent, 'jabatan' => $jabatan, 'user' => $user, 'eventParticipant' => $eventParticipant, 'events' => $events]);
+        return view('pimpinan.eventP.index', [
+            'title' => $title,
+            'breadcrumb' => $breadcrumb,
+            'activeMenu' => $activeMenu,
+            'jenisEvent' => $jenisEvent,
+            'jabatan' => $jabatan,
+            'user' => $user,
+            'eventParticipant' => $eventParticipant,
+            'events' => $events
+        ]);
     }
 
     public function list(Request $request)
@@ -160,11 +196,25 @@ class EventpController extends Controller
 
     public function show_ajax(string $id)
     {
-        $event = Event::find($id);
+        $event = Event::with([
+            'jenisEvent',
+            'participants.position',
+            'participants.user',
+            'agenda' // Pastikan relasi agenda sudah didefinisikan di model Event
+        ])->findOrFail($id);
         $jenisEvent = EventType::select('jenis_event_id', 'jenis_event_name')->get();
         $user = User::select('user_id', 'name', 'picture')->get();
         $jabatan = Position::select('jabatan_id', 'jabatan_name')->get();
         $agenda = Agenda::where('event_id', $id)->get();
+
+        // Hitung progress
+        $totalAgenda = $event->agenda->count();
+        $completedAgenda = $event->agenda->where('status', 'done')->count();
+
+        // Hindari pembagian dengan nol
+        $progressPercentage = $totalAgenda > 0
+            ? round(($completedAgenda / $totalAgenda) * 100, 2)
+            : 0;
 
         // Ambil data peserta (partisipan) dan jabatannya
         $eventParticipant = EventParticipant::where('event_id', $id)
@@ -176,6 +226,7 @@ class EventpController extends Controller
             'jenisEvent' => $jenisEvent,
             'user' => $user,
             'jabatan' => $jabatan,
+            'progressPercentage' => $progressPercentage,
             'agenda' => $agenda,
             'eventParticipant' => $eventParticipant
         ]);

@@ -2,15 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MyEventController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\dosen\MyEventController;
+use App\Http\Controllers\StatistikController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\admin\EventController;
 
 use App\Http\Controllers\dosen\EventdController;
 use App\Http\Controllers\admin\ProfileController;
+use App\Http\Controllers\dosen\MyEventController;
 use App\Http\Controllers\admin\RoleUserController;
 use App\Http\Controllers\pimpinan\EventpController;
 use App\Http\Controllers\admin\JenisEventController;
@@ -186,7 +186,7 @@ Route::group(['prefix' => 'event_pimpinan'], function () {
     Route::delete('/{id}', [EventpController::class, 'destroy']);
 });
 
-Route::get('/statistik', [StatistikController::class, 'index']);
+Route::get('/statistik', [StatistikController::class, 'index'])->name('statistik.index');
 Route::get('notifikasi_event/{id}', [NotifikasiController::class, 'indexEvent'])->name('notifikasi_event.show');
 
 
@@ -196,14 +196,15 @@ Route::group(['prefix' => 'myevent'], function () {
     Route::get('/create_ajax', [MyEventController::class, 'create_ajax']);
     Route::post('/ajax', [MyEventController::class, 'store_ajax']);
     Route::get('/{id}/edit_ajax', [MyEventController::class, 'edit_ajax']);
-    Route::get('/{id}/show_ajax', [MyEventController::class, 'show_ajax']);
+    Route::get('/{id}/show_ajax', [MyEventController::class, 'show_ajax'])->name('dosen.myevent.show');
     Route::put('/{id}/update_ajax', [MyEventController::class, 'update_ajax']);
     Route::get('/{id}/delete_ajax', [MyEventController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [MyEventController::class, 'delete_ajax']);
-    Route::get('/agenda', [MyEventController::class, 'agenda']);
+    Route::get('/agenda', [MyEventController::class, 'agendaAGT']);
     Route::post('/agenda/list', [MyEventController::class, 'agenda_list']);
     Route::get('/agenda/show', [MyEventController::class, 'agenda_show']);
-    Route::get('/{id}/agenda', [MyEventController::class, 'agenda_show']);
+    Route::get('/{id}/agenda', [MyEventController::class, 'agendaAGT']);
+    Route::get('/{id}/agendaPIC', [MyEventController::class, 'agendaPIC']);
     Route::get('/{id}/agenda/edit', [MyEventController::class, 'agenda_edit']);
     Route::get('/{id}/agenda/update', [MyEventController::class, 'agenda_update']);
     Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delconfirm']);
@@ -211,7 +212,6 @@ Route::group(['prefix' => 'myevent'], function () {
     // Route::get('/non-jti', [MyEventController::class, 'indexNonJTI'])->name('non-jti.index'); // Daftar event Non-JTI
     Route::get('/non-jti/add', [MyEventController::class, 'createNonJTI'])->name('non-jti.create'); // Form tambah Non-JTI
     Route::post('/non-jti/add', [MyEventController::class, 'storeNonJTI'])->name('non-jti.store'); // Proses tambah Non-JTI
-    Route::get('/non-jti/{id}/detail', [MyEventController::class, 'detailNonJTI'])->name('non-jti.detail'); // Form detail Non-JTI
 
 });
 
@@ -227,4 +227,3 @@ Route::group(['prefix' => 'myevent'], function () {
 //     Route::get('/{id}/delete_ajax', [AgendaController::class, 'confirm_ajax']);
 //     Route::delete('/{id}/delete_ajax', [AgendaController::class, 'delete_ajax']);
 // });
-Route::get('/statistik', [StatistikController::class, 'index']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dosen;
 use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\Agenda;
+use App\Models\Workload;
 use Illuminate\Http\Request;
 use App\Models\AgendaAssignee;
 use App\Models\AgendaDocument;
@@ -35,20 +36,23 @@ class AgendaController extends Controller
 
     public function list(Request $request)
     {
-        $eventId = $request->get('event_id'); // Ambil event_id dari request
-
-        // Query data berdasarkan event_id
+        $eventId = $request->get('event_id');
         $agendas = Agenda::where('event_id', $eventId)->get();
-
 
         return DataTables::of($agendas)
             ->addIndexColumn()
-            ->addColumn('aksi', function ($agendas) {
-                $btn = '<button onclick="modalAction(\'' . route('agenda.edit', ['id' => $agendas->event_id, 'id_agenda' => $agendas->agenda_id]) . '\')" class="btn btn-light"><i class="fas fa-edit"></i></button>';
-                $btn .= '<button onclick="modalAction(\''.url("event_dosen/$agendas->event_id/agendaPIC/$agendas->agenda_id/delete").'\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button>';
+            ->addColumn('update_status', function ($agenda) {
+                return $agenda->needs_update ?
+                    '<span class="badge bg-warning">Perlu Update</span>' :
+                    '<span class="badge bg-success">Sudah Update</span>';
+            })
+            ->addColumn('aksi', function ($agenda) {
+                $editClass = $agenda->needs_update ? 'btn-warning' : 'btn-light';
+                $btn = '<button onclick="modalAction(\'' . route('agenda.edit', ['id' => $agenda->event_id, 'id_agenda' => $agenda->agenda_id]) . '\')" class="btn ' . $editClass . '"><i class="fas fa-edit"></i></button>';
+                $btn .= '<button onclick="modalAction(\''.url("event_dosen/$agenda->event_id/agendaPIC/$agenda->agenda_id/delete").'\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button>';
                 return $btn;
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'update_status'])
             ->toJson();
     }
 
@@ -184,6 +188,7 @@ class AgendaController extends Controller
             'tempat' => $request->tempat,
             'jabatan_id' => $request->jabatan_id,
             'status' => $request->status,
+            'needs_update' => false
         ]);
 
         // Handle document uploads
@@ -199,17 +204,39 @@ class AgendaController extends Controller
             }
         }
 
-       // Update assignees - hapus semua assignee lama jika ada
-       if ($agenda->assignees) {
-        AgendaAssignee::where('agenda_id', $agenda->agenda_id)->delete();
+        // Update assignees - delete all existing assignees if any
+        if ($agenda->assignees) {
+            AgendaAssignee::where('agenda_id', $agenda->agenda_id)->delete();
         }
 
+        // Delete existing workload entries for this agenda
+        Workload::where('agenda_id', $agenda->agenda_id)->delete();
 
+        // Calculate earned points per user
+        $numberOfAssignees = count($request->assignees);
+        $pointsPerUser = $agenda->point_beban_kerja / $numberOfAssignees;
+
+        // Determine academic period based on start date
+        $startDate = Carbon::parse($request->start_date);
+        $academicYear = $startDate->month >= 8
+            ? $startDate->year . '-' . ($startDate->year + 1)
+            : ($startDate->year - 1) . '-' . $startDate->year;
+
+        // Create new assignees and workload entries
         foreach ($request->assignees as $assignee) {
+            // Create assignee
             AgendaAssignee::create([
                 'agenda_id' => $agenda->agenda_id,
                 'user_id' => $assignee['user_id'],
-                'jabatan_id' => $agenda->jabatan_id, // Use agenda's jabatan_id
+                'jabatan_id' => $agenda->jabatan_id,
+            ]);
+
+            // Create workload entry
+            Workload::create([
+                'agenda_id' => $agenda->agenda_id,
+                'user_id' => $assignee['user_id'],
+                'earned_points' => $pointsPerUser,
+                'period' => $academicYear
             ]);
         }
 
@@ -394,10 +421,11 @@ public function uploadProgress(Request $request, $id, $id_agenda)
         $user = auth()->user();
 
         // Check if the logged-in user is assigned to this agenda
-        $agenda = Agenda::where('agenda_id', $id_agenda)
+        $agendaAssignee = AgendaAssignee::where('agenda_id', $id_agenda)
+            ->where('user_id', $user->user_id)
             ->first();
 
-        if (!$agenda) {
+        if (!$agendaAssignee) {
             return response()->json([
                 'success' => false,
                 'message' => 'Anda tidak memiliki akses untuk mengupload dokumen pada agenda ini',
@@ -408,7 +436,7 @@ public function uploadProgress(Request $request, $id, $id_agenda)
         $file = $request->file('dokumen_progress');
 
         // Generate unique filename
-        $fileName = time() . '_' . $user->user_id . '_' . $file->getClientOriginalName();
+        $fileName = time() . '_' . $user->userid . '' . $file->getClientOriginalName();
 
         // Store file with custom filename
         $filePath = $file->storeAs('progress_documents', $fileName, 'public');
@@ -417,13 +445,14 @@ public function uploadProgress(Request $request, $id, $id_agenda)
             throw new \Exception('Gagal menyimpan file');
         }
 
-        // Update agenda record using the correct primary key
+        // Update agenda assignee record using the correct primary key
         // Wrap the file path in quotes for the database
-        $agenda->document_progress = $filePath;
+        $agendaAssignee->document_progress = $filePath;
 
         // Use the correct primary key columns for the update
-        $result = DB::table('t_agenda')
+        $result = DB::table('agenda_assignee')
             ->where('agenda_id', $id_agenda)
+            ->where('user_id', $user->user_id)
             ->update([
                 'document_progress' => $filePath,
                 'updated_at' => now()

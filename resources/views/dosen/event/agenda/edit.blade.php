@@ -126,27 +126,41 @@
                     </button>
                     <div id="assigneeList">
                         @if($agenda->assignees && $agenda->assignees->count() > 0)
-                                @foreach($agenda->assignees as $index => $assignee)
-                                    <div class="assignee-row mb-2">
-                                        <div class="input-group">
-                                            <select name="assignees[{{ $index }}][user_id]" class="form-control">
-                                                <option value="">Pilih Petugas</option>
-                                                @foreach($event->participants as $participant)
-                                                    @if($participant->position && $participant->position->jabatan_id == $agenda->jabatan_id)
-                                                        <option value="{{ $participant->user_id }}"
-                                                            {{ $assignee->user_id == $participant->user_id ? 'selected' : '' }}>
-                                                            {{ $participant->user->name }}
-                                                        </option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-danger removeAssignee">×</button>
-                                            </div>
+                            @foreach($agenda->assignees as $index => $assignee)
+                                <div class="assignee-row mb-2">
+                                    <div class="input-group">
+                                        <select name="assignees[{{ $index }}][user_id]" class="form-control">
+                                            <option value="">Pilih Petugas</option>
+                                            @foreach($event->participants as $participant)
+                                                @if($participant->position && $participant->position->jabatan_id == $agenda->jabatan_id)
+                                                    <option value="{{ $participant->user_id }}"
+                                                        {{ $assignee->user_id == $participant->user_id ? 'selected' : '' }}>
+                                                        {{ $participant->user->name }}
+                                                    </option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Preview Dokumen Progress -->
+                                    @if($assignee->document_progress)
+                                    <div class="mt-2 current-file">
+                                        <label class="form-label">Dokumen Progress</label>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ asset('storage/' . $assignee->document_progress) }}"
+                                               target="_blank"
+                                               class="btn btn-sm btn-info mr-2">
+                                                Lihat Dokumen
+                                            </a>
+                                            <small class="text-muted">
+                                                {{ basename($assignee->document_progress) }}
+                                            </small>
                                         </div>
                                     </div>
-                                @endforeach
-                            @endif
+                                    @endif
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -323,34 +337,40 @@
 
     <script>
         // Template untuk baris penerima tugas baru
+        // Definisikan fungsi getAssigneeRow
         function getAssigneeRow(index) {
-                const currentJabatan = $('#jabatan_id').val();
-                        let options = '<option value="">Pilih Petugas</option>';
+            const currentJabatan = $('#jabatan_id').val();
+            let options = '<option value="">Pilih Petugas</option>';
 
-                        @foreach($event->participants as $participant)
-                            if ("{{ $participant->position->jabatan_id ?? '' }}" === currentJabatan) {
-                                options += `<option value="{{ $participant->user_id }}">{{ $participant->user->name }}</option>`;
-                            }
-                        @endforeach
+            @foreach($event->participants as $participant)
+                if ("{{ $participant->position->jabatan_id ?? '' }}" === currentJabatan) {
+                    options += `<option value="{{ $participant->user_id }}">{{ $participant->user->name }}</option>`;
+                }
+            @endforeach
 
-                        return `
-                            <div class="assignee-row mb-2">
-                                <div class="input-group">
-                                    <select name="assignees[${index}][user_id]" class="form-control">
-                                        ${options}
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-danger removeAssignee">×</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-            }
+            return `
+                <div class="assignee-row mb-2">
+                    <div class="input-group">
+                        <select name="assignees[${index}][user_id]" class="form-control">
+                            ${options}
+                        </select>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-danger removeAssignee">×</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Gunakan IIFE (Immediately Invoked Function Expression) untuk mengisolasi scope
+        $(document).ready(function() {
+            // Deklarasikan assigneeIndex sekali saja di scope yang tepat
+            let assigneeIndex = $('.assignee-row').length; // Mulai dari jumlah yang sudah ada
 
             // Tambah penerima tugas
-            let assigneeIndex = 0;
             $('#addAssignee').click(function() {
-                $('#assigneeList').append(getAssigneeRow(assigneeIndex++));
+                $('#assigneeList').append(getAssigneeRow(assigneeIndex));
+                assigneeIndex++;
             });
 
             // Hapus penerima tugas
@@ -361,6 +381,7 @@
                     Swal.fire('Peringatan', 'Minimal harus ada satu penerima tugas!', 'warning');
                 }
             });
+        });
 
         // Hapus file
     $('.delete-document').click(function() {

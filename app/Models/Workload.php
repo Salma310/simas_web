@@ -13,9 +13,10 @@ class Workload extends Model
     protected $primaryKey = 'workload_id';
     protected $fillable = ['agenda_id', 'user_id', 'earned_points', 'period'];
 
+    // Di model Workload jika nama kolom berbeda
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');  // ganti 'user_id' jika nama kolom berbeda
     }
 
     public function agenda()

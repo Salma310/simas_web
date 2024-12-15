@@ -185,7 +185,7 @@
                         <p>{{ $event->event_description }}</p>
                     </div>
                     <div class="text-end">
-                        <p class="progress-text">Progress ({{ $event->event_id }}%)</p>
+                        <p class="progress-text">Progress ({{ $progressPercentage }}%)</p>
                         <button class="btn btn-download-surat" onclick="downloadSuratTugas('{{ $event->assign_letter }}')">
                             <div class="btn-download-content">
                                 <i class="fas fa-file-download"></i>
