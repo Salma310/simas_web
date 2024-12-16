@@ -82,7 +82,7 @@
 
             @else
             <li class="nav-item">
-                <a href="{{ url('/dashboard_dosen') }}" class="nav-link {{ $activeMenu == 'dashboard dosen' ? 'active' : '' }} ">
+                <a href="{{ url('/dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }} ">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>

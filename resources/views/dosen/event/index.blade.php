@@ -218,10 +218,11 @@
                     <i class="fas fa-search"></i>
                 </div>
             </div>
+
             <div class="row">
                 @foreach ($events as $event)
                     <!-- Membungkus seluruh kartu dengan <a> -->
-                    <a href={{ route('dosen.event.show', $event->event_id) }}
+                    <a href="{{ route('dosen.event.show', $event->event_id) }}"
                         class="col-md-4 mb-3" style="text-decoration: none;">
                         <div class="card" style="width:100%; height:100%;">
                             <div class="card-body d-flex flex-column justify-content-between">

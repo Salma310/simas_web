@@ -46,15 +46,15 @@ class UserModel extends Authenticatable implements JWTSubject
         );
     }
 
-    public function hasRole($role) : bool 
-    {
-        return $this->level->level_kode == $role;
-    }
+    // public function hasRole($role) : bool 
+    // {
+    //     return $this->level->level_kode == $role;
+    // }
 
-    public function getRoleName() : string 
-    {
-        return $this->level->level_nama;
-    }
+    // public function getRoleName() : string 
+    // {
+    //     return $this->level->level_nama;
+    // }
 
     
     public function notifications()

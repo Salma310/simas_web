@@ -45,14 +45,14 @@ class AuthController extends Controller
                 'message' => 'Login Gagal'
             ]);
         }
-        return redirect('login');
+        return redirect('/');
     }
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('login');
+        return redirect('/');
     }
 
     public function showForgot()
@@ -76,7 +76,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Password berhasil direset. Silakan login dengan password baru',
-                'redirect' => url('/login')
+                'redirect' => url('/')
             ]);
         }
 

@@ -28,7 +28,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      @if (Auth::user()->role->role_id != 1 && Auth::user()->role->role_id != 2)
+      @if (Auth::user()->role->role_id != 1)
       <li class="nav-item dropdown mt-2">
           <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell" style="font-size: 17px;"></i>

@@ -12,6 +12,7 @@ class StatistikController extends Controller
 {
     public function index()
     {
+
         $position = Position::all();
         $agenda = Agenda::all();
 
