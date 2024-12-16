@@ -16,7 +16,7 @@
                             <select id="agendaStatus" class="form-select" onchange="updateStatus(this.value, {{ $agenda->agenda_id }}, {{ $agenda->event_id }})">
                                 <option value="Not Started" {{ $agenda->status === 'not started' ? 'selected' : '' }}>belum mulai</option>
                                 <option value="progress" {{ $agenda->status === 'progress' ? 'selected' : '' }}>proses</option>
-                                <option value="done" {{ $agenda->status === 'completed' ? 'selected' : '' }}>selesai</option>
+                                <option value="completed" {{ $agenda->status === 'completed' ? 'selected' : '' }}>selesai</option>
                             </select>
                         </div>
                     </div>

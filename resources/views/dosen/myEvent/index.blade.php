@@ -83,34 +83,34 @@
             }
 
             /* From Uiverse.io by garerim
-                        .container-input {
-                            position: relative;
-                            display: flex;
-                            justify-content: flex-end;
-                            align-items: center;
-                        }
+                            .container-input {
+                                position: relative;
+                                display: flex;
+                                justify-content: flex-end;
+                                align-items: center;
+                            }
 
-                        .input {
-                            width: 100%;
-                            padding: 10px 0px 10px 20px;
-                            border-radius: 9999px;
-                            border: solid 1px #333;
-                            transition: all .2s ease-in-out;
-                            outline: none;
-                            opacity: 0.8;
-                        }
+                            .input {
+                                width: 100%;
+                                padding: 10px 0px 10px 20px;
+                                border-radius: 9999px;
+                                border: solid 1px #333;
+                                transition: all .2s ease-in-out;
+                                outline: none;
+                                opacity: 0.8;
+                            }
 
-                        .container-input i {
-                            position: absolute;
-                            top: 50%;
-                            right: 20px;
-                            transform: translate(0, -50%);
-                        }
+                            .container-input i {
+                                position: absolute;
+                                top: 50%;
+                                right: 20px;
+                                transform: translate(0, -50%);
+                            }
 
-                        .input:focus {
-                            opacity: 1;
-                            width: 25%;
-                        } */
+                            .input:focus {
+                                opacity: 1;
+                                width: 25%;
+                            } */
 
             .filters {
                 display: flex;
@@ -203,10 +203,11 @@
 
     <body>
         <div class="container-fluid px-3">
-        <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+            <div class="d-flex flex-row justify-content-between align-items-center mb-3">
                 <!-- Filter di sebelah kiri -->
                 <div class="group-btn">
-                    <button class="btn btn-primary" onclick="modalAction('{{ url('myevent/non-jti/add') }}')">Add Event Ekstern</button>
+                    <button class="btn btn-primary" onclick="modalAction('{{ url('myevent/non-jti/add') }}')">Add Event
+                        Ekstern</button>
                 </div>
 
 
@@ -223,54 +224,54 @@
                     </div>
                 </div>
             @else
-                @foreach ($events as $event)
-                    <!-- Your existing event card code -->
-                    <div class="row">
-                            <!-- Membungkus seluruh kartu dengan <a> -->
-                            <a href={{ route('dosen.myevent.show', $event->event_id) }}
-                                class="col-md-4 mb-3" style="text-decoration: none;">
-                                <div class="card" style="width:100%; height:100%;">
-                                    <div class="card-body d-flex flex-column justify-content-between">
-                                        @if ($event->status == 'completed')
-                                            <div class="status text-success">Selesai</div>
-                                        @elseif($event->status == 'progress')
-                                            <div class="status text-warning">Proses</div>
-                                        @else
-                                            <div class="status text-danger">Belum Dimulai</div>
+                <div class="row">
+                    @foreach ($events as $event)
+                        <!-- Your existing event card code -->
+                        <!-- Membungkus seluruh kartu dengan <a> -->
+                        <a href={{ route('dosen.myevent.show', $event->event_id) }} class="col-md-4 mb-3"
+                            style="text-decoration: none;">
+                            <div class="card" style="width:100%; height:100%;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    @if ($event->status == 'completed')
+                                        <div class="status text-success">Selesai</div>
+                                    @elseif($event->status == 'progress')
+                                        <div class="status text-warning">Proses</div>
+                                    @else
+                                        <div class="status text-danger">Belum Dimulai</div>
+                                    @endif
+                                    <h5 class="card-title">{{ $event->event_name }}</h5>
+                                    @foreach ($jenisEvent as $j)
+                                        @if ($j->jenis_event_id == $event->jenis_event_id)
+                                            <h6 class="card-text mt-0" style="font-size: 1.1rem;">
+                                                {{ $j->jenis_event_name }}</h6>
                                         @endif
-                                        <h5 class="card-title">{{ $event->event_name }}</h5>
-                                        @foreach ($jenisEvent as $j)
-                                            @if ($j->jenis_event_id == $event->jenis_event_id)
-                                                <h6 class="card-text mt-0" style="font-size: 1.1rem;">
-                                                    {{ $j->jenis_event_name }}</h6>
-                                            @endif
-                                        @endforeach
-                                        <p class="card-text">{{ $event->event_description }}</p>
-                                        <div class="d-flex flex-row justify-content-between align-content-end">
-                                            <div class="icon-text">
-                                                <div class="d-flex flex-column">
-                                                    <span class="label">Tanggal</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                        <span>{{ \Carbon\Carbon::parse($event->end_date)->format('F d, Y') }}</span>
-                                                    </div>
+                                    @endforeach
+                                    <p class="card-text">{{ $event->event_description }}</p>
+                                    <div class="d-flex flex-row justify-content-between align-content-end">
+                                        <div class="icon-text">
+                                            <div class="d-flex flex-column">
+                                                <span class="label">Tanggal</span>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <span>{{ \Carbon\Carbon::parse($event->end_date)->format('F d, Y') }}</span>
                                                 </div>
                                             </div>
-                                            <div class="icon-text">
-                                                <div class="d-flex flex-column">
-                                                    <span class="label">Jml Anggota</span>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="fas fa-users"></i>
-                                                        <span>{{ $event->participants_count }} </span>
-                                                    </div>
+                                        </div>
+                                        <div class="icon-text">
+                                            <div class="d-flex flex-column">
+                                                <span class="label">Jml Anggota</span>
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-users"></i>
+                                                    <span>{{ $event->participants_count }} </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </a>
-                    </div>
-                @endforeach
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
             @endif
 
             <!-- Pagination Links -->
@@ -361,15 +362,15 @@
                         // Sesuaikan pencocokan status
                         if (status === "all") {
                             card.parentElement.style.display =
-                            "block"; // Tampilkan semua kartu
+                                "block"; // Tampilkan semua kartu
                         } else if (
                             (status === "not-started" && cardStatusText ===
-                            "belum dimulai") ||
+                                "belum dimulai") ||
                             (status === "in-progress" && cardStatusText === "proses") ||
                             (status === "completed" && cardStatusText === "selesai")
                         ) {
                             card.parentElement.style.display =
-                            "block"; // Tampilkan kartu sesuai status
+                                "block"; // Tampilkan kartu sesuai status
                         } else {
                             card.parentElement.style.display = "none"; // Sembunyikan kartu
                         }
