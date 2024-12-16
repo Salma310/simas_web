@@ -94,11 +94,6 @@ class MyEventController extends Controller
         try {
             DB::beginTransaction();
 
-            // Handle file upload
-            $assignLetterPath = null;
-            if ($request->hasFile('assign_letter')) {
-                $assignLetterPath = $request->file('assign_letter')->store('public/surat_tugas');
-            }
 
             // Create event
             $event = Event::create([
@@ -109,8 +104,24 @@ class MyEventController extends Controller
                 'end_date' => $request->end_date,
                 'jenis_event_id' => $request->jenis_event_id,
                 'status' => 'not started',
-                'assign_letter' => $assignLetterPath, // Add the file path to event creation
             ]);
+
+            if ($request->hasFile('assign_letter')) {
+                $file = $request->file('assign_letter');
+
+                // Hapus file lama jika ada
+                if ($event->assign_letter && Storage::disk('public')->exists('surat_tugas/' . $event->assign_letter)) {
+                    Storage::disk('public')->delete('surat_tugas/' . $event->assign_letter);
+                }
+
+                // Simpan file baru
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('surat_tugas', $fileName, 'public');
+
+                $event->assign_letter = $fileName;
+            }
+
+            $event->save();
 
             // Create event participants
             foreach ($request->participant as $participant) {
@@ -128,11 +139,6 @@ class MyEventController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-
-            // Clean up uploaded file if it exists
-            if (isset($assignLetterPath) && Storage::exists($assignLetterPath)) {
-                Storage::delete($assignLetterPath);
-            }
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
