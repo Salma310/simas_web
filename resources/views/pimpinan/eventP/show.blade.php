@@ -214,7 +214,7 @@
                     </div>
                     <div class="text-end">
                         <p class="progress-text">Progress ({{ $progressPercentage }}%)</p>
-                        <button class="btn btn-download-surat" onclick="downloadSuratTugas('{{ $event->assign_letter }}')">
+                        <button class="btn btn-download-surat" onclick="downloadSuratTugas('{{ asset('storage/surat_tugas/' . $event->assign_letter) }}')">
                             <div class="btn-download-content">
                                 <i class="fas fa-file-download"></i>
                                 <span>Unduh Surat Tugas</span>

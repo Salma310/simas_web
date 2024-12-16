@@ -72,4 +72,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Workload::class);
     }
 
+    public function hasRole($role) : bool 
+    {
+        return $this->role->role_code == $role;
+    }
+
+    public function getRoleName() : string 
+    {
+        return $this->role->role_name;
+    }
+
+    public function getRole() {
+        return $this->role->role_code;
+    }
 }

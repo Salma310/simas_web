@@ -193,7 +193,7 @@
             },
             submitHandler: function(form) { // ketika valid, maka bagian yg akan dijalankan
                 $.ajax({
-                url: form.action,
+                url: 'login',
                 type: "POST",
                 data: $(form).serialize(),
                 success: function(response) {

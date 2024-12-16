@@ -36,16 +36,22 @@ class EventController extends Controller
     }
 
     public function show(Event $event)
-    {
-        // return EventModel::find($event);
-        // Muat data relasi
-        $event->load(['jenisEvent', 'participants.user']);
+{
+    // Muat data relasi seperti jenisEvent dan participants
+    $event->load(['jenisEvent', 'participants.user']);
 
-        return response()->json([
-            'success' => true,
-            'data' => $event,
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'event_id' => $event->event_id,
+            'event_name' => $event->event_name,
+            'status' => $event->status ?? 'Unknown',
+            'jumlah_participants' => $event->participants->count(),
+            'end_date' => $event->end_date,
+        ],
+    ]);
+}
+
 
     public function update(Request $request, Event $event)
     {
