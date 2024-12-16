@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,6 +79,7 @@ class MyEventController extends Controller
             'participant' => 'required|array|min:1',
             'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
             'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
+            'assign_letter' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
         ];
 
         // Validate request
@@ -92,6 +94,12 @@ class MyEventController extends Controller
         try {
             DB::beginTransaction();
 
+            // Handle file upload
+            $assignLetterPath = null;
+            if ($request->hasFile('assign_letter')) {
+                $assignLetterPath = $request->file('assign_letter')->store('public/surat_tugas');
+            }
+
             // Create event
             $event = Event::create([
                 'event_name' => $request->event_name,
@@ -101,6 +109,7 @@ class MyEventController extends Controller
                 'end_date' => $request->end_date,
                 'jenis_event_id' => $request->jenis_event_id,
                 'status' => 'not started',
+                'assign_letter' => $assignLetterPath, // Add the file path to event creation
             ]);
 
             // Create event participants
@@ -119,6 +128,11 @@ class MyEventController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+
+            // Clean up uploaded file if it exists
+            if (isset($assignLetterPath) && Storage::exists($assignLetterPath)) {
+                Storage::delete($assignLetterPath);
+            }
 
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
