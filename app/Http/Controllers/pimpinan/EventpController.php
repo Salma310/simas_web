@@ -30,7 +30,7 @@ class EventpController extends Controller
             ->map(function ($event) {
                 // Hitung progress untuk setiap event
                 $totalAgenda = $event->agenda->count();
-                $completedAgenda = $event->agenda->where('status', 'done')->count();
+                $completedAgenda = $event->agenda->where('status', 'completed')->count();
 
                 // Hitung persentase progress
                 $progressPercentage = $totalAgenda > 0
@@ -39,11 +39,11 @@ class EventpController extends Controller
 
                 // Set status berdasarkan progress
                 if ($progressPercentage === 0) {
-                    $event->status = 'not started';
+                    $event->setAttribute('status', 'not started');
                 } elseif ($progressPercentage < 100) {
-                    $event->status = 'progress';
+                    $event->setAttribute('status', 'progress');
                 } else {
-                    $event->status = 'completed';
+                    $event->setAttribute('status', 'completed');
                 }
 
                 $event->save();
@@ -209,7 +209,7 @@ class EventpController extends Controller
 
         // Hitung progress
         $totalAgenda = $event->agenda->count();
-        $completedAgenda = $event->agenda->where('status', 'done')->count();
+        $completedAgenda = $event->agenda->where('status', 'completed')->count();
 
         // Hindari pembagian dengan nol
         $progressPercentage = $totalAgenda > 0

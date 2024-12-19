@@ -47,14 +47,13 @@
 
             .card-text {
                 color: #6c757d;
-                flex-grow: 1;
-                /* Memastikan teks berada di ruang kosong */
                 overflow: hidden;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 /* Membatasi hanya 2 baris */
                 -webkit-box-orient: vertical;
                 text-overflow: ellipsis;
+                max-height: 60px;
             }
 
             .status {
@@ -214,6 +213,10 @@
 
                 <!-- Search di sebelah kanan -->
                 <div class="container-input">
+                    <select name="" id="">
+                        <option value="">Semua</option>
+                        <option value="">Yang Diikuti</option>
+                    </select>
                     <input type="text" id="searchInput" placeholder="Search" name="text" class="input">
                     <i class="fas fa-search"></i>
                 </div>
