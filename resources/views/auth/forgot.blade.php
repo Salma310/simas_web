@@ -143,7 +143,7 @@
 
             <button type="submit" class="btn btn-confirm">Confirm</button>
             <div class="back-login text-center mt-3">
-                <a href="{{ url('/login') }}" class=" text-decoration-none">Back to Login</a>
+                <a href="{{ url('/') }}" class=" text-decoration-none">Back to Login</a>
             </div>
         </form>
     </div>

@@ -93,7 +93,7 @@
 
     .status-not-started { background-color: #6c757d; }
     .status-progress { background-color: #198754; }
-    .status-done { background-color: #0d6efd; }
+    .status-completed { background-color: #0d6efd; }
 
     .agenda-meta {
         font-size: 0.875rem;

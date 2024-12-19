@@ -165,7 +165,7 @@ class AgendaController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'tempat' => 'required',
             'jabatan_id' => 'required|exists:m_jabatan,jabatan_id',
-            'status' => 'required|in:not started,progress,done',
+            'status' => 'required|in:not started,progress,completed',
             'dokumen_pendukung.*' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:5120',
             'assignees' => 'required|array|min:1',
             'assignees.*.user_id' => 'required|exists:m_user,user_id',

@@ -152,6 +152,8 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{id}/agendaPIC/{id_agenda}/document/{document_id}', [App\Http\Controllers\dosen\AgendaController::class, 'deleteDocument'])->name('agenda.deleteDocument');
         Route::post('/{id}/agendaPIC/generate-all-points', [App\Http\Controllers\dosen\AgendaController::class, 'generateAllPoints'])
             ->name('agenda.generate-all-points');
+
+        Route::get('/events', [MyEventController::class, 'filterEvent'])->name('events.index');
     });
     Route::group(['prefix' => 'event_pimpinan'], function () {
         Route::get('/', [EventpController::class, 'index']);

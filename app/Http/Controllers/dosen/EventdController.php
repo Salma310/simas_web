@@ -31,7 +31,7 @@ class EventdController extends Controller
             ->map(function ($event) {
                 // Hitung progress untuk setiap event
                 $totalAgenda = $event->agenda->count();
-                $completedAgenda = $event->agenda->where('status', 'done')->count();
+                $completedAgenda = $event->agenda->where('status', 'completed')->count();
 
                 // Hitung persentase progress
                 $progressPercentage = $totalAgenda > 0
@@ -189,7 +189,7 @@ class EventdController extends Controller
 
         // Hitung progress
         $totalAgenda = $event->agenda->count();
-        $completedAgenda = $event->agenda->where('status', 'done')->count();
+        $completedAgenda = $event->agenda->where('status', 'completed')->count();
 
         // Hindari pembagian dengan nol
         $progressPercentage = $totalAgenda > 0
