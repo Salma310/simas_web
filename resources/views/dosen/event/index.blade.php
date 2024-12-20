@@ -43,6 +43,12 @@
                 font-size: 1.25rem;
                 font-weight: bold;
                 margin-bottom: 10px;
+                white-space: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 70%;
+                 -webkit-line-clamp: 2;  
+                 -webkit-box-orient: vertical;
             }
 
             .card-text {
@@ -223,6 +229,9 @@
 
                 <!-- Search di sebelah kanan -->
                 <div class="container-input">
+                    <div class="group-btn">
+                        <button class="btn btn-primary rounded-pill mr-2" onclick="modalAction('{{ url('myevent/non-jti/add') }}')">Tambah Event Eksternal</button>
+                    </div>
                     <input type="text" id="searchInput" placeholder="Search" name="text" class="input">
                     <i class="fas fa-search"></i>
                 </div>
