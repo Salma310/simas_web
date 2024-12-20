@@ -51,6 +51,11 @@ class EventdController extends Controller
 
                 return $event;
             });
+        
+            $user = Auth::user();
+            $eventDiikuti = Event::whereHas('participants', function($query) use ($user) {
+                $query->where('user_id', $user->user_id);
+            })->pluck('event_id')->toArray();
 
         $jenisEvent = EventType::all();
         $jabatan = Position::all();
@@ -66,7 +71,8 @@ class EventdController extends Controller
             'jabatan' => $jabatan,
             'user' => $user,
             'eventParticipant' => $eventParticipant,
-            'events' => $events
+            'events' => $events,
+            'eventDiikuti' => $eventDiikuti
         ]);
     }
     public function create()

@@ -168,6 +168,15 @@
                 background-color: #28a745;
                 color: white;
             }
+            .filters .active[data-status="followed"] {
+                background-color: #17a2b8;
+                color: white;
+            }
+
+            .filters label[data-status="followed"]:hover {
+                background-color: #17a2b8;
+                color: white;
+            }
 
             .container-input {
                 display: flex;
@@ -209,14 +218,11 @@
                 <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>
                 <label for="Proses" data-status="in-progress">Proses</label>
                 <label for="Selesai" data-status="completed">Selesai</label>
+                <label for="Diikuti" data-status="followed">Yang Diikuti</label>
             </div>
 
                 <!-- Search di sebelah kanan -->
                 <div class="container-input">
-                    <select name="" id="">
-                        <option value="">Semua</option>
-                        <option value="">Yang Diikuti</option>
-                    </select>
                     <input type="text" id="searchInput" placeholder="Search" name="text" class="input">
                     <i class="fas fa-search"></i>
                 </div>
@@ -225,9 +231,10 @@
             <div class="row">
                 @foreach ($events as $event)
                     <!-- Membungkus seluruh kartu dengan <a> -->
+                        
                     <a href="{{ route('dosen.event.show', $event->event_id) }}"
                         class="col-md-4 mb-3" style="text-decoration: none;">
-                        <div class="card" style="width:100%; height:100%;">
+                        <div class="card" style="width:100%; height:100%;" data-followed="{{ in_array($event->event_id, $eventDiikuti) ? 'true' : 'false' }}">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 @if ($event->status == 'completed')
                                     <div class="status text-success">Selesai</div>
@@ -334,44 +341,46 @@
             });
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const filters = document.querySelectorAll(".filters label");
-            const eventCards = document.querySelectorAll(".card");
+        document.addEventListener("DOMContentLoaded", function () {
+    const filters = document.querySelectorAll(".filters label");
+    const eventCards = document.querySelectorAll(".card");
 
-            filters.forEach(filter => {
-                filter.addEventListener("click", function() {
-                    // Hapus kelas 'active' dari semua filter
-                    filters.forEach(f => f.classList.remove("active"));
+    filters.forEach(filter => {
+        filter.addEventListener("click", function () {
+            // Hapus kelas 'active' dari semua filter
+            filters.forEach(f => f.classList.remove("active"));
 
-                    // Tambahkan kelas 'active' ke filter yang diklik
-                    this.classList.add("active");
+            // Tambahkan kelas 'active' ke filter yang diklik
+            this.classList.add("active");
 
-                    // Dapatkan status dari filter yang diklik
-                    const status = this.getAttribute("data-status");
+            // Dapatkan status dari filter yang diklik
+            const status = this.getAttribute("data-status");
 
-                    // Tampilkan atau sembunyikan kartu berdasarkan status
-                    eventCards.forEach(card => {
-                        const cardStatus = card.querySelector(".status");
-                        const cardStatusText = cardStatus.textContent.toLowerCase();
+            // Tampilkan atau sembunyikan kartu berdasarkan status
+            eventCards.forEach(card => {
+                const cardStatus = card.querySelector(".status");
+                const cardStatusText = cardStatus.textContent.toLowerCase();
+                const isFollowed = card.getAttribute("data-followed") === "true";
 
-                        // Sesuaikan pencocokan status
-                        if (status === "all") {
-                            card.parentElement.style.display =
-                            "block"; // Tampilkan semua kartu
-                        } else if (
-                            (status === "not-started" && cardStatusText ===
-                            "belum dimulai") ||
-                            (status === "in-progress" && cardStatusText === "proses") ||
-                            (status === "completed" && cardStatusText === "selesai")
-                        ) {
-                            card.parentElement.style.display =
-                            "block"; // Tampilkan kartu sesuai status
-                        } else {
-                            card.parentElement.style.display = "none"; // Sembunyikan kartu
-                        }
-                    });
-                });
+                // Logika filter
+                if (status === "all") {
+                    card.parentElement.style.display = "block"; // Tampilkan semua kartu
+                } else if (status === "followed" && isFollowed) {
+                    card.parentElement.style.display = "block"; // Tampilkan event yang diikuti
+                } else if (
+                    (status === "not-started" && cardStatusText === "belum dimulai") ||
+                    (status === "in-progress" && cardStatusText === "proses") ||
+                    (status === "completed" && cardStatusText === "selesai")
+                ) {
+                    card.parentElement.style.display = "block"; // Tampilkan kartu sesuai status
+                } else {
+                    card.parentElement.style.display = "none"; // Sembunyikan kartu
+                }
             });
         });
+    });
+});
+
+
     </script>
 @endsection

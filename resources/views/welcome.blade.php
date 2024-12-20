@@ -101,7 +101,7 @@
                             <div class="icon">
                                 <i class="fas fa-calendar"></i>
                             </div>
-                            <a href="{{ url('/event') }}" class="small-box-footer" style="border-radius: 0 0 15px 15px;">
+                            <a href="{{ url('/event_dosen') }}" class="small-box-footer" style="border-radius: 0 0 15px 15px;">
                                 More info <i class="fas fa-arrow-circle-right"></i>
                             </a>
                         </div>
