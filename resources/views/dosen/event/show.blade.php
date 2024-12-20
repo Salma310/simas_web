@@ -4,7 +4,7 @@
         body {
             background-color: #f8f9fa;
             margin: 0;
-            padding: 20px;
+            /* padding: 20px; */
         }
 
         .header-section {
@@ -44,7 +44,7 @@
         .points-text {
             color: #007bff;
             font-weight: normal;
-            margin-top: 5px;
+            margin-top: 15px;
         }
 
         .btn {
@@ -145,7 +145,7 @@
             transform: scale(1.05);
         }
     </style>
-    <div>
+    <div class="px-4 pb-0">
         <div class="header-section">
             <h5 class="header-title">{{ $event->event_name }}</h5>
             <p class="event-type">{{$event->jenisEvent->jenis_event_name}}</p>
@@ -154,9 +154,9 @@
                 Progress: {{ $progressPercentage }}%
             </p>
             <p class="points-text">Points: {{ $event->point }}</p> <!-- Mengambil poin dari database -->
-            <button class="btn btn-download-surat" onclick="downloadSuratTugas('{{ $event->assign_letter }}')">
+            {{-- <button class="btn btn-download-surat" onclick="downloadSuratTugas('{{ $event->assign_letter }}')">
                 Unduh Surat Tugas
-            </button>
+            </button> --}}
         </div>
         <hr/>
         <div class="row">
@@ -164,7 +164,8 @@
                 <p><strong>Pelaksanaan</strong></p>
             </div>
             <div class="col-md-9">
-                <p>{{ $event->start_date }} - {{ $event->end_date }}</p>
+                <p>{{ \Carbon\Carbon::parse($event->start_date)->format('d-m-Y') }} -
+                    {{ \Carbon\Carbon::parse($event->end_date)->format('d-m-Y') }}</p>
             </div>
         </div>
         <div class="row">

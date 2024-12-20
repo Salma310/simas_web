@@ -63,7 +63,7 @@
     const ctx = document.getElementById('bobotChart').getContext('2d');
 
     const workloadData = @json($workloadData);
-    const itemsPerPage = 6;
+    const itemsPerPage = 38;
     let currentPage = 0;
 
     // Ubah format data untuk chart

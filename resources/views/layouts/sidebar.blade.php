@@ -93,12 +93,12 @@
                     <p>Event</p>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ url('/myevent') }}" class="nav-link {{ $activeMenu == 'myevent' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-calendar"></i>
                     <p>My Event</p>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a href="{{ url('/profile') }}" class="nav-link {{ $activeMenu == 'profile' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-user"></i>
