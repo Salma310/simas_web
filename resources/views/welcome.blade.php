@@ -17,9 +17,9 @@
                             <div class="icon">
                                 <i class="fas fa-calendar"></i>
                             </div>
-                            <a href="{{ url('/event') }}" class="small-box-footer" style="border-radius: 0 0 15px 15px;">
-                                More info <i class="fas fa-arrow-circle-right"></i>
-                            </a>
+                            <p class="small-box-footer" style="border-radius: 0 0 15px 15px;">
+                                Jumlah Event
+                            </p>
                         </div>
                     </div>
 
@@ -33,9 +33,9 @@
                             <div class="icon">
                                 <i class="fas fa-user"></i>
                             </div>
-                            <a href="{{ url('/user') }}" class="small-box-footer" style="border-radius: 0 0 15px 15px;">
-                                More info <i class="fas fa-arrow-circle-right"></i>
-                            </a>
+                            <p class="small-box-footer" style="border-radius: 0 0 15px 15px;">
+                                Jumlah User
+                            </p>
                         </div>
                     </div>
 

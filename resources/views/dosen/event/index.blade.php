@@ -212,31 +212,107 @@
                 pointer-events: none;
                 /* Ikon tidak dapat diklik */
             }
+            
+            @media screen and (max-width: 992px) {
+            .filter-search-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .filters {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+                white-space: nowrap;
+                justify-content: flex-start;
+            }
+            
+            .filters label {
+                display: inline-block;
+                white-space: nowrap;
+            }
+            
+            .container-input {
+                width: 100%;
+                justify-content: space-between;
+                gap: 1rem;
+            }
+            
+            .container-input input {
+                max-width: 250px;
+            }
+        }
+        
+        /* Scrollbar styling for filters */
+        .filters::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .filters::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .filters::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        
+        .filters::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
         </style>
     </head>
 
     <body>
-        <div class="container-fluid px-3">
-        <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+        <!--<div class="container-fluid px-3">-->
+        <!--<div class="d-flex flex-row justify-content-between align-items-center mb-3">-->
             <!-- Filter di sebelah kiri -->
-            <div class="filters">
-                <label for="semua" class="active" data-status="all">Semua</label>
-                <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>
-                <label for="Proses" data-status="in-progress">Proses</label>
-                <label for="Selesai" data-status="completed">Selesai</label>
-                <label for="Diikuti" data-status="followed">Yang Diikuti</label>
-            </div>
+        <!--    <div class="filters">-->
+        <!--        <label for="semua" class="active" data-status="all">Semua</label>-->
+        <!--        <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>-->
+        <!--        <label for="Proses" data-status="in-progress">Proses</label>-->
+        <!--        <label for="Selesai" data-status="completed">Selesai</label>-->
+        <!--        <label for="Diikuti" data-status="followed">Yang Diikuti</label>-->
+        <!--    </div>-->
 
                 <!-- Search di sebelah kanan -->
-                <div class="container-input">
-                    <div class="group-btn">
-                        <button class="btn btn-primary rounded-pill mr-2" onclick="modalAction('{{ url('myevent/non-jti/add') }}')">Tambah Event Eksternal</button>
+        <!--        <div class="container-input">-->
+        <!--            <div class="group-btn">-->
+        <!--                <button class="btn btn-primary rounded-pill mr-2" onclick="modalAction('{{ url('event_dosen/non-jti/add') }}')">Tambah Event Eksternal</button>-->
+        <!--            </div>-->
+        <!--            <input type="text" id="searchInput" placeholder="Search" name="text" class="input">-->
+        <!--            <i class="fas fa-search"></i>-->
+        <!--        </div>-->
+        <!--    </div>-->
+
+            <div class="container-fluid px-3">
+                <div class="d-flex flex-row justify-content-between align-items-center mb-3 filter-search-container">
+                    <!-- Filter di sebelah kiri -->
+                    <div class="filters">
+                        <label for="semua" class="active" data-status="all">Semua</label>
+                        <label for="Belum Dimulai" data-status="not-started">Belum Dimulai</label>
+                        <label for="Proses" data-status="in-progress">Proses</label>
+                        <label for="Selesai" data-status="completed">Selesai</label>
+                        <label for="Diikuti" data-status="followed">Yang Diikuti</label>
                     </div>
-                    <input type="text" id="searchInput" placeholder="Search" name="text" class="input">
-                    <i class="fas fa-search"></i>
+                    
+                    <!-- Search dan Add button -->
+                    <div class="container-input">
+                        <div class="group-btn">
+                            <button class="btn btn-primary rounded-pill mr-2" onclick="modalAction('{{ url('event_dosen/non-jti/add') }}')">
+                                Tambah Event Eksternal
+                            </button>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <input type="text" id="searchInput" placeholder="Search" name="text" class="input">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            
             <div class="row">
                 @foreach ($events as $event)
                     <!-- Membungkus seluruh kartu dengan <a> -->

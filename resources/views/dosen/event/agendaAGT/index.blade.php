@@ -1,40 +1,45 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="container py-4">
-    <!-- Header Section -->
-    <div class="row mb-4">
+<div class="container-fluid px-4 py-0">
+     <!--Header Section -->
+    <div class="row mb-3">
         <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center bg-white p-4 rounded-lg shadow-sm">
+            <div class="d-flex justify-content-between align-items-center bg-white p-5 rounded-xl shadow-lg">
                 <div>
-                    <h2 class="mb-0">List Agenda</h2>
-                    <p class="text-muted mb-0">Update progres agenda kegiatan</p>
+                    <h2 class="display-6 fw-bold mb-2">List Agenda</h2>
+                    <p class="text-muted fs-5 mb-0">Update progres agenda kegiatan</p>
                 </div>
                 @if (isset($event) && $event)
                     <div class="d-flex align-items-center">
-                        <span class="badge bg-success px-3 py-2">{{$event->event_name}}</span>
+                        <span class="badge bg-gradient px-4 py-3 fs-6 rounded-pill">{{$event->event_name}}</span>
                     </div>
                 @else
-                    <span class="badge bg-danger px-3 py-2">Event tidak ditemukan</span>
+                    <span class="badge bg-danger-subtle text-danger px-4 py-3 fs-6 rounded-pill">Event tidak ditemukan</span>
                 @endif
             </div>
         </div>
     </div>
 
-    <!-- Filter Section -->
-    <div class="row mb-4">
+     <!--Filter Section -->
+    <div class="row mb-3">
         <div class="col-12">
-            <div class="bg-white p-3 rounded-lg shadow-sm">
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="searchAgenda" placeholder="Cari agenda...">
+            <div class="bg-white p-4 rounded-xl shadow-lg">
+                <div class="row g-4">
+                    <div class="col-md-5">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-transparent border-end-0">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" class="form-control border-start-0 ps-0" id="searchAgenda" placeholder="Cari agenda...">
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select" id="filterStatus">
+                    <div class="col-md-4">
+                        <select class="form-select form-select-lg" id="filterStatus">
                             <option value="">Semua Status</option>
-                            <option value="not started">belum mulai</option>
-                            <option value="progress">proses</option>
-                            <option value="completed">selesai</option>
+                            <option value="not started">Belum Mulai</option>
+                            <option value="progress">Proses</option>
+                            <option value="completed">Selesai</option>
                         </select>
                     </div>
                 </div>
@@ -42,76 +47,160 @@
         </div>
     </div>
 
-    <!-- Loading Indicator -->
-    <div id="loadingIndicator" class="text-center py-4 d-none">
-        <div class="spinner-border text-primary" role="status">
+     <!--Loading Indicator -->
+    <div id="loadingIndicator" class="text-center py-5 d-none">
+        <div class="spinner-grow text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 
-    <!-- Agenda Cards -->
-    <div class="row" id="agendaCards">
-        <!-- Cards will be populated by AJAX -->
+     <!--Agenda Cards -->
+    <div class="row g-4" id="agendaCards">
+         Cards will be populated by AJAX 
     </div>
 
-    <!-- Empty State -->
+     <!--Empty State -->
     <div id="emptyState" class="text-center py-5 d-none">
-        <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
-        <h5>Tidak ada agenda ditemukan</h5>
-        <p class="text-muted">Coba ubah filter atau kata kunci pencarian</p>
+        <div class="empty-state-container bg-light rounded-xl p-5">
+            <i class="fas fa-calendar-times fa-4x text-muted mb-4"></i>
+            <h4 class="mb-3">Tidak ada agenda ditemukan</h4>
+            <p class="text-muted fs-5">Coba ubah filter atau kata kunci pencarian</p>
+        </div>
     </div>
 
-    <!-- Back Button -->
-    <div class="d-flex justify-content-end mt-4">
+     <!--Back Button -->
+    <div class="d-flex justify-content-end mt-5">
         <a href="{{ route('dosen.event.show', ['id' => $event->event_id]) }}"
-           class="btn btn-light shadow-sm px-4">
+           class="btn btn-light btn-lg shadow-lg px-5 rounded-pill">
             <i class="fas fa-arrow-left me-2"></i>Kembali
         </a>
     </div>
 
-    <!-- Modal -->
+     <!--Modal -->
     <div class="modal fade" id="agendaModal" tabindex="-1" role="dialog" data-backdrop="static"></div>
 </div>
 
 <style>
+    /* Modern styling */
+    .container-fluid {
+        max-width: 1920px;
+    }
+
+    .rounded-xl {
+        border-radius: 1rem !important;
+    }
+
+    .bg-gradient {
+        background: linear-gradient(135deg, #00b09b, #96c93d);
+        color: white;
+    }
+
+    /* Card styling */
     .agenda-card {
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: all 0.3s ease;
+        border: none;
+        border-radius: 1rem;
+        overflow: hidden;
     }
 
     .agenda-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
     }
 
+    .agenda-card .card-body {
+        padding: 2rem;
+    }
+
+    /* Status indicators */
     .status-indicator {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         display: inline-block;
-        margin-right: 6px;
+        margin-right: 8px;
+        position: relative;
     }
 
-    .status-not-started { background-color: #6c757d; }
-    .status-progress { background-color: #198754; }
-    .status-completed { background-color: #0d6efd; }
+    .status-indicator::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 50%;
+        border: 2px solid currentColor;
+        opacity: 0.2;
+    }
 
-    .agenda-meta {
-        font-size: 0.875rem;
+    .status-not-started { 
+        background-color: #6c757d;
         color: #6c757d;
+    }
+    
+    .status-progress { 
+        background-color: #00b09b;
+        color: #00b09b;
+    }
+    
+    .status-completed { 
+        background-color: #96c93d;
+        color: #96c93d;
+    }
+
+    /* Meta information */
+    .agenda-meta {
+        font-size: 0.95rem;
+        color: #6c757d;
+        line-height: 1.8;
     }
 
     .workload-badge {
-        background-color: #f8f9fa;
-        color: #212529;
-        padding: 0.25rem 0.75rem;
+        background: linear-gradient(135deg, #f6f8fa, #e9ecef);
+        color: #495057;
+        padding: 0.5rem 1rem;
         border-radius: 1rem;
-        font-size: 0.875rem;
-        font-weight: 500;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .action-buttons .btn {
-        padding: 0.25rem 0.75rem;
-        font-size: 0.875rem;
+    /* Button styling */
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #00b09b, #96c93d);
+        border: none;
+        padding: 0.5rem 1.5rem;
+    }
+
+    /* Input styling */
+    .form-control, .form-select {
+        border: 1px solid #e9ecef;
+        padding: 0.75rem 1rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 0.25rem rgba(0,176,155,0.25);
+        border-color: #00b09b;
+    }
+
+    /* Empty state */
+    .empty-state-container {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    }
+
+    /* Badge styling */
+    .badge {
+        font-weight: 500;
+        letter-spacing: 0.5px;
     }
 </style>
 
