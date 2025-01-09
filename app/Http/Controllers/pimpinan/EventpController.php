@@ -39,11 +39,11 @@ class EventpController extends Controller
 
                 // Set status berdasarkan progress
                 if ($progressPercentage === 0) {
-                    $event->setAttribute('status', 'not started');
+                    $event->status == 'not started';
                 } elseif ($progressPercentage < 100) {
-                    $event->setAttribute('status', 'progress');
+                    $event->status == 'progress';
                 } else {
-                    $event->setAttribute('status', 'completed');
+                    $event->status == 'completed';
                 }
 
                 $event->save();

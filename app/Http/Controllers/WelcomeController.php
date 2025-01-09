@@ -26,7 +26,7 @@ class WelcomeController extends Controller
 
         // Pastikan urutkan data berdasarkan tanggal
         ksort($logins);
-
+        
         $user = Auth::user();
         $hari_ini = Carbon::now()->toDateString();
         $agendaBelum = Agenda::where('end_date', '>', $hari_ini) // Filter tanggal

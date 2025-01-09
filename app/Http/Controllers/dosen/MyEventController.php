@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,6 +79,7 @@ class MyEventController extends Controller
             'participant' => 'required|array|min:1',
             'participant.*.user_id' => 'required|integer|exists:m_user,user_id',
             'participant.*.jabatan_id' => 'required|integer|exists:m_jabatan,jabatan_id',
+            'assign_letter' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
         ];
 
         // Validate request
@@ -92,6 +94,7 @@ class MyEventController extends Controller
         try {
             DB::beginTransaction();
 
+
             // Create event
             $event = Event::create([
                 'event_name' => $request->event_name,
@@ -102,6 +105,23 @@ class MyEventController extends Controller
                 'jenis_event_id' => $request->jenis_event_id,
                 'status' => 'not started',
             ]);
+
+            if ($request->hasFile('assign_letter')) {
+                $file = $request->file('assign_letter');
+
+                // Hapus file lama jika ada
+                if ($event->assign_letter && Storage::disk('public')->exists('surat_tugas/' . $event->assign_letter)) {
+                    Storage::disk('public')->delete('surat_tugas/' . $event->assign_letter);
+                }
+
+                // Simpan file baru
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('surat_tugas', $fileName, 'public');
+
+                $event->assign_letter = $fileName;
+            }
+
+            $event->save();
 
             // Create event participants
             foreach ($request->participant as $participant) {
@@ -178,7 +198,7 @@ class MyEventController extends Controller
         $title = 'List Agenda';
         $activeMenu = 'myevent';
 
-        return view('dosen.myevent.agendaAGT.index', compact('agendas', 'event', 'title', 'activeMenu'));
+        return view('dosen.myEvent.agendaAGT.index', compact('agendas', 'event', 'title', 'activeMenu'));
     }
 
     public function agendaPIC($id = null) {

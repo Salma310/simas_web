@@ -8,11 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+
 
 class LoginController extends Controller
 {
     public function __invoke(Request $request)
     {
+        Log::info('Login request received', $request->all());
         // Validasi input
         $validator = Validator::make($request->all(), [
             'username' => 'required',
@@ -20,6 +23,7 @@ class LoginController extends Controller
         ]);
 
         if ($validator->fails()) {
+            Log::error('Validation failed', $validator->errors()->toArray());
             return response()->json([
                 'success' => false,
                 'message' => 'Validation errors',
@@ -29,11 +33,14 @@ class LoginController extends Controller
 
         // Cek user berdasarkan username atau email
         $user = User::where('username', $request->username)
-            // ->orWhere('email', $request->username)
+            ->orWhere('email', $request->username)
             ->first();
 
         if (!$user) {
+            Log::error('User not found', ['username' => $request->username]);
             return response()->json([
+                // var_dump($user),
+                // die();
                 'success' => false,
                 'message' => 'User not found',
             ], 404);
@@ -41,6 +48,7 @@ class LoginController extends Controller
 
         // Cek password
         if (!Hash::check($request->password, $user->password)) {
+            Log::error('Invalid credentials', ['username' => $request->username]);
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid credentials',
@@ -49,48 +57,24 @@ class LoginController extends Controller
 
         // Generate token
         $token = auth()->guard('api')->login($user);
-        $user->auth_token = $token;
-        $user->save();
+        Log::info('User logged in', ['username' => $user->username]);
+
 
         // Return response
         return response()->json([
             'success' => true,
             'message' => 'Login successful',
-            'user' => $user,
+            'user' => [
+                'id' => $user->user_id,
+                'username' => $user->username,
+                // 'email' => $user->email,
+                'role_id' => $user->role->role_id, // Asumsikan role relasi sudah diatur
+            ],
             'token' => $token,
         ], 200)->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
-
-    // public function __invoke(Request $request){
-    //     $validator = Validator::make($request->all(), [
-    //         'username' => 'required',
-    //         'password' => 'required'
-    //     ]);
-
-    //     if($validator->fails()){
-    //         return response()->json($validator->errors(), 422);
-    //     }
-
-    //     //get credentials from request
-    //     $credentials = $request->only('username', 'password');
-
-    //     //if auth failed
-    //     if(!$token = auth()->guard('api')->attempt($credentials)) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Username atau Password Anda salah'
-    //         ], 401);
-    //     }
-
-    //     //if auth success
-    //     return response()->json([
-    //         'success' => true,
-    //         'user' => auth()->guard('api')->user(),
-    //         'token' => $token
-    //     ], 200);
-    // }
 
     public function getUser(Request $request)
     {
