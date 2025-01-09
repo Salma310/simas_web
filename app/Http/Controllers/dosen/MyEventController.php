@@ -198,7 +198,7 @@ class MyEventController extends Controller
         $title = 'List Agenda';
         $activeMenu = 'myevent';
 
-        return view('dosen.myevent.agendaAGT.index', compact('agendas', 'event', 'title', 'activeMenu'));
+        return view('dosen.myEvent.agendaAGT.index', compact('agendas', 'event', 'title', 'activeMenu'));
     }
 
     public function agendaPIC($id = null) {

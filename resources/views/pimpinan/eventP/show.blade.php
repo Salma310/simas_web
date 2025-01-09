@@ -303,35 +303,38 @@
     </div>
     <script>
         function downloadSuratTugas(filePath) {
-        const button = event.currentTarget;
-        if (filePath) {
-            // Tambahkan efek visual saat file tersedia
-            button.classList.add('file-available');
-            setTimeout(() => {
-                button.classList.remove('file-available');
-            }, 1500);
-            // Logika download
-            const link = document.createElement('a');
-            link.href = filePath;
-            link.download = 'Surat_Tugas_{{ $event->event_name }}'.replace(/\s+/g, '_');
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } else {
-            // Tambahkan efek visual saat file tidak tersedia
-            button.classList.add('no-file');
-            setTimeout(() => {
-                button.classList.remove('no-file');
-            }, 1000);
-            Swal.fire({
-                icon: 'warning',
-                title: 'Berkas Tidak Tersedia',
-                text: 'Maaf, surat tugas untuk event ini belum diunggah.',
-                confirmButtonText: 'Tutup'
-            });
+            const button = event.currentTarget;
+
+            if (filePath) {
+                // Tambahkan efek visual saat file tersedia
+                button.classList.add('file-available');
+                setTimeout(() => {
+                    button.classList.remove('file-available');
+                }, 1500);
+
+                // Logika download
+                const link = document.createElement('a');
+                link.href = filePath;
+                link.download = 'Surat_Tugas_{{ $event->event_name }}'.replace(/\s+/g, '_');
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                // Tambahkan efek visual saat file tidak tersedia
+                button.classList.add('no-file');
+                setTimeout(() => {
+                    button.classList.remove('no-file');
+                }, 1000);
+
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Berkas Tidak Tersedia',
+                    text: 'Maaf, surat tugas untuk event ini belum diunggah.',
+                    confirmButtonText: 'Tutup'
+                });
+            }
         }
-    }
     </script>
 </body>
 

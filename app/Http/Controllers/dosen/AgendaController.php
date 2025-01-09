@@ -48,7 +48,7 @@ class AgendaController extends Controller
             })
             ->addColumn('aksi', function ($agenda) {
                 $editClass = $agenda->needs_update ? 'btn-warning' : 'btn-light';
-                $btn = '<button onclick="modalAction(\'' . route('agenda.edit', ['id' => $agenda->event_id, 'id_agenda' => $agenda->agenda_id]) . '\')" class="btn ' . $editClass . '"><i class="fas fa-edit"></i></button>';
+                $btn = '<button onclick="modalAction(\'' . route('agenda.edit', ['id' => $agenda->event_id, 'id_agenda' => $agenda->agenda_id]) . '\')" class="btn ' . $editClass . ' mb-2"><i class="fas fa-edit"></i></button>';
                 $btn .= '<button onclick="modalAction(\''.url("event_dosen/$agenda->event_id/agendaPIC/$agenda->agenda_id/delete").'\')" class="btn btn-light text-danger"><i class="fas fa-trash"></i></button>';
                 return $btn;
             })
@@ -75,7 +75,7 @@ class AgendaController extends Controller
                 'end_date' => 'required|date|after_or_equal:start_date',
                 'tempat' => 'required|string|max:255',
                 'jabatan_id' => 'required|exists:m_jabatan,jabatan_id',
-                'status' => 'required|in:not started,progress,done',
+                'status' => 'required|in:not started,progress,completed',
                 'dokumen_pendukung.*' => 'nullable|file|mimes:jpeg,png,pdf,doc,docx,xls,xlsx|max:5120'
             ];
 
@@ -466,7 +466,7 @@ public function uploadProgress(Request $request, $id, $id_agenda)
 
         // Return success response
         return response()->json([
-            'success' => true,
+            'success' => 'success',
             'message' => 'Dokumen berhasil diupload',
             'data' => [
                 'file_path' => $filePath,

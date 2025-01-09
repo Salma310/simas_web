@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header bg-primary text-white">
@@ -517,7 +521,7 @@ function updateStatus(status, agendaId, eventId) {
                 const data = await response.json();
 
                 // Check for successful response
-                if (response.ok && data.success) {
+                if (response.status === 'success') {
                     // Clear form and preview
                     progressForm.reset();
                     uploadPreview.innerHTML = '';

@@ -4,7 +4,6 @@
         body {
             background-color: #f8f9fa;
             margin: 0;
-            /* padding: 20px; */
         }
 
         .header-section {
@@ -145,7 +144,7 @@
             transform: scale(1.05);
         }
     </style>
-    <div class="px-4 pb-0">
+    <div class="px-4 pb-3">
         <div class="header-section">
             <h5 class="header-title">{{ $event->event_name }}</h5>
             <p class="event-type">{{$event->jenisEvent->jenis_event_name}}</p>

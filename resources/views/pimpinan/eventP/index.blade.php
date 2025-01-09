@@ -39,6 +39,12 @@
                 font-size: 1.25rem;
                 font-weight: bold;
                 margin-bottom: 10px;
+                white-space: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 70%;
+                 -webkit-line-clamp: 2;  
+                 -webkit-box-orient: vertical; 
             }
 
             .card-text {
@@ -164,13 +170,35 @@
                 pointer-events: none;
                 /* Ikon tidak dapat diklik */
             }
+            /* Responsif */
+            @media (max-width: 768px) {
+                .responsive-container {
+                    flex-direction: column; /* Ubah ke arah kolom */
+                    align-items: flex-start; /* Pastikan rata kiri */
+                    gap: 15px; /* Jarak antar elemen */
+                }
+            
+                .filters {
+                    justify-content: flex-start; /* Pastikan filter tetap rata kiri */
+                    flex-wrap: wrap; /* Biarkan label turun jika terlalu panjang */
+                }
+            
+                .container-input {
+                    width: 100%; /* Input search memenuhi lebar penuh */
+                }
+            
+                .container-input input {
+                    width: 100%; /* Input search menyesuaikan ukuran container */
+                }
+            }
+
         </style>
     </head>
 
     <body>
         <div class="container-fluid px-3">
 
-            <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+            <div class="d-flex flex-row justify-content-between align-items-center mb-3 flex-wrap responsive-container">
                 <!-- Filter di sebelah kiri -->
                 <div class="filters">
                     <label for="semua" class="active" data-status="all">Semua</label>
@@ -200,7 +228,7 @@
                                 @elseif($event->status == 'progress')
                                     <div class="status text-warning">Proses</div>
                                 @else
-                                    <div class="status text-danger">Belum Dimulai</div>
+                                    <div class="status text-danger">Belum <br>Dimulai</div>
                                 @endif
                                 <h5 class="card-title mb-0">{{ $event->event_name }}</h5>
                                 @foreach ($jenisEvent as $j)

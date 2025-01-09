@@ -162,6 +162,8 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{id}/agendaPIC/{id_agenda}/document/{document_id}', [App\Http\Controllers\dosen\AgendaController::class, 'deleteDocument'])->name('agenda.deleteDocument');
             Route::post('/{id}/agendaPIC/generate-all-points', [App\Http\Controllers\dosen\AgendaController::class, 'generateAllPoints'])
                 ->name('agenda.generate-all-points');
+            Route::get('/non-jti/add', [EventdController::class, 'createNonJTI'])->name('non-jti.create'); // Form tambah Non-JTI
+            Route::post('/non-jti/store', [EventdController::class, 'storeNonJTI'])->name('non-jti.store'); // Proses tambah Non-JTI
         });
     });
 
@@ -219,8 +221,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delconfirm']);
             Route::get('/{id}/agenda/delete', [MyEventController::class, 'agenda_delete']);
             // Route::get('/non-jti', [MyEventController::class, 'indexNonJTI'])->name('non-jti.index'); // Daftar event Non-JTI
-            Route::get('/non-jti/add', [MyEventController::class, 'createNonJTI'])->name('non-jti.create'); // Form tambah Non-JTI
-            Route::post('/non-jti/add', [MyEventController::class, 'storeNonJTI'])->name('non-jti.store'); // Proses tambah Non-JTI
+            
         });
     });
 });
